@@ -1,0 +1,32 @@
+.cardbun_wrapp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 272px;
+  height: 208px;
+  gap: 4px;
+  border: 1px solid;
+  margin: 24px 24px 40px 16px;
+}
+
+.cardbun__img_wrapp {
+  padding: 0 16px;
+}
+
+.cardbun__price_wrapp {
+  display: flex;
+  gap: 8px;
+  font-family: 'Iceland';
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+}
+
+.cardbun__name_wrapp {
+  text-align: center;
+  font-family: 'JetBrains Mono';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}

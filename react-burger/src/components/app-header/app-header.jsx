@@ -15,13 +15,13 @@ const AppHeader = () => {
             <a href="">
               <BurgerIcon type="primary" />
             </a>
-            <p className="text text_type_main-default">Конструктор</p>
+            <p>Конструктор</p>
           </li>
           <li className={styles.order_list}>
             <a href="">
               <ListIcon type="secondary" />
             </a>
-            <p className="text text_type_main-default">Лента заказов</p>
+            <p>Лента заказов</p>
           </li>
         </ul>
       </nav>
@@ -32,7 +32,7 @@ const AppHeader = () => {
         <a href="">
           <ProfileIcon type="secondary" />
         </a>
-        <p className="text text_type_main-default">Личный кабинет</p>
+        <p>Личный кабинет</p>
       </div>
     </header>
   );

@@ -1,0 +1,18 @@
+.main__wrapp {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 40px 40px 100px;
+}
+
+.cards__wrapper {
+  width: 650px;
+  height: 500px;
+  overflow: scroll;
+  margin-top: 20px;
+}
+
+.cards__container {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 600px;
+}
