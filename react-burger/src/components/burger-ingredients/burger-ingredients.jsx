@@ -8,16 +8,16 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState('Булки');
   return (
     <main className={styles.main__wrapp}>
-      <h1 className="text text_type_main-large">Соберите бургер</h1>
-      <section style={{ display: 'flex' }}>
+      <h1 className="text text_type_main-large pb-4">Соберите бургер</h1>
+      <section className={styles.main__section_tabs}>
         <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-          One
+          Булки
         </Tab>
         <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-          Two
+          Соусы
         </Tab>
         <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-          Three
+          Начинки
         </Tab>
       </section>
       <section className={`${styles.cards__wrapper} custom-scroll`}>

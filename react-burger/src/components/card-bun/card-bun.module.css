@@ -1,5 +1,6 @@
 .cardbun_wrapp {
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -17,16 +18,14 @@
 .cardbun__price_wrapp {
   display: flex;
   gap: 8px;
-  font-family: 'Iceland';
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 24px;
+  composes: text text_type_digits-default from global;
 }
 
 .cardbun__name_wrapp {
   text-align: center;
-  font-family: 'JetBrains Mono';
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  composes: text text_type_main-small from global;
+}
+
+.cardbun__counter {
+  position: relative;
 }

@@ -1,0 +1,44 @@
+.burgerconstructor__picker_section {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 450px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.burgerconstructor__middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 600px;
+  gap: 10px;
+  overflow: scroll;
+}
+
+.burgerconstructor__middle_elements {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-right: 30px;
+}
+
+.burgerconstructor__order {
+  display: flex;
+  width: 600px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.burgerconstructor__order_currency {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

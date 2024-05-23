@@ -1,14 +1,19 @@
 .main__wrapp {
   display: flex;
   flex-direction: column;
-  margin: 40px 40px 40px 100px;
+  margin: 40px;
+}
+
+.main__section_tabs {
+  composes: text text_type_main-default from global;
+  display: flex;
 }
 
 .cards__wrapper {
-  width: 650px;
-  height: 500px;
+  width: 630px;
+  height: 450px;
   overflow: scroll;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .cards__container {
