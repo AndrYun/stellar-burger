@@ -1,5 +1,4 @@
 import {
-  Tab,
   ConstructorElement,
   Button,
   CurrencyIcon,
@@ -7,8 +6,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import data_bun from '../utils/data';
 import styles from './burger-constructor.module.css';
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { transform } from 'typescript';
+
+ConstructorElement.propTypes = {
+  type: PropTypes.string,
+  text: PropTypes.string,
+  price: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string,
+};
 
 const BurgerConstructor = () => {
   const getSum = () => {
@@ -21,9 +27,8 @@ const BurgerConstructor = () => {
   };
 
   useEffect(() => getSum, [data_bun.price]);
-
   return (
-    <main>
+    <main className={styles.burgerconstructor__container}>
       <section>
         <article className={styles.burgerconstructor__picker_section}>
           {data_bun.map(
@@ -40,16 +45,19 @@ const BurgerConstructor = () => {
                 />
               )
           )}
-          <div className={styles.burgerconstructor__middle}>
+          <div className={`${styles.burgerconstructor__middle} custom-scroll`}>
             {data_bun.map(
               (el) =>
                 el.type !== 'bun' && (
-                  <div className={styles.burgerconstructor__middle_elements}>
+                  <div
+                    {...el}
+                    key={el._id}
+                    className={styles.burgerconstructor__middle_elements}
+                  >
                     <DragIcon type="primary" />
                     <ConstructorElement
                       {...el}
-                      key={el._id}
-                      text="Краторная булка N-200i (верх)"
+                      text={el.name}
                       price={el.price}
                       thumbnail={el.image_mobile}
                     />

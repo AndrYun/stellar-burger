@@ -2,17 +2,22 @@
   display: flex;
   flex-direction: column;
   margin: 40px;
+  width: 600px;
 }
 
 .main__section_tabs {
   composes: text text_type_main-default from global;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
 }
 
 .cards__wrapper {
   width: 630px;
   height: 450px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   margin-top: 10px;
 }
 
@@ -20,4 +25,37 @@
   display: grid;
   grid-template-columns: auto auto;
   width: 600px;
+}
+
+/* медиа-запросы */
+@media (max-width: 1400px) {
+  .cards__wrapper {
+    width: 500px;
+  }
+  .cards__container {
+    width: 500px;
+  }
+  .main__wrapp {
+    margin: 40px 0 40px 60px;
+    width: 500px;
+  }
+
+  .main__section_tabs {
+    width: 450px;
+  }
+}
+
+@media (max-width: 1110px) {
+  .cards__wrapper {
+    width: 400px;
+  }
+  .cards__container {
+    width: 400px;
+  }
+  .main__wrapp {
+    width: 400px;
+  }
+  .main__section_tabs {
+    flex-direction: column;
+  }
 }

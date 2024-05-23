@@ -5,34 +5,79 @@ import {
   Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
+import { useState } from 'react';
 
 const AppHeader = () => {
+  const [isHoveredConstructor, setIsHoveredConstructor] = useState(false);
+  const [isHoveredOrderList, setIsHoveredOrderList] = useState(false);
+  const [isHoveredProfile, setIsHoveredProfile] = useState(false);
+  // const mouseOverHandler = () => {
+  //   setIsHovered(true);
+  // };
   return (
     <header className={styles.header_wrapp}>
       <nav>
         <ul className={styles.header__leftside_wrapp}>
-          <li className={styles.constructor_of}>
+          <li
+            onMouseEnter={() => setIsHoveredConstructor(true)}
+            onMouseLeave={() => setIsHoveredConstructor(false)}
+            className={styles.constructor_of}
+          >
             <a href="">
-              <BurgerIcon type="primary" />
+              <BurgerIcon
+                type={!isHoveredConstructor ? 'secondary' : 'primary'}
+              />
             </a>
-            <p>Конструктор</p>
+            <p
+              className={
+                !isHoveredConstructor
+                  ? 'text text_type_main-default text_color_inactive'
+                  : 'text text_type_main-default'
+              }
+            >
+              Конструктор
+            </p>
           </li>
-          <li className={styles.order_list}>
+          <li
+            onMouseEnter={() => setIsHoveredOrderList(true)}
+            onMouseLeave={() => setIsHoveredOrderList(false)}
+            className={styles.order_list}
+          >
             <a href="">
-              <ListIcon type="secondary" />
+              <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
             </a>
-            <p>Лента заказов</p>
+            <p
+              className={
+                !isHoveredOrderList
+                  ? 'text text_type_main-default text_color_inactive'
+                  : 'text text_type_main-default'
+              }
+            >
+              Лента заказов
+            </p>
           </li>
         </ul>
       </nav>
       <div className={styles.header__logo_wrapp}>
         <Logo />
       </div>
-      <div className={styles.header__profile_wrapp}>
+      <div
+        onMouseEnter={() => setIsHoveredProfile(true)}
+        onMouseLeave={() => setIsHoveredProfile(false)}
+        className={styles.header__profile_wrapp}
+      >
         <a href="">
-          <ProfileIcon type="secondary" />
+          <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
         </a>
-        <p>Личный кабинет</p>
+        <p
+          className={
+            !isHoveredProfile
+              ? 'text text_type_main-default text_color_inactive'
+              : 'text text_type_main-default'
+          }
+        >
+          Личный кабинет
+        </p>
       </div>
     </header>
   );

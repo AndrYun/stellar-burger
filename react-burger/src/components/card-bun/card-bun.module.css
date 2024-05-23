@@ -7,7 +7,6 @@
   width: 272px;
   height: 208px;
   gap: 4px;
-  border: 1px solid;
   margin: 24px 24px 40px 16px;
 }
 
@@ -28,4 +27,17 @@
 
 .cardbun__counter {
   position: relative;
+}
+
+/* медиа-запросы */
+@media (max-width: 1400px) {
+  .cardbun_wrapp {
+    width: 200px;
+  }
+}
+
+@media (max-width: 1110px) {
+  .cardbun_wrapp {
+    width: 150px;
+  }
 }

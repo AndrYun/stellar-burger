@@ -3,6 +3,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import data_bun from '../utils/data';
 import CardBun from '../card-bun/card-bun';
 import styles from './burger-ingredients.module.css';
+import PropTypes from 'prop-types';
+
+CardBun.propTypes = {
+  image: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.number.isRequired,
+};
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('Булки');

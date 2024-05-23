@@ -4,17 +4,17 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const CardBun = (props) => {
+const CardBun = ({ image, name, price }) => {
   return (
     <div className={styles.cardbun_wrapp}>
       <div className={styles.cardbun__img_wrapp}>
-        <img src={props.image} alt={props.name} />
+        <img src={image} alt={name} />
       </div>
       <div className={styles.cardbun__price_wrapp}>
-        {props.price}
+        {price}
         <CurrencyIcon type="primary" />
       </div>
-      <div className={styles.cardbun__name_wrapp}>{props.name}</div>
+      <div className={styles.cardbun__name_wrapp}>{name}</div>
       <Counter count={1} size="default" extraClass="m-1" />
     </div>
   );
