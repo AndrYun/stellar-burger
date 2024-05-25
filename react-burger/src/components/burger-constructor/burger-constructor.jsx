@@ -7,7 +7,7 @@ import {
 import styles from './burger-constructor.module.css';
 import { useEffect } from 'react';
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = ({ ingredients, openModal }) => {
   const getSum = () => {
     let sum = 0;
     for (let i = 0; i < ingredients.length; i++) {
@@ -76,7 +76,12 @@ const BurgerConstructor = ({ ingredients }) => {
             <p className="text text_type_digits-medium">{getSum()}</p>
             <CurrencyIcon type="primary" />
           </div>
-          <Button htmlType="button" type="primary" size="large">
+          <Button
+            onClick={() => openModal()}
+            htmlType="button"
+            type="primary"
+            size="large"
+          >
             Оформить заказ
           </Button>
         </article>

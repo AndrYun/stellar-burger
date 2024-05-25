@@ -9,6 +9,9 @@
   gap: 4px;
   margin: 24px 24px 40px 16px;
 }
+.cardbun_wrapp :hover {
+  cursor: pointer;
+}
 
 .cardbun__img_wrapp {
   padding: 0 16px;

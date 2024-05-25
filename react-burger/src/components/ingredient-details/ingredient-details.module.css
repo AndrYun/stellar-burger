@@ -1,0 +1,34 @@
+.modal__ingredient_wrapp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__ingredient_img_name {
+  composes: text text_type_main-default from global;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__ingredient_profits {
+  composes: text text_type_main-small text_color_inactive from global;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  gap: 20px;
+}
+
+.modal__ingredient_li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__ingredient_digits {
+  composes: text text_type_digits-default text_color_inactive from global;
+}

@@ -1,0 +1,13 @@
+.orderdetails__wrapp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.orderdetails__wrapp img {
+  width: 120px;
+  height: 120px;
+  background-size: 120px 120px;
+}

@@ -11,9 +11,7 @@ const AppHeader = () => {
   const [isHoveredConstructor, setIsHoveredConstructor] = useState(false);
   const [isHoveredOrderList, setIsHoveredOrderList] = useState(false);
   const [isHoveredProfile, setIsHoveredProfile] = useState(false);
-  // const mouseOverHandler = () => {
-  //   setIsHovered(true);
-  // };
+
   return (
     <header className={styles.header_wrapp}>
       <nav>

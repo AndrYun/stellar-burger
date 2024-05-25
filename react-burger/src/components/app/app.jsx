@@ -1,23 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
 import styles from './app.module.css';
 
 function App() {
   const [dataIngredients, setDataIngredients] = useState(null);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModelOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
 
-  const openModalHandler = () => {
-    setIsModelOpen(true);
-  };
+  const openModalHandler = useCallback((content) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  }, []);
 
-  const closeModalHandler = () => {
-    setIsModelOpen(false);
-  };
+  const closeModalHandler = useCallback(() => {
+    setIsModalOpen(false);
+    setModalContent(null);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,25 +40,34 @@ function App() {
       }
     };
     fetchData();
-  }, [dataIngredients]);
+  }, []);
 
   return (
     <>
       <AppHeader />
       <main className={styles.burger__container}>
-        <ModalOverlay isOpen={isModalOpen} onClose={closeModalHandler}>
-          <Modal onClose={closeModalHandler}>
-            <h2>Детали ингредиента</h2>
-          </Modal>
-        </ModalOverlay>
+        {isModalOpen && (
+          <ModalOverlay isOpen={isModalOpen} onClose={closeModalHandler}>
+            <Modal onClose={closeModalHandler}>{modalContent}</Modal>
+          </ModalOverlay>
+        )}
         {error && <p>Error: {error.message}</p>}
         {dataIngredients && (
           <BurgerIngredients
-            openModal={openModalHandler}
+            openModal={(ingredient) =>
+              openModalHandler(<IngredientDetails ingredient={ingredient} />)
+            }
             ingredients={dataIngredients}
           />
         )}
-        {dataIngredients && <BurgerConstructor ingredients={dataIngredients} />}
+        {dataIngredients && (
+          <BurgerConstructor
+            openModal={(ingredient) =>
+              openModalHandler(<OrderDetails ingredient={ingredient} />)
+            }
+            ingredients={dataIngredients}
+          />
+        )}
       </main>
     </>
   );

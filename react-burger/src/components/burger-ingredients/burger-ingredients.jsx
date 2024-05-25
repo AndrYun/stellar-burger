@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import CardIngredient from '../card-bun/card-ingredient';
+import CardIngredient from '../card-ingredient/card-ingredient';
+import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = ({ ingredients, openModal }) => {
@@ -27,7 +28,11 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
           {ingredients.map(
             (card) =>
               card.type === 'bun' && (
-                <CardIngredient onClick={openModal} {...card} key={card._id} />
+                <CardIngredient
+                  {...card}
+                  onClick={() => openModal(card)}
+                  key={card._id}
+                />
               )
           )}
         </article>
@@ -37,7 +42,11 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
           {ingredients.map(
             (card) =>
               card.type === 'sauce' && (
-                <CardIngredient {...card} key={card._id} />
+                <CardIngredient
+                  {...card}
+                  onClick={() => openModal(card)}
+                  key={card._id}
+                />
               )
           )}
         </article>
@@ -47,13 +56,33 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
           {ingredients.map(
             (card) =>
               card.type === 'main' && (
-                <CardIngredient {...card} key={card._id} />
+                <CardIngredient
+                  {...card}
+                  onClick={() => openModal(card)}
+                  key={card._id}
+                />
               )
           )}
         </article>
       </section>
     </div>
   );
+};
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      calories: PropTypes.number,
+      proteins: PropTypes.number,
+      fat: PropTypes.number,
+      carbohydrates: PropTypes.number,
+    })
+  ).isRequired,
+  openModal: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
