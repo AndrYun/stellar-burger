@@ -1,12 +1,13 @@
-import styles from './card-bun.module.css';
+import styles from './card-ingredient.module.css';
 import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
-const CardBun = ({ image, name, price }) => {
+const CardIngredient = ({ image, name, price, onClick }) => {
   return (
-    <div className={styles.cardbun_wrapp}>
+    <div onClick={onClick} className={styles.cardbun_wrapp}>
       <div className={styles.cardbun__img_wrapp}>
         <img src={image} alt={name} />
       </div>
@@ -20,4 +21,10 @@ const CardBun = ({ image, name, price }) => {
   );
 };
 
-export default CardBun;
+CardIngredient.propTypes = {
+  image: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.number.isRequired,
+};
+
+export default CardIngredient;

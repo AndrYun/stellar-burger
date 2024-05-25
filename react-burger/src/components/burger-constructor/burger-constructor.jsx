@@ -4,34 +4,25 @@ import {
   CurrencyIcon,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import data_bun from '../utils/data';
 import styles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
-ConstructorElement.propTypes = {
-  type: PropTypes.string,
-  text: PropTypes.string,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string,
-};
-
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ ingredients }) => {
   const getSum = () => {
     let sum = 0;
-    for (let i = 0; i < data_bun.length; i++) {
-      sum += data_bun[i].price;
+    for (let i = 0; i < ingredients.length; i++) {
+      sum += ingredients[i].price;
       console.log('Hello');
     }
     return sum;
   };
 
-  useEffect(() => getSum, [data_bun.price]);
+  useEffect(() => getSum, [ingredients.price]);
   return (
     <main className={styles.burgerconstructor__container}>
       <section>
         <article className={styles.burgerconstructor__picker_section}>
-          {data_bun.map(
+          {ingredients.map(
             (el) =>
               el.name === 'Краторная булка N-200i' && (
                 <ConstructorElement
@@ -46,7 +37,7 @@ const BurgerConstructor = () => {
               )
           )}
           <div className={`${styles.burgerconstructor__middle} custom-scroll`}>
-            {data_bun.map(
+            {ingredients.map(
               (el) =>
                 el.type !== 'bun' && (
                   <div
@@ -65,7 +56,7 @@ const BurgerConstructor = () => {
                 )
             )}
           </div>
-          {data_bun.map(
+          {ingredients.map(
             (el) =>
               el.name === 'Краторная булка N-200i' && (
                 <ConstructorElement

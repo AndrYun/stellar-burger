@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   margin: 10px 100px 10px 0px;
+  transition: all 0.3s ease 0s;
 }
 
 /* медиа-запросы */

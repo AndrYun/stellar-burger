@@ -1,11 +1,11 @@
-.main__wrapp {
+.burgeringredients__wrapp {
   display: flex;
   flex-direction: column;
   margin: 40px;
   width: 600px;
 }
 
-.main__section_tabs {
+.burgeringredients__section_tabs {
   composes: text text_type_main-default from global;
   display: flex;
   align-items: center;
@@ -35,12 +35,12 @@
   .cards__container {
     width: 500px;
   }
-  .main__wrapp {
+  .burgeringredients__wrapp {
     margin: 40px 0 40px 60px;
     width: 500px;
   }
 
-  .main__section_tabs {
+  .burgeringredients__section_tabs {
     width: 450px;
   }
 }
@@ -52,10 +52,12 @@
   .cards__container {
     width: 400px;
   }
-  .main__wrapp {
+  .burgeringredients__wrapp {
     width: 400px;
   }
-  .main__section_tabs {
+  .burgeringredients__section_tabs {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
