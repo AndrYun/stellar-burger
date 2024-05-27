@@ -3,7 +3,6 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
-import ModalOverlay from '../modal-overlay/modal-overlay';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import styles from './app.module.css';
@@ -13,6 +12,12 @@ function App() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+
+  const openModalWithContent = useCallback(
+    (ingredient) =>
+      openModalHandler(<IngredientDetails ingredient={ingredient} />),
+    []
+  );
 
   const openModalHandler = useCallback((content) => {
     setModalContent(content);
@@ -47,24 +52,18 @@ function App() {
       <AppHeader />
       <main className={styles.burger__container}>
         {isModalOpen && (
-          <ModalOverlay isOpen={isModalOpen} onClose={closeModalHandler}>
-            <Modal onClose={closeModalHandler}>{modalContent}</Modal>
-          </ModalOverlay>
+          <Modal onClose={closeModalHandler}>{modalContent}</Modal>
         )}
         {error && <p>Error: {error.message}</p>}
         {dataIngredients && (
           <BurgerIngredients
-            openModal={(ingredient) =>
-              openModalHandler(<IngredientDetails ingredient={ingredient} />)
-            }
+            openModal={openModalWithContent}
             ingredients={dataIngredients}
           />
         )}
         {dataIngredients && (
           <BurgerConstructor
-            openModal={(ingredient) =>
-              openModalHandler(<OrderDetails ingredient={ingredient} />)
-            }
+            openModal={() => openModalHandler(<OrderDetails />)}
             ingredients={dataIngredients}
           />
         )}

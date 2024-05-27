@@ -1,6 +1,6 @@
 .modal_content {
   background: #1c1c21;
-  width: 450px;
+  width: 520px;
   height: 430px;
   padding: 20px;
   border-radius: 40px;
@@ -11,11 +11,13 @@
 
 .modal_close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  margin: 30px 20px 0 0;
+  top: 0px;
+  right: 0px;
   color: white;
   background: none;
   border: none;
   font-size: 1.5rem;
+  z-index: 10002;
   cursor: pointer;
 }

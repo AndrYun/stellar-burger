@@ -1,10 +1,11 @@
 import styles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
+import { ingredientType } from '../utils/types';
 
 const IngredientDetails = ({ ingredient }) => {
   return (
     <div className={styles.modal__ingredient_wrapp}>
-      <h2 className="text text_type_main-medium mt-2">Детали ингредиента</h2>
+      <h2 className={styles.modal__ingredient_title}>Детали ингредиента</h2>
       <div className={styles.modal__ingredient_img_name}>
         <img src={ingredient.image_large} alt={ingredient.name} />
         <h3>{ingredient.name}</h3>
@@ -40,15 +41,7 @@ const IngredientDetails = ({ ingredient }) => {
 };
 
 IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-  }).isRequired,
+  ingredient: ingredientType,
 };
 
 export default IngredientDetails;

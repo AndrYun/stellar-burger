@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import CardIngredient from '../card-ingredient/card-ingredient';
+import Ingredient from '../ingredient/ingredient';
 import PropTypes from 'prop-types';
+import { ingredientType } from '../utils/types';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = ({ ingredients, openModal }) => {
@@ -26,12 +27,12 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
           <h2 className="text text_type_main-medium">Булки</h2>
           <br />
           {ingredients.map(
-            (card) =>
-              card.type === 'bun' && (
-                <CardIngredient
-                  {...card}
-                  onClick={() => openModal(card)}
-                  key={card._id}
+            (ingredient) =>
+              ingredient.type === 'bun' && (
+                <Ingredient
+                  ingredient={ingredient}
+                  onClick={() => openModal(ingredient)}
+                  key={ingredient._id}
                 />
               )
           )}
@@ -40,12 +41,12 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
           <h2 className="text text_type_main-medium">Соусы</h2>
           <br />
           {ingredients.map(
-            (card) =>
-              card.type === 'sauce' && (
-                <CardIngredient
-                  {...card}
-                  onClick={() => openModal(card)}
-                  key={card._id}
+            (ingredient) =>
+              ingredient.type === 'sauce' && (
+                <Ingredient
+                  ingredient={ingredient}
+                  onClick={() => openModal(ingredient)}
+                  key={ingredient._id}
                 />
               )
           )}
@@ -54,12 +55,12 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
           <h2 className="text text_type_main-medium">Начинки</h2>
           <br />
           {ingredients.map(
-            (card) =>
-              card.type === 'main' && (
-                <CardIngredient
-                  {...card}
-                  onClick={() => openModal(card)}
-                  key={card._id}
+            (ingredient) =>
+              ingredient.type === 'main' && (
+                <Ingredient
+                  ingredient={ingredient}
+                  onClick={() => openModal(ingredient)}
+                  key={ingredient._id}
                 />
               )
           )}
@@ -70,18 +71,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      calories: PropTypes.number,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-    })
-  ).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
   openModal: PropTypes.func.isRequired,
 };
 
