@@ -1,12 +1,20 @@
-.modal_content {
-  background: #1c1c21;
-  width: 520px;
-  height: 430px;
+.modal {
+  background-color: #1c1c21;
   padding: 20px;
   border-radius: 40px;
   position: relative;
   z-index: 1001;
   transition: all 0.3s ease 0s;
+}
+
+.modal.ingredient {
+  width: 550px;
+  height: 400px;
+}
+
+.modal.order {
+  width: 520px;
+  height: 500px;
 }
 
 .modal_close {

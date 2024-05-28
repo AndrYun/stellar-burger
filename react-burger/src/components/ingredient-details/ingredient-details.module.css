@@ -11,12 +11,14 @@
   width: 400px;
   align-items: center;
   justify-content: flex-start;
-  margin: 8px 0 0 0;
+  margin: 8px 80px 0 0;
 }
 
 .modal__ingredient_img_name {
   composes: text text_type_main-default from global;
   display: flex;
+  width: 400px;
+  height: 280px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -28,7 +30,7 @@
   align-items: center;
   justify-content: center;
   list-style-type: none;
-  gap: 20px;
+  gap: 30px;
 }
 
 .modal__ingredient_li {

@@ -12,22 +12,27 @@ function App() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+  const [modalSize, setModalSize] = useState('ingredient');
 
-  const openModalWithContent = useCallback(
-    (ingredient) =>
-      openModalHandler(<IngredientDetails ingredient={ingredient} />),
-    []
-  );
-
-  const openModalHandler = useCallback((content) => {
+  const openModalHandler = useCallback((content, size) => {
     setModalContent(content);
     setIsModalOpen(true);
+    setModalSize(size);
   }, []);
 
   const closeModalHandler = useCallback(() => {
     setIsModalOpen(false);
     setModalContent(null);
   }, []);
+
+  const openModalWithContent = useCallback(
+    (ingredient) =>
+      openModalHandler(
+        <IngredientDetails ingredient={ingredient} />,
+        'ingredient'
+      ),
+    [openModalHandler]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +57,9 @@ function App() {
       <AppHeader />
       <main className={styles.burger__container}>
         {isModalOpen && (
-          <Modal onClose={closeModalHandler}>{modalContent}</Modal>
+          <Modal onClose={closeModalHandler} size={modalSize}>
+            {modalContent}
+          </Modal>
         )}
         {error && <p>Error: {error.message}</p>}
         {dataIngredients && (
@@ -63,7 +70,7 @@ function App() {
         )}
         {dataIngredients && (
           <BurgerConstructor
-            openModal={() => openModalHandler(<OrderDetails />)}
+            openModal={() => openModalHandler(<OrderDetails />, 'order')}
             ingredients={dataIngredients}
           />
         )}

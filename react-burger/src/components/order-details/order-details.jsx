@@ -5,10 +5,12 @@ const OrderDetails = () => {
   return (
     <section className={styles.orderdetails__wrapp}>
       <p className="text text_type_digits-large">034530</p>
-      <p className="text text_type_main-default">идентификатор заказа</p>
+      <p className={styles.orderdetails__identify}>идентификатор заказа</p>
       <img src={doneOrderImage} alt="done" />
-      <p className="text text_type_main-small">Ваш заказ начали готовить</p>
-      <p className="text text_type_main-small text_color_inactive">
+      <p className={styles.orderdetails__comment_1}>
+        Ваш заказ начали готовить
+      </p>
+      <p className={styles.orderdetails__comment_2}>
         Дождитесь готовности на орбитальной станции
       </p>
     </section>
