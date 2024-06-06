@@ -1,0 +1,15 @@
+.burger__container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 100px 10px 0px;
+  transition: all 0.3s ease 0s;
+}
+
+/* медиа-запросы */
+@media (max-width: 1400px) {
+  .burger__container {
+    gap: 100px;
+  }
+}

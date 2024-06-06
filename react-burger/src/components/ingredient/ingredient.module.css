@@ -1,0 +1,46 @@
+.cardbun_wrapp {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 272px;
+  height: 208px;
+  gap: 4px;
+  margin: 24px 24px 40px 16px;
+}
+.cardbun_wrapp :hover {
+  cursor: pointer;
+}
+
+.cardbun__img_wrapp {
+  padding: 0 16px;
+}
+
+.cardbun__price_wrapp {
+  display: flex;
+  gap: 8px;
+  composes: text text_type_digits-default from global;
+}
+
+.cardbun__name_wrapp {
+  text-align: center;
+  composes: text text_type_main-small from global;
+}
+
+.cardbun__counter {
+  position: relative;
+}
+
+/* медиа-запросы */
+@media (max-width: 1400px) {
+  .cardbun_wrapp {
+    width: 200px;
+  }
+}
+
+@media (max-width: 1110px) {
+  .cardbun_wrapp {
+    width: 150px;
+  }
+}
