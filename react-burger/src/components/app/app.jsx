@@ -6,10 +6,26 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import styles from './app.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  fetchIngredients,
+  selectIsLoadingByApi,
+  selectIngredients,
+  selectError,
+} from '../../services/slices/burger-ingredients-slice';
 
 function App() {
-  const [dataIngredients, setDataIngredients] = useState(null);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  // подписка на события из ingredientsSlice
+  const ingredients = useSelector(selectIngredients);
+  const isLoadingByApi = useSelector(selectIsLoadingByApi);
+  const error = useSelector(selectError);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [modalSize, setModalSize] = useState('ingredient');
@@ -28,29 +44,11 @@ function App() {
   const openModalWithContent = useCallback(
     (ingredient) =>
       openModalHandler(
-        <IngredientDetails ingredient={ingredient} />,
+        <IngredientDetails ingredient={ingredient} />, // Pass individual ingredient
         'ingredient'
       ),
     [openModalHandler]
   );
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          'https://norma.nomoreparties.space/api/ingredients'
-        );
-        if (!res.ok) {
-          throw new Error('Space ingredients is not available now :(');
-        }
-        const result = await res.json();
-        setDataIngredients(result.data);
-      } catch (err) {
-        setError(err);
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <>
@@ -61,18 +59,21 @@ function App() {
             {modalContent}
           </Modal>
         )}
-        {error && <p>Error: {error.message}</p>}
-        {dataIngredients && (
-          <BurgerIngredients
-            openModal={openModalWithContent}
-            ingredients={dataIngredients}
-          />
-        )}
-        {dataIngredients && (
-          <BurgerConstructor
-            openModal={() => openModalHandler(<OrderDetails />, 'order')}
-            ingredients={dataIngredients}
-          />
+        {isLoadingByApi ? (
+          <p>Loading...</p> // Indicate loading state
+        ) : error ? (
+          <p>{error}</p> // Display error message
+        ) : (
+          <>
+            <BurgerIngredients
+              openModal={openModalWithContent}
+              ingredients={ingredients}
+            />
+            <BurgerConstructor
+              openModal={() => openModalHandler(<OrderDetails />, 'order')}
+              ingredients={ingredients}
+            />
+          </>
         )}
       </main>
     </>
