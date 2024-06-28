@@ -13,7 +13,6 @@ const BurgerConstructor = ({ ingredients, openModal }) => {
     let sum = 0;
     for (let i = 0; i < ingredients.length; i++) {
       sum += ingredients[i].price;
-      console.log('Hello');
     }
     return sum;
   };

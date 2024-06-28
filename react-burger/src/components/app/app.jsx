@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -13,6 +13,13 @@ import {
   selectIngredients,
   selectError,
 } from '../../services/slices/burger-ingredients-slice';
+import {
+  openModal,
+  closeModal,
+  selectContent,
+  selectSize,
+  selectIsOpen,
+} from '../../services/slices/modal-slice';
 
 function App() {
   const dispatch = useDispatch();
@@ -21,40 +28,35 @@ function App() {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-  // подписка на события из ingredientsSlice
+  // подписка на состояния из ingredientsSlice
   const ingredients = useSelector(selectIngredients);
   const isLoadingByApi = useSelector(selectIsLoadingByApi);
   const error = useSelector(selectError);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-  const [modalSize, setModalSize] = useState('ingredient');
+  // подписка на состояния из modalSlice
+  const modalContent = useSelector(selectContent);
+  const modalIsOpen = useSelector(selectIsOpen);
+  const modalSize = useSelector(selectSize);
 
-  const openModalHandler = useCallback((content, size) => {
-    setModalContent(content);
-    setIsModalOpen(true);
-    setModalSize(size);
-  }, []);
+  const openModalHandler = (content, size) => {
+    dispatch(openModal({ content, size }));
+  };
 
-  const closeModalHandler = useCallback(() => {
-    setIsModalOpen(false);
-    setModalContent(null);
-  }, []);
+  const closeModalHandler = () => {
+    dispatch(closeModal());
+  };
 
-  const openModalWithContent = useCallback(
-    (ingredient) =>
-      openModalHandler(
-        <IngredientDetails ingredient={ingredient} />, // Pass individual ingredient
-        'ingredient'
-      ),
-    [openModalHandler]
-  );
+  const openModalWithContent = (ingredient) =>
+    openModalHandler(
+      <IngredientDetails ingredient={ingredient} />, // Pass individual ingredient
+      'ingredient'
+    );
 
   return (
     <>
       <AppHeader />
       <main className={styles.burger__container}>
-        {isModalOpen && (
+        {modalIsOpen && (
           <Modal onClose={closeModalHandler} size={modalSize}>
             {modalContent}
           </Modal>

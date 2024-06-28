@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import { ingredientType } from '../utils/types';
 import styles from './burger-ingredients.module.css';
 
@@ -32,7 +33,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
                 <Ingredient
                   ingredient={ingredient}
                   onClick={() => openModal(ingredient)}
-                  key={ingredient._id}
+                  key={uuidv4()}
                 />
               )
           )}
@@ -46,7 +47,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
                 <Ingredient
                   ingredient={ingredient}
                   onClick={() => openModal(ingredient)}
-                  key={ingredient._id}
+                  key={uuidv4()}
                 />
               )
           )}
@@ -60,7 +61,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
                 <Ingredient
                   ingredient={ingredient}
                   onClick={() => openModal(ingredient)}
-                  key={ingredient._id}
+                  key={uuidv4()}
                 />
               )
           )}
