@@ -16,8 +16,8 @@ import {
 import {
   openModal,
   closeModal,
-  selectContent,
-  selectSize,
+  selectModalContentId,
+  selectModalContentType,
   selectIsOpen,
 } from '../../services/slices/modal-slice';
 
@@ -34,12 +34,12 @@ function App() {
   const error = useSelector(selectError);
 
   // подписка на состояния из modalSlice
-  const modalContent = useSelector(selectContent);
   const modalIsOpen = useSelector(selectIsOpen);
-  const modalSize = useSelector(selectSize);
+  const modalContentId = useSelector(selectModalContentId);
+  const modalContentType = useSelector(selectModalContentType);
 
-  const openModalHandler = (content, size) => {
-    dispatch(openModal({ content, size }));
+  const openModalHandler = (contentId, contentType) => {
+    dispatch(openModal({ contentId, contentType }));
   };
 
   const closeModalHandler = () => {
@@ -47,24 +47,33 @@ function App() {
   };
 
   const openModalWithContent = (ingredient) =>
-    openModalHandler(
-      <IngredientDetails ingredient={ingredient} />, // Pass individual ingredient
-      'ingredient'
-    );
+    openModalHandler(ingredient._id, 'ingredient');
+
+  const renderModalContent = () => {
+    if (modalContentType === 'ingredient') {
+      const ingredient = ingredients.find(
+        (item) => item._id === modalContentId
+      );
+      return <IngredientDetails ingredient={ingredient} />;
+    } else if (modalContentType === 'order') {
+      return <OrderDetails />;
+    }
+    return null;
+  };
 
   return (
     <>
       <AppHeader />
       <main className={styles.burger__container}>
         {modalIsOpen && (
-          <Modal onClose={closeModalHandler} size={modalSize}>
-            {modalContent}
+          <Modal onClose={closeModalHandler} size={modalContentType}>
+            {renderModalContent()}
           </Modal>
         )}
         {isLoadingByApi ? (
-          <p>Loading...</p> // Indicate loading state
+          <p>Loading...</p>
         ) : error ? (
-          <p>{error}</p> // Display error message
+          <p>{error}</p>
         ) : (
           <>
             <BurgerIngredients
@@ -72,7 +81,7 @@ function App() {
               ingredients={ingredients}
             />
             <BurgerConstructor
-              openModal={() => openModalHandler(<OrderDetails />, 'order')}
+              openModal={() => openModalHandler(null, 'order')}
               ingredients={ingredients}
             />
           </>

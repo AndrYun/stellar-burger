@@ -1,10 +1,9 @@
-// отображаем модальное окно с инфо по ингредиенту или булке
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  content: null,
+  contentId: null,
+  contentType: null,
   isOpen: false,
-  size: 'ingredient',
 };
 
 const modalSlice = createSlice({
@@ -13,20 +12,21 @@ const modalSlice = createSlice({
   reducers: {
     openModal: (state, action) => {
       state.isOpen = true;
-      state.content = action.payload.content;
-      state.size = action.payload.size;
+      state.contentId = action.payload.contentId;
+      state.contentType = action.payload.contentType;
     },
     closeModal: (state) => {
       state.isOpen = false;
-      state.content = null;
+      state.contentId = null;
+      state.contentType = null;
     },
   },
 });
 
 export const { openModal, closeModal } = modalSlice.actions;
 
-export const selectContent = (state) => state.modal.content;
-export const selectSize = (state) => state.modal.size;
+export const selectModalContentId = (state) => state.modal.contentId;
+export const selectModalContentType = (state) => state.modal.contentType;
 export const selectIsOpen = (state) => state.modal.isOpen;
 
 export default modalSlice.reducer;
