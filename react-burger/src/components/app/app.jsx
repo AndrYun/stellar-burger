@@ -5,6 +5,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './app.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -20,6 +22,7 @@ import {
   selectModalContentType,
   selectIsOpen,
 } from '../../services/slices/modal-slice';
+import { addIngredient } from '../../services/slices/burger-constructor-slice';
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +64,11 @@ function App() {
     return null;
   };
 
+  // функция для drop
+  // const handleDrop = (item) => {
+  //   dispatch(addIngredient(item));
+  // };
+
   return (
     <>
       <AppHeader />
@@ -75,16 +83,12 @@ function App() {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <>
-            <BurgerIngredients
-              openModal={openModalWithContent}
-              ingredients={ingredients}
-            />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients openModal={openModalWithContent} />
             <BurgerConstructor
               openModal={() => openModalHandler(null, 'order')}
-              ingredients={ingredients}
             />
-          </>
+          </DndProvider>
         )}
       </main>
     </>
