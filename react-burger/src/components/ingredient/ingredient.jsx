@@ -36,7 +36,7 @@ const Ingredient = forwardRef(({ ingredient, onClick }, ref) => {
       }
     });
     return counter;
-  }, [ingredientsDragged]);
+  }, [ingredientsDragged, ingredient._id]);
 
   // для ингредиентов drag
   const [{ isDrag }, dragRef] = useDrag({

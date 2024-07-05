@@ -22,7 +22,6 @@ import {
   selectModalContentType,
   selectIsOpen,
 } from '../../services/slices/modal-slice';
-import { addIngredient } from '../../services/slices/burger-constructor-slice';
 
 function App() {
   const dispatch = useDispatch();

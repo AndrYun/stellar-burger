@@ -36,7 +36,7 @@ const BurgerIngredients = ({ openModal }) => {
 
   useEffect(() => {
     tabSwitch(inViewBuns, inViewSauce, inViewIngredients);
-  }, [inViewBuns, inViewSauce, inViewIngredients]);
+  }, [inViewBuns, inViewSauce, inViewIngredients, tabSwitch]);
 
   // подписка на состояния из ingredientsSlice
   const ingredients = useSelector(selectIngredients);

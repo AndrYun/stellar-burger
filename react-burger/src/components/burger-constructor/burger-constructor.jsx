@@ -2,7 +2,6 @@ import {
   ConstructorElement,
   Button,
   CurrencyIcon,
-  DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
