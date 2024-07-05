@@ -14,7 +14,9 @@ import {
   selectIngredient,
   removeIngredient,
   moveIngredient,
+  resetConstructor,
 } from '../../services/slices/burger-constructor-slice';
+import { sendOrder } from '../../services/slices/order-details-slice';
 import PropTypes from 'prop-types';
 import SortableIngredient from '../sortable-ingredient/sortable-ingredient';
 import styles from './burger-constructor.module.css';
@@ -26,29 +28,35 @@ const BurgerConstructor = ({ openModal }) => {
   const ingredients = useSelector(selectIngredient);
 
   // drop для верхней булки
-  const [, dropTopBun] = useDrop({
+  const [{ isHoverTopBun }, dropTopBun] = useDrop({
     accept: 'bun',
     drop(item) {
       dispatch(addBun(item));
     },
+    collect: (monitor) => ({
+      isHoverTopBun: monitor.isOver(),
+    }),
   });
 
   // drop для нижней булки
-  const [, dropBottomBun] = useDrop({
+  const [{ isHoverBottomBun }, dropBottomBun] = useDrop({
     accept: 'bun',
     drop(item) {
       dispatch(addBun(item));
     },
+    collect: (monitor) => ({
+      isHoverBottomBun: monitor.isOver(),
+    }),
   });
 
   // drop для Ингредиентов
-  const [{ isHover }, dropIngredient] = useDrop({
+  const [{ isHoverIngredients }, dropIngredient] = useDrop({
     accept: 'ingredient',
     drop(item) {
       dispatch(addIngredient(item));
     },
     collect: (monitor) => ({
-      isHover: monitor.isOver(),
+      isHoverIngredients: monitor.isOver(),
     }),
   });
 
@@ -69,10 +77,31 @@ const BurgerConstructor = ({ openModal }) => {
     return sum;
   }, [bun, ingredients]);
 
+  // функция для отправки запроса на заказ
+  const handleOrderClick = () => {
+    const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+    if (bun) {
+      ingredientIds.push(bun._id, bun._id);
+    }
+    dispatch(sendOrder(ingredientIds)).then((result) => {
+      if (sendOrder.fulfilled.match(result)) {
+        dispatch(resetConstructor());
+        openModal();
+      }
+    });
+  };
+
   return (
     <section className={styles.burgerconstructor__container}>
-      <div>
-        <div ref={dropTopBun} className={styles.upperBunPlace}>
+      <div className={styles.burgerconstructor__dropzone}>
+        <div
+          ref={dropTopBun}
+          className={
+            isHoverTopBun
+              ? `${styles.upperBunPlace} ${styles.isHoverTopBun}`
+              : styles.upperBunPlace
+          }
+        >
           {bun && (
             <ConstructorElement
               key={bun.id}
@@ -86,7 +115,11 @@ const BurgerConstructor = ({ openModal }) => {
         </div>
         <div
           ref={dropIngredient}
-          className={`${styles.middleIngredientPlace} custom-scroll`}
+          className={
+            isHoverIngredients
+              ? `${styles.middleIngredientPlace} ${styles.isHoverIngredients}`
+              : `${styles.middleIngredientPlace} custom-scroll`
+          }
         >
           {ingredients.map((ingredient, index) => (
             <SortableIngredient
@@ -99,7 +132,14 @@ const BurgerConstructor = ({ openModal }) => {
             />
           ))}
         </div>
-        <div ref={dropBottomBun} className={styles.downBunPlace}>
+        <div
+          ref={dropBottomBun}
+          className={
+            isHoverBottomBun
+              ? `${styles.downBunPlace} ${styles.isHoverBottomBun}`
+              : styles.downBunPlace
+          }
+        >
           {bun && (
             <ConstructorElement
               key={bun.id}
@@ -118,7 +158,7 @@ const BurgerConstructor = ({ openModal }) => {
           <CurrencyIcon type="primary" />
         </div>
         <Button
-          onClick={() => openModal()}
+          onClick={handleOrderClick}
           htmlType="button"
           type="primary"
           size="large"

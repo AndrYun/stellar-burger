@@ -1,3 +1,4 @@
+import React, { useMemo, forwardRef } from 'react';
 import styles from './ingredient.module.css';
 import {
   CurrencyIcon,
@@ -8,9 +9,21 @@ import { useDrag } from 'react-dnd';
 import { ingredientType } from '../utils/types';
 import { useSelector } from 'react-redux';
 import { selectIngredient } from '../../services/slices/burger-constructor-slice';
-import { useMemo } from 'react';
 
-const Ingredient = ({ ingredient, onClick }) => {
+// сборщик рефов
+const combineRefs =
+  (...refs) =>
+  (node) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref != null) {
+        ref.current = node;
+      }
+    });
+  };
+
+const Ingredient = forwardRef(({ ingredient, onClick }, ref) => {
   // подписка на ингредиенты из burger-constructor-slice
   const ingredientsDragged = useSelector(selectIngredient);
 
@@ -34,9 +47,12 @@ const Ingredient = ({ ingredient, onClick }) => {
     }),
   });
 
+  // cobmine the ref for drag functionality and the forwarded ref
+  const combinedRef = combineRefs(dragRef, ref);
+
   return (
     <div
-      ref={dragRef}
+      ref={combinedRef}
       onClick={onClick}
       className={
         isDrag
@@ -57,11 +73,11 @@ const Ingredient = ({ ingredient, onClick }) => {
       )}
     </div>
   );
-};
+});
 
 Ingredient.propTypes = {
-  ingredient: ingredientType,
+  ingredient: ingredientType.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
-export default Ingredient;
+export default React.memo(Ingredient);

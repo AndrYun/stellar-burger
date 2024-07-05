@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -41,9 +41,12 @@ function App() {
   const modalContentId = useSelector(selectModalContentId);
   const modalContentType = useSelector(selectModalContentType);
 
-  const openModalHandler = (contentId, contentType) => {
-    dispatch(openModal({ contentId, contentType }));
-  };
+  const openModalHandler = useCallback(
+    (contentId, contentType) => {
+      dispatch(openModal({ contentId, contentType }));
+    },
+    [dispatch]
+  );
 
   const closeModalHandler = () => {
     dispatch(closeModal());
@@ -63,11 +66,6 @@ function App() {
     }
     return null;
   };
-
-  // функция для drop
-  // const handleDrop = (item) => {
-  //   dispatch(addIngredient(item));
-  // };
 
   return (
     <>

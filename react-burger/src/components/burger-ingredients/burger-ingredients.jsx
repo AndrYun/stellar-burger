@@ -1,37 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
-import { ingredientType } from '../utils/types';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = ({ openModal }) => {
-  const [current, setCurrent] = useState('Булки');
+  const [current, setCurrent] = useState('one');
 
   // tabs refs
   const pBunsRef = useRef(null);
   const pSauceRef = useRef(null);
   const pIngredientsRef = useRef(null);
 
-  const { ref: bunsRef, inView: inViewBuns } = useInView();
-  const { ref: sauceRef, inView: inViewSauce } = useInView();
-  const { ref: ingredientsRef, inView: inViewIngredients } = useInView();
+  const { ref: bunsRef, inView: inViewBuns } = useInView({ threshold: 0.5 });
+  const { ref: sauceRef, inView: inViewSauce } = useInView({ threshold: 0.5 });
+  const { ref: ingredientsRef, inView: inViewIngredients } = useInView({
+    threshold: 0.5,
+  });
 
-  const tabSwitch = (viewBuns, viewSauce, viewIngredients) => {
-    if (viewBuns) {
-      return setCurrent('one');
-    }
-    if (viewSauce) {
-      return setCurrent('two');
-    }
-    if (viewIngredients) {
-      return setCurrent('three');
-    }
-  };
+  const tabSwitch = useCallback(
+    (viewBuns, viewSauce, viewIngredients) => {
+      if (viewBuns && current !== 'one') {
+        setCurrent('one');
+      } else if (viewSauce && current !== 'two') {
+        setCurrent('two');
+      } else if (viewIngredients && current !== 'three') {
+        setCurrent('three');
+      }
+    },
+    [current]
+  );
 
   useEffect(() => {
     tabSwitch(inViewBuns, inViewSauce, inViewIngredients);
@@ -39,6 +40,7 @@ const BurgerIngredients = ({ openModal }) => {
 
   // подписка на состояния из ingredientsSlice
   const ingredients = useSelector(selectIngredients);
+
   return (
     <div className={styles.burgeringredients__wrapp}>
       <h1 className="text text_type_main-large pb-4">Соберите бургер</h1>
@@ -77,51 +79,48 @@ const BurgerIngredients = ({ openModal }) => {
             Булки
           </h2>
           <br />
-          {ingredients.map(
-            (ingredient) =>
-              ingredient.type === 'bun' && (
-                <Ingredient
-                  ref={bunsRef}
-                  ingredient={ingredient}
-                  onClick={() => openModal(ingredient)}
-                  key={uuidv4()}
-                />
-              )
-          )}
+          {ingredients
+            .filter((ingredient) => ingredient.type === 'bun')
+            .map((ingredient) => (
+              <Ingredient
+                key={ingredient._id}
+                ref={bunsRef}
+                ingredient={ingredient}
+                onClick={() => openModal(ingredient)}
+              />
+            ))}
         </article>
         <article className={styles.cards__container}>
           <h2 ref={pSauceRef} className="text text_type_main-medium">
             Соусы
           </h2>
           <br />
-          {ingredients.map(
-            (ingredient) =>
-              ingredient.type === 'sauce' && (
-                <Ingredient
-                  ref={sauceRef}
-                  ingredient={ingredient}
-                  onClick={() => openModal(ingredient)}
-                  key={uuidv4()}
-                />
-              )
-          )}
+          {ingredients
+            .filter((ingredient) => ingredient.type === 'sauce')
+            .map((ingredient) => (
+              <Ingredient
+                key={ingredient._id}
+                ref={sauceRef}
+                ingredient={ingredient}
+                onClick={() => openModal(ingredient)}
+              />
+            ))}
         </article>
         <article className={styles.cards__container}>
           <h2 ref={pIngredientsRef} className="text text_type_main-medium">
             Начинки
           </h2>
           <br />
-          {ingredients.map(
-            (ingredient) =>
-              ingredient.type === 'main' && (
-                <Ingredient
-                  ref={ingredientsRef}
-                  ingredient={ingredient}
-                  onClick={() => openModal(ingredient)}
-                  key={uuidv4()}
-                />
-              )
-          )}
+          {ingredients
+            .filter((ingredient) => ingredient.type === 'main')
+            .map((ingredient) => (
+              <Ingredient
+                key={ingredient._id}
+                ref={ingredientsRef}
+                ingredient={ingredient}
+                onClick={() => openModal(ingredient)}
+              />
+            ))}
         </article>
       </section>
     </div>
@@ -129,7 +128,6 @@ const BurgerIngredients = ({ openModal }) => {
 };
 
 BurgerIngredients.propTypes = {
-  // ingredients: PropTypes.arrayOf(ingredientType).isRequired,
   openModal: PropTypes.func.isRequired,
 };
 
