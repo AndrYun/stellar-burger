@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { ORDER_URL } from '../../components/utils/url';
+import { request } from '../../components/utils/request';
 
 const initialState = {
   data: null,
@@ -10,21 +12,13 @@ export const sendOrder = createAsyncThunk(
   'order/sendOrder',
   async (ingredients, thunkAPI) => {
     try {
-      const response = await fetch(
-        'https://norma.nomoreparties.space/api/orders',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ingredients }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error('Мы потеряли Ваш заказ :(');
-      }
-      const data = await response.json();
-      return data;
+      return request(ORDER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ingredients }),
+      }).then((res) => res.json());
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

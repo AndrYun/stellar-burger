@@ -161,6 +161,7 @@ const BurgerConstructor = ({ openModal }) => {
           htmlType="button"
           type="primary"
           size="large"
+          disabled={!bun}
         >
           Оформить заказ
         </Button>

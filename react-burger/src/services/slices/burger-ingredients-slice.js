@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { BASE_URL } from '../../components/utils/url';
+import { request } from '../../components/utils/request';
 
 const initialState = {
   ingredients: [],
@@ -9,14 +11,9 @@ const initialState = {
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    const res = await fetch(
-      'https://norma.nomoreparties.space/api/ingredients'
-    );
-    if (!res.ok) {
-      throw new Error('Space ingredients is not available now :(');
-    }
-    const result = await res.json();
-    return result.data;
+    return request(BASE_URL)
+      .then((res) => res.json())
+      .then((result) => result.data);
   }
 );
 
