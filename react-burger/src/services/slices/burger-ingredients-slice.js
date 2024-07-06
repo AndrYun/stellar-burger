@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { BASE_URL } from '../../components/utils/url';
 import { request } from '../../components/utils/request';
 
 const initialState = {
@@ -11,7 +10,7 @@ const initialState = {
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    return request(BASE_URL)
+    return request('/ingredients')
       .then((res) => res.json())
       .then((result) => result.data);
   }

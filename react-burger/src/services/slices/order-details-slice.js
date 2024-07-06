@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ORDER_URL } from '../../components/utils/url';
 import { request } from '../../components/utils/request';
 
 const initialState = {
@@ -12,7 +11,7 @@ export const sendOrder = createAsyncThunk(
   'order/sendOrder',
   async (ingredients, thunkAPI) => {
     try {
-      return request(ORDER_URL, {
+      return request('/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
