@@ -1,10 +1,13 @@
+import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 import doneOrderImage from '../images/done.png';
+import { selectOrder } from '../../services/slices/order-details-slice';
 
 const OrderDetails = () => {
+  const { data } = useSelector(selectOrder);
   return (
     <section className={styles.orderdetails__wrapp}>
-      <p className="text text_type_digits-large">034530</p>
+      <p className="text text_type_digits-large">{data?.order?.number}</p>
       <p className={styles.orderdetails__identify}>идентификатор заказа</p>
       <img src={doneOrderImage} alt="done" />
       <p className={styles.orderdetails__comment_1}>

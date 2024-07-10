@@ -9,6 +9,12 @@
   gap: 4px;
   margin: 24px 24px 40px 16px;
 }
+
+/* react dnd  */
+.dragging {
+  opacity: 0.5;
+}
+
 .cardbun_wrapp :hover {
   cursor: pointer;
 }
