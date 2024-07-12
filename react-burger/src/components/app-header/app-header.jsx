@@ -21,7 +21,7 @@ const AppHeader = () => {
             onMouseLeave={() => setIsHoveredConstructor(false)}
             className={styles.constructor_of}
           >
-            <a href="">
+            <a>
               <BurgerIcon
                 type={!isHoveredConstructor ? 'secondary' : 'primary'}
               />
@@ -41,7 +41,7 @@ const AppHeader = () => {
             onMouseLeave={() => setIsHoveredOrderList(false)}
             className={styles.order_list}
           >
-            <a href="">
+            <a>
               <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
             </a>
             <p
@@ -64,7 +64,7 @@ const AppHeader = () => {
         onMouseLeave={() => setIsHoveredProfile(false)}
         className={styles.header__profile_wrapp}
       >
-        <a href="">
+        <a>
           <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
         </a>
         <p

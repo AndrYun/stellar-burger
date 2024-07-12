@@ -1,12 +1,9 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import HomePage from '../../pages/home-page';
 import styles from './app.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -16,12 +13,15 @@ import {
   selectError,
 } from '../../services/slices/burger-ingredients-slice';
 import {
-  openModal,
   closeModal,
   selectModalContentId,
   selectModalContentType,
   selectIsOpen,
 } from '../../services/slices/modal-slice';
+import { Routes, Route } from 'react-router-dom';
+import LoginPage from '../../pages/login-page/login-page';
+import RegisterPage from '../../pages/register-page/register-page';
+import ForgotPassword from '../../pages/forgot-password-page/forgot-password-page';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,19 +40,9 @@ function App() {
   const modalContentId = useSelector(selectModalContentId);
   const modalContentType = useSelector(selectModalContentType);
 
-  const openModalHandler = useCallback(
-    (contentId, contentType) => {
-      dispatch(openModal({ contentId, contentType }));
-    },
-    [dispatch]
-  );
-
   const closeModalHandler = () => {
     dispatch(closeModal());
   };
-
-  const openModalWithContent = (ingredient) =>
-    openModalHandler(ingredient._id, 'ingredient');
 
   const renderModalContent = () => {
     if (modalContentType === 'ingredient') {
@@ -80,12 +70,12 @@ function App() {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients openModal={openModalWithContent} />
-            <BurgerConstructor
-              openModal={() => openModalHandler(null, 'order')}
-            />
-          </DndProvider>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Routes>
         )}
       </main>
     </>
