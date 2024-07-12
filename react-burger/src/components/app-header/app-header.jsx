@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   BurgerIcon,
   ListIcon,
@@ -5,9 +7,9 @@ import {
   Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import { useState } from 'react';
 
 const AppHeader = () => {
+  // состояния для ховер
   const [isHoveredConstructor, setIsHoveredConstructor] = useState(false);
   const [isHoveredOrderList, setIsHoveredOrderList] = useState(false);
   const [isHoveredProfile, setIsHoveredProfile] = useState(false);
@@ -21,11 +23,11 @@ const AppHeader = () => {
             onMouseLeave={() => setIsHoveredConstructor(false)}
             className={styles.constructor_of}
           >
-            <a>
+            <Link to="/">
               <BurgerIcon
                 type={!isHoveredConstructor ? 'secondary' : 'primary'}
               />
-            </a>
+            </Link>
             <p
               className={
                 !isHoveredConstructor
