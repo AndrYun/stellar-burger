@@ -1,0 +1,7 @@
+.orderhistory__container {
+  composes: text text_type_main-medium from global;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+}

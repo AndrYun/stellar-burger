@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   BurgerIcon,
   ListIcon,
@@ -21,40 +21,36 @@ const AppHeader = () => {
           <li
             onMouseEnter={() => setIsHoveredConstructor(true)}
             onMouseLeave={() => setIsHoveredConstructor(false)}
-            className={styles.constructor_of}
           >
-            <Link to="/">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? styles.constructor_of
+                  : `${styles.constructor_of} ${styles.inactive}`
+              }
+              to="/"
+            >
               <BurgerIcon
                 type={!isHoveredConstructor ? 'secondary' : 'primary'}
               />
-            </Link>
-            <p
-              className={
-                !isHoveredConstructor
-                  ? 'text text_type_main-default text_color_inactive'
-                  : 'text text_type_main-default'
-              }
-            >
-              Конструктор
-            </p>
+              <p>Конструктор</p>
+            </NavLink>
           </li>
           <li
             onMouseEnter={() => setIsHoveredOrderList(true)}
             onMouseLeave={() => setIsHoveredOrderList(false)}
-            className={styles.order_list}
           >
-            <a>
-              <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
-            </a>
-            <p
-              className={
-                !isHoveredOrderList
-                  ? 'text text_type_main-default text_color_inactive'
-                  : 'text text_type_main-default'
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? styles.order_list
+                  : `${styles.order_list} ${styles.inactive}`
               }
+              to="*"
             >
-              Лента заказов
-            </p>
+              <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
+              <p>Лента заказов</p>
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -64,20 +60,18 @@ const AppHeader = () => {
       <div
         onMouseEnter={() => setIsHoveredProfile(true)}
         onMouseLeave={() => setIsHoveredProfile(false)}
-        className={styles.header__profile_wrapp}
       >
-        <a>
-          <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
-        </a>
-        <p
-          className={
-            !isHoveredProfile
-              ? 'text text_type_main-default text_color_inactive'
-              : 'text text_type_main-default'
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? styles.header__profile_wrapp
+              : `${styles.header__profile_wrapp} ${styles.inactive}`
           }
+          to="/profile"
         >
-          Личный кабинет
-        </p>
+          <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
+          <p>Личный кабинет</p>
+        </NavLink>
       </div>
     </header>
   );

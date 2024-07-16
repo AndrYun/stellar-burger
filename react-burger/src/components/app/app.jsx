@@ -23,6 +23,9 @@ import LoginPage from '../../pages/login-page/login-page';
 import RegisterPage from '../../pages/register-page/register-page';
 import ForgotPassword from '../../pages/forgot-password-page/forgot-password-page';
 import ResetPasswordPage from '../../pages/reset-password-page/reset-password-page';
+import ProfilePage from '../../pages/profile-page/profile-page';
+import OrderHistory from '../../pages/order-history-page/order-history';
+import LayoutSideLinks from '../../pages/profile-page/layout/profilepage-layout-sidelinks';
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +80,10 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/profile" element={<LayoutSideLinks />}>
+              <Route index element={<ProfilePage />} />
+              <Route path="orders" element={<OrderHistory />} />
+            </Route>
           </Routes>
         )}
       </main>

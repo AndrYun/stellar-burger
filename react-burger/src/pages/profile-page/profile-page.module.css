@@ -1,0 +1,54 @@
+.profilepage__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 100px;
+}
+
+.profilepage__inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 150px 0 60px 0;
+  width: 500px;
+  gap: 24px;
+}
+
+.profilepage__sidelinks {
+  display: flex;
+  width: 300px;
+  margin: 200px 0 0 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  text-decoration: none;
+}
+
+.profilepage__profile {
+  composes: text text_type_main-medium from global;
+  color: white;
+  text-decoration: none;
+}
+.profilepage__order_history {
+  composes: text text_type_main-medium from global;
+  color: white;
+  text-decoration: none;
+}
+.profilepage__logout {
+  composes: text text_type_main-medium from global;
+  color: white;
+  text-decoration: none;
+}
+
+.inactive {
+  composes: text text_type_main-medium text_color_inactive from global;
+  text-decoration: none;
+}
+
+.profilepage__info {
+  composes: text text_type_main-default text_color_inactive from global;
+  text-align: left;
+}
