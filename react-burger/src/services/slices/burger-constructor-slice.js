@@ -31,7 +31,7 @@ const burgerConstructorSlice = createSlice({
         return { payload: { ...bun, id: uuidv4() } };
       },
     },
-    removeBun: (state, action) => {
+    removeBun: (state) => {
       state.bun = null;
     },
     moveIngredient: (state, action) => {
