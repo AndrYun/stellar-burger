@@ -11,7 +11,7 @@ const store = configureStore({
     modal: modalReducer,
     burgerConstructor: constructorReducer,
     order: orderReducer,
-    auth: authUserReducer,
+    user: authUserReducer,
   },
 });
 

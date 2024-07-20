@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
   BurgerIcon,
@@ -6,6 +7,7 @@ import {
   ProfileIcon,
   Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { selectUser } from '../../services/slices/user-auth-slice';
 import styles from './app-header.module.css';
 
 const AppHeader = () => {
@@ -13,6 +15,7 @@ const AppHeader = () => {
   const [isHoveredConstructor, setIsHoveredConstructor] = useState(false);
   const [isHoveredOrderList, setIsHoveredOrderList] = useState(false);
   const [isHoveredProfile, setIsHoveredProfile] = useState(false);
+  const user = useSelector(selectUser);
 
   return (
     <header className={styles.header_wrapp}>
@@ -46,7 +49,7 @@ const AppHeader = () => {
                   ? styles.order_list
                   : `${styles.order_list} ${styles.inactive}`
               }
-              to="*"
+              to="/order-list"
             >
               <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
               <p>Лента заказов</p>
@@ -55,7 +58,9 @@ const AppHeader = () => {
         </ul>
       </nav>
       <div className={styles.header__logo_wrapp}>
-        <Logo />
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
       </div>
       <div
         onMouseEnter={() => setIsHoveredProfile(true)}
@@ -70,7 +75,7 @@ const AppHeader = () => {
           to="/profile"
         >
           <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
-          <p>Личный кабинет</p>
+          <p>{user ? user.name : 'Личный кабинет'}</p>
         </NavLink>
       </div>
     </header>

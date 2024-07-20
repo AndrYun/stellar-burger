@@ -27,6 +27,11 @@
   text-decoration: none;
 }
 
+.profilepage__bts {
+  display: flex;
+  gap: 50px;
+}
+
 .profilepage__profile {
   composes: text text_type_main-medium from global;
   color: white;
@@ -39,8 +44,11 @@
 }
 .profilepage__logout {
   composes: text text_type_main-medium from global;
-  color: white;
+  color: #8585ad;
   text-decoration: none;
+}
+.profilepage__logout:hover {
+  cursor: pointer;
 }
 
 .inactive {

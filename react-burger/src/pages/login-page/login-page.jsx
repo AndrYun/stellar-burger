@@ -4,25 +4,20 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login-page.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { login, selectUser } from '../../services/slices/user-auth-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { login } from '../../services/slices/user-auth-slice';
+import { useDispatch } from 'react-redux';
 
 const LoginPage = () => {
-  // vasiliybaptist@yopmail.com
-  // 1234
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const user = useSelector(selectUser);
 
   // submit request на авторизацию
   const requestSubmit = async (e) => {
     e.preventDefault();
     try {
       await dispatch(login({ email, password })).unwrap();
-      navigate('/');
     } catch (error) {
       console.log(error.message);
     }

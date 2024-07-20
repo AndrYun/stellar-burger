@@ -1,20 +1,29 @@
-// принимаем fetch из api.js и подставляем их в сreateAsyncThunk - login, authChecking and logout
-// и в authUserSlice есть extraReducers для каждого асинхронного вызова:
-// login.pending, fulfilled and rejected со state and action
-// и далее каждый вызов записывает или удаляет payload из state
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../components/utils/url';
-import { authUserHandler, fetchWithRefresh } from '../../components/utils/api';
+import {
+  authUserHandler,
+  fetchWithRefresh,
+  userRegisterHandler,
+  getUserData,
+} from '../../components/utils/api';
 
 const initialState = {
   user: null,
   authHasChecked: false,
 };
 
+// register
+export const registerUser = createAsyncThunk(
+  'user/register',
+  async ({ name, email, password }) => {
+    const res = await userRegisterHandler(name, email, password);
+    return res.user;
+  }
+);
+
 // авторизация login
 export const login = createAsyncThunk(
-  'authUser/login',
+  'user/login',
   async ({ email, password }) => {
     const res = await authUserHandler(email, password);
     localStorage.setItem('accessToken', res.accessToken);
@@ -23,47 +32,77 @@ export const login = createAsyncThunk(
   }
 );
 
-// export const getUser = () => {
-//   return (dispatch) => {
-//     return BASE_URL.getUser().then((res) => {
-//       dispatch(setUser(res.user));
-//     });
-//   };
-// };
+export const fetchUserData = createAsyncThunk(
+  'user/fetchUserData',
+  async (_, thunkAPI) => {
+    const res = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
+      method: 'GET',
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return res.user;
+  }
+);
+
+export const updateUserData = createAsyncThunk(
+  'user/updateUserData',
+  async ({ name, email, password }, thunkAPI) => {
+    const res = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+    return res.user;
+  }
+);
 
 export const getUser = () => {
-  return fetchWithRefresh(`${BASE_URL}/auth/user`, {
-    headers: {
-      authorization: localStorage.getItem('accessToken'),
-    },
-  });
+  return (dispatch) => {
+    return getUserData.then((res) => {
+      dispatch(setUser(res.user));
+    });
+  };
 };
 
 export const authUserChecking = createAsyncThunk(
-  'authUser/checking',
-  async ({ dispatch }) => {
-    if (localStorage.getItem('accessToken')) {
-      BASE_URL.getUser()
-        .then((res) => dispatch(setUser(res.user)))
-        .catch(() => {
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-        })
-        .finally(() => dispatch(setAuthChecked(true)));
-    } else {
-      dispatch(setAuthChecked(true));
+  'user/checking',
+  async (_, thunkAPI) => {
+    try {
+      const res = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
+        method: 'GET',
+        headers: {
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
+      });
+      return res.user;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Authentication check failed');
     }
   }
 );
 
-export const logout = createAsyncThunk('authUser/logout', async () => {
-  await BASE_URL.logout();
+export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
+  await fetchWithRefresh(`${BASE_URL}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem('refreshToken'),
+    }),
+  });
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
+  return {};
 });
 
 export const authUserSlice = createSlice({
-  name: 'authUser',
+  name: 'user',
   initialState,
   reducers: {
     setAuthChecked: (state, action) => {
@@ -72,15 +111,31 @@ export const authUserSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
-    removeUser: (state) => {
-      state.user = null;
-    },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(registerUser.fulfilled, (state, action) => {
+        // нет изменений в хранилище после регистрации
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.authHasChecked = true;
+      })
       .addCase(authUserChecking.fulfilled, (state, action) => {
         state.user = action.payload;
         state.authHasChecked = true;
+      })
+      .addCase(authUserChecking.rejected, (state) => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        state.authHasChecked = true;
+      })
+      .addCase(fetchUserData.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.authHasChecked = true;
+      })
+      .addCase(updateUserData.fulfilled, (state, action) => {
+        state.user = action.payload;
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
@@ -90,7 +145,7 @@ export const authUserSlice = createSlice({
 
 export const { setAuthChecked, setUser } = authUserSlice.actions;
 
-export const selectUser = (state) => state.authUser.user;
-export const selectAuthChecked = (state) => state.authUser.authHasChecked;
+export const selectUser = (state) => state.user.user;
+export const selectAuthChecked = (state) => state.user.authHasChecked;
 
 export default authUserSlice.reducer;

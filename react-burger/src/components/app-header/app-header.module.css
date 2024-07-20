@@ -60,12 +60,12 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 207px;
+  width: 208px;
   height: 56px;
   color: white;
   text-decoration: none;
   border-radius: 40px;
-  margin: 0 40px 0 0;
+  margin: 0 50px 0 70px;
 }
 
 .inactive {

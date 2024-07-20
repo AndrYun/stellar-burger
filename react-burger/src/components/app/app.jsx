@@ -26,12 +26,19 @@ import ResetPasswordPage from '../../pages/reset-password-page/reset-password-pa
 import ProfilePage from '../../pages/profile-page/profile-page';
 import OrderHistory from '../../pages/order-history-page/order-history';
 import LayoutSideLinks from '../../pages/profile-page/layout/profilepage-layout-sidelinks';
+import OrderList from '../order-list/order-list';
+import {
+  OnlyAuth,
+  OnlyUnAuth,
+} from '../protected-route-element/protected-route-element';
+import { authUserChecking } from '../../services/slices/user-auth-slice';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(authUserChecking()); // проверка на аторизацию пользователя
   }, [dispatch]);
 
   // подписка на состояния из ingredientsSlice
@@ -76,14 +83,36 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/profile" element={<LayoutSideLinks />}>
-              <Route index element={<ProfilePage />} />
-              <Route path="orders" element={<OrderHistory />} />
+            <Route
+              path="/login"
+              element={<OnlyUnAuth component={<LoginPage />} />}
+            />
+            <Route
+              path="/register"
+              element={<OnlyUnAuth component={<RegisterPage />} />}
+            />
+            <Route
+              path="/forgot-password"
+              element={<OnlyUnAuth component={<ForgotPassword />} />}
+            />
+            <Route
+              path="/reset-password"
+              element={<OnlyUnAuth component={<ResetPasswordPage />} />}
+            />
+            <Route
+              path="/profile"
+              element={<OnlyAuth component={<LayoutSideLinks />} />}
+            >
+              <Route index element={<OnlyAuth component={<ProfilePage />} />} />
+              <Route
+                path="orders"
+                element={<OnlyAuth component={<OrderHistory />} />}
+              />
             </Route>
+            <Route
+              path="/order-list"
+              element={<OnlyAuth component={<OrderList />} />}
+            />
           </Routes>
         )}
       </main>

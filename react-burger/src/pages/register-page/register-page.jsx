@@ -1,16 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectAuthChecked,
-  selectUser,
-  setUser,
-} from '../../services/slices/user-auth-slice';
+import { registerUser } from '../../services/slices/user-auth-slice';
 import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { request } from '../../components/utils/request';
 import styles from './register-page.module.css';
 
 const RegisterPage = () => {
@@ -24,31 +19,15 @@ const RegisterPage = () => {
   // const user = useSelector(selectUser);
   // console.log(user);
 
-  // запрос на регистрацию пользователя
-  const userRegisterHandler = async (email, password, name) => {
+  // submit form register
+  const requestSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await request('/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, name }),
-      }).then((res) => res.json());
-      if (response.success) {
-        dispatch(setUser(response.user));
-        navigate('/');
-      } else {
-        throw new Error('Жаль, но зарегаться не судьба');
-      }
+      await dispatch(registerUser({ name, email, password })).unwrap();
+      navigate('/login');
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  // submit form
-  const requestSubmit = (e) => {
-    e.preventDefault();
-    userRegisterHandler(email, password, name);
   };
 
   return (

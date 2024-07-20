@@ -1,7 +1,19 @@
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { NavLink, Outlet } from 'react-router-dom';
+import { logout } from '../../../services/slices/user-auth-slice';
 import styles from '../profile-page.module.css';
 
 const LayoutSideLinks = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // logout
+  const handleLogout = async () => {
+    await dispatch(logout(localStorage.getItem('refreshToken'))).unwrap();
+    navigate('/login');
+  };
+
   return (
     <>
       <div className={styles.profilepage__sidelinks}>
@@ -21,14 +33,9 @@ const LayoutSideLinks = () => {
         >
           <span>История заказов</span>
         </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? styles.profilepage__logout : styles.inactive
-          }
-          to="/login"
-        >
+        <button className={styles.profilepage__logout} onClick={handleLogout}>
           <span>Выход</span>
-        </NavLink>
+        </button>
         <div className={styles.profilepage__info}>
           <p>В этом разделе вы можете изменить свои персональные данные</p>
         </div>
