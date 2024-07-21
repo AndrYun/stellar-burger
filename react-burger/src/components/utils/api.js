@@ -39,6 +39,48 @@ export const authUserHandler = async (email, password) => {
   }
 };
 
+// запрос на забыл пароль
+export const forgotPasswordRequest = async (email) => {
+  try {
+    const response = await request('/password-reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    }).then((res) => res.json());
+
+    if (response.success && response.message === 'Reset email sent') {
+      return response;
+    } else {
+      throw new Error('Не удалось сбросить пароль :(');
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+// запрос на сброс пароля /reset-password/reset
+export const resetPasswordHandler = async (password, token) => {
+  try {
+    const response = await request('/password-reset/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password, token }),
+    }).then((res) => res.json());
+
+    if (response.success) {
+      return response;
+    } else {
+      throw new Error('Не удалось восстановить пароль :(');
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 // функция будет обновлять токены если они уже устарели
 export const getUserData = () => {
   new Promise((resolve, reject) => {

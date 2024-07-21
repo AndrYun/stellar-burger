@@ -12,7 +12,6 @@ const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
 
   // первая проверка
   if (!authHasChecked) {
-    console.log(authHasChecked);
     return null;
   }
 
@@ -20,13 +19,11 @@ const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
     // пользователь авторизован, но роут предназначен для неавторизованного пользователя
     // делаем редирект на главную страницу или на тот адрес, что в location.state.from
     const { from } = location.state || { from: { pathname: '/' } };
-    console.log(location.state);
     return <Navigate to={from} replace />;
   }
 
   if (!onlyUnAuth && !user) {
-    console.log(user + '3');
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   // !onlyUnAuth && user - пользователь авторизован и роут для авторизованного пользователя
@@ -38,4 +35,12 @@ export const OnlyAuth = ProtectedRouteElement; // для роутов котор
 
 export const OnlyUnAuth = ({ component }) => (
   <ProtectedRouteElement onlyUnAuth={true} component={component} />
+);
+
+export const OnlyAfterEmail = ({ component }) => (
+  <ProtectedRouteElement
+    onlyUnAuth={true}
+    onlyAfterEmail={true}
+    component={component}
+  />
 );

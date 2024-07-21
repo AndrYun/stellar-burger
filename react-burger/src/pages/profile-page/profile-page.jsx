@@ -29,7 +29,7 @@ const ProfilePage = () => {
       setEmail(user.email);
       setPassword(user.password);
     }
-  }, [user, dispatch]);
+  }, [user, dispatch, navigate]);
 
   // сохранение измененных данных
   const handleSave = async (e) => {
@@ -56,7 +56,7 @@ const ProfilePage = () => {
           icon={'EditIcon'}
           value={name}
           onChange={(e) => setName(e.target.value)}
-        ></Input>
+        />
         <Input
           type={'email'}
           placeholder={'Логин'}

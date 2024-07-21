@@ -1,41 +1,27 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './forgot-password-page.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { request } from '../../components/utils/request';
+import { forgotPassword } from '../../services/slices/user-auth-slice';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // запрос
-  const forgotPasswordRequest = async (email) => {
+  // submit form
+  const requestSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await request('/password-reset', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      }).then((res) => res.json());
-
-      if (response.success && response.message === 'Reset email sent') {
-        navigate('/reset-password');
-      } else {
-        throw new Error('Не удалось сбросить пароль :(');
-      }
+      await dispatch(forgotPassword(email)).unwrap();
+      navigate('/reset-password');
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  // submit form
-  const requestSubmit = (e) => {
-    e.preventDefault();
-    forgotPasswordRequest(email);
   };
 
   return (
@@ -50,6 +36,7 @@ const ForgotPassword = () => {
           placeholder={'Укажите e-mail'}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <Button
           type="primary"

@@ -18,7 +18,7 @@ import {
   selectModalContentType,
   selectIsOpen,
 } from '../../services/slices/modal-slice';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import LoginPage from '../../pages/login-page/login-page';
 import RegisterPage from '../../pages/register-page/register-page';
 import ForgotPassword from '../../pages/forgot-password-page/forgot-password-page';
@@ -27,6 +27,7 @@ import ProfilePage from '../../pages/profile-page/profile-page';
 import OrderHistory from '../../pages/order-history-page/order-history';
 import LayoutSideLinks from '../../pages/profile-page/layout/profilepage-layout-sidelinks';
 import OrderList from '../order-list/order-list';
+import IngredientPage from '../../pages/ingredient-page/ingredient-page';
 import {
   OnlyAuth,
   OnlyUnAuth,
@@ -35,6 +36,9 @@ import { authUserChecking } from '../../services/slices/user-auth-slice';
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(fetchIngredients());
@@ -53,6 +57,7 @@ function App() {
 
   const closeModalHandler = () => {
     dispatch(closeModal());
+    navigate(background?.pathname || '/', { replace: true });
   };
 
   const renderModalContent = () => {
@@ -71,49 +76,71 @@ function App() {
     <>
       <AppHeader />
       <main className={styles.burger__container}>
-        {modalIsOpen && (
-          <Modal onClose={closeModalHandler} size={modalContentType}>
-            {renderModalContent()}
-          </Modal>
-        )}
         {isLoadingByApi ? (
           <p>Loading...</p>
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/login"
-              element={<OnlyUnAuth component={<LoginPage />} />}
-            />
-            <Route
-              path="/register"
-              element={<OnlyUnAuth component={<RegisterPage />} />}
-            />
-            <Route
-              path="/forgot-password"
-              element={<OnlyUnAuth component={<ForgotPassword />} />}
-            />
-            <Route
-              path="/reset-password"
-              element={<OnlyUnAuth component={<ResetPasswordPage />} />}
-            />
-            <Route
-              path="/profile"
-              element={<OnlyAuth component={<LayoutSideLinks />} />}
-            >
-              <Route index element={<OnlyAuth component={<ProfilePage />} />} />
+          <>
+            <Routes location={background || location}>
+              <Route path="/" element={<HomePage />} />
               <Route
-                path="orders"
-                element={<OnlyAuth component={<OrderHistory />} />}
+                path="/login"
+                element={<OnlyUnAuth component={<LoginPage />} />}
               />
-            </Route>
-            <Route
-              path="/order-list"
-              element={<OnlyAuth component={<OrderList />} />}
-            />
-          </Routes>
+              <Route
+                path="/register"
+                element={<OnlyUnAuth component={<RegisterPage />} />}
+              />
+              <Route
+                path="/forgot-password"
+                element={<OnlyUnAuth component={<ForgotPassword />} />}
+              />
+              <Route
+                path="/reset-password"
+                element={<OnlyUnAuth component={<ResetPasswordPage />} />}
+              />
+              <Route
+                path="/profile"
+                element={<OnlyAuth component={<LayoutSideLinks />} />}
+              >
+                <Route
+                  index
+                  element={<OnlyAuth component={<ProfilePage />} />}
+                />
+                <Route
+                  path="orders"
+                  element={<OnlyAuth component={<OrderHistory />} />}
+                />
+              </Route>
+              <Route
+                path="/order-list"
+                element={<OnlyAuth component={<OrderList />} />}
+              />
+              <Route
+                path="/ingredient/:ingredientId"
+                element={<IngredientPage />}
+              />
+              <Route path="*" element={<HomePage />} />
+            </Routes>
+            {background && (
+              <Routes>
+                <Route
+                  path="/ingredient/:ingredientId"
+                  element={
+                    modalIsOpen && (
+                      <Modal
+                        onClose={closeModalHandler}
+                        size={modalContentType}
+                      >
+                        {renderModalContent()}
+                      </Modal>
+                    )
+                  }
+                />
+              </Routes>
+            )}
+          </>
         )}
       </main>
     </>

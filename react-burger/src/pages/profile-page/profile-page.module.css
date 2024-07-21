@@ -46,6 +46,8 @@
   composes: text text_type_main-medium from global;
   color: #8585ad;
   text-decoration: none;
+  background-color: transparent;
+  border: 0;
 }
 .profilepage__logout:hover {
   cursor: pointer;

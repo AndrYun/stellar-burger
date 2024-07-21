@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registerUser } from '../../services/slices/user-auth-slice';
 import {
   Input,
@@ -14,10 +14,6 @@ const RegisterPage = () => {
   const [password, setNewPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // подписка на состояния в authUserSlice
-  // const user = useSelector(selectUser);
-  // console.log(user);
 
   // submit form register
   const requestSubmit = async (e) => {

@@ -5,6 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import {
   addBun,
@@ -15,6 +16,7 @@ import {
   moveIngredient,
   resetConstructor,
 } from '../../services/slices/burger-constructor-slice';
+import { selectUser } from '../../services/slices/user-auth-slice';
 import { sendOrder } from '../../services/slices/order-details-slice';
 import PropTypes from 'prop-types';
 import SortableIngredient from '../sortable-ingredient/sortable-ingredient';
@@ -22,9 +24,13 @@ import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = ({ openModal }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // подписка на состояния из burger-constructor-slice
   const bun = useSelector(selectBun);
   const ingredients = useSelector(selectIngredient);
+
+  // подписка на состояния в authUserSlice
+  const user = useSelector(selectUser);
 
   // drop для верхней булки
   const [{ isHoverTopBun }, dropTopBun] = useDrop({
@@ -78,16 +84,20 @@ const BurgerConstructor = ({ openModal }) => {
 
   // функция для отправки запроса на заказ
   const handleOrderClick = () => {
-    const ingredientIds = ingredients.map((ingredient) => ingredient._id);
-    if (bun) {
-      ingredientIds.push(bun._id, bun._id);
-    }
-    dispatch(sendOrder(ingredientIds)).then((result) => {
-      if (sendOrder.fulfilled.match(result)) {
-        dispatch(resetConstructor());
-        openModal();
+    if (user) {
+      const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+      if (bun) {
+        ingredientIds.push(bun._id, bun._id);
       }
-    });
+      dispatch(sendOrder(ingredientIds)).then((result) => {
+        if (sendOrder.fulfilled.match(result)) {
+          dispatch(resetConstructor());
+          openModal();
+        }
+      });
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -163,7 +173,7 @@ const BurgerConstructor = ({ openModal }) => {
           size="large"
           disabled={!bun}
         >
-          Оформить заказ
+          {user ? 'Оформить заказ' : 'Авторизуйся('}
         </Button>
       </article>
     </section>

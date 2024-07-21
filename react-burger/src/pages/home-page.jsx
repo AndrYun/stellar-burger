@@ -4,15 +4,22 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { openModal } from '../services/slices/modal-slice';
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const openModalHandler = useCallback(
     (contentId, contentType) => {
       dispatch(openModal({ contentId, contentType }));
+      navigate(`/ingredient/${contentId}`, {
+        state: { background: location },
+      });
     },
-    [dispatch]
+    [dispatch, location, navigate]
   );
 
   const openModalWithContent = (ingredient) =>

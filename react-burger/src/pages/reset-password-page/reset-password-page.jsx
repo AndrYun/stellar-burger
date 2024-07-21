@@ -1,41 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './reset-password-page.module.css';
-import { Link } from 'react-router-dom';
-import { request } from '../../components/utils/request';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectEmailSubmited } from '../../services/slices/user-auth-slice';
+import { resetPassword } from '../../services/slices/user-auth-slice';
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState('');
   const [codeFromEmail, setCodeFromEmail] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isEmailSent = useSelector(selectEmailSubmited);
 
-  // запрос
-  const resetPasswordHandler = async (password, token) => {
+  useEffect(() => {
+    if (!isEmailSent) {
+      navigate('/forgot-password');
+    }
+  });
+
+  // submit form
+  const requestSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await request('/password-reset/reset', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password, token }),
-      }).then((res) => res.json());
-
-      if (response.success) {
-        return response;
-      } else {
-        throw new Error('Не удалось восстановить пароль :(');
-      }
+      await dispatch(resetPassword(newPassword, codeFromEmail)).unwrap();
+      navigate('/login');
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  // submit form
-  const requestSubmit = (e) => {
-    e.preventDefault();
-    resetPasswordHandler(newPassword, codeFromEmail);
   };
 
   return (

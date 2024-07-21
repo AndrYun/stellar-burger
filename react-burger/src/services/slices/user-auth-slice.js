@@ -5,11 +5,14 @@ import {
   fetchWithRefresh,
   userRegisterHandler,
   getUserData,
+  forgotPasswordRequest,
+  resetPasswordHandler,
 } from '../../components/utils/api';
 
 const initialState = {
   user: null,
   authHasChecked: false,
+  emailSubmitedForResetPass: false,
 };
 
 // register
@@ -32,6 +35,7 @@ export const login = createAsyncThunk(
   }
 );
 
+// запрос данных
 export const fetchUserData = createAsyncThunk(
   'user/fetchUserData',
   async (_, thunkAPI) => {
@@ -45,6 +49,7 @@ export const fetchUserData = createAsyncThunk(
   }
 );
 
+// изменение данных
 export const updateUserData = createAsyncThunk(
   'user/updateUserData',
   async ({ name, email, password }, thunkAPI) => {
@@ -68,6 +73,7 @@ export const getUser = () => {
   };
 };
 
+// проверка авторизации
 export const authUserChecking = createAsyncThunk(
   'user/checking',
   async (_, thunkAPI) => {
@@ -85,6 +91,25 @@ export const authUserChecking = createAsyncThunk(
   }
 );
 
+// запрос на forgot-password
+export const forgotPassword = createAsyncThunk(
+  'user/forgotPassword',
+  async (email) => {
+    const res = await forgotPasswordRequest(email);
+    return res;
+  }
+);
+
+// reset-password
+export const resetPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (password, token) => {
+    const res = await resetPasswordHandler(password, token);
+    return res;
+  }
+);
+
+// logout
 export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
   await fetchWithRefresh(`${BASE_URL}/auth/logout`, {
     method: 'POST',
@@ -139,6 +164,12 @@ export const authUserSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.emailSubmitedForResetPass = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        // нет изменений в хранилище
       });
   },
 });
@@ -147,5 +178,7 @@ export const { setAuthChecked, setUser } = authUserSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 export const selectAuthChecked = (state) => state.user.authHasChecked;
+export const selectEmailSubmited = (state) =>
+  state.user.emailSubmitedForResetPass;
 
 export default authUserSlice.reducer;
