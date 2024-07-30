@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -34,8 +34,8 @@ import {
 } from '../protected-route-element/protected-route-element';
 import { authUserChecking } from '../../services/slices/user-auth-slice';
 
-function App() {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -60,10 +60,10 @@ function App() {
     navigate(background?.pathname || '/', { replace: true });
   };
 
-  const renderModalContent = () => {
+  const renderModalContent: any = () => {
     if (modalContentType === 'ingredient') {
       const ingredient = ingredients.find(
-        (item) => item._id === modalContentId
+        (item: any) => item._id === modalContentId
       );
       return <IngredientDetails ingredient={ingredient} />;
     } else if (modalContentType === 'order') {
@@ -145,6 +145,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

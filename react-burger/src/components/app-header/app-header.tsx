@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
@@ -10,11 +10,12 @@ import {
 import { selectUser } from '../../services/slices/user-auth-slice';
 import styles from './app-header.module.css';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   // состояния для ховер
-  const [isHoveredConstructor, setIsHoveredConstructor] = useState(false);
-  const [isHoveredOrderList, setIsHoveredOrderList] = useState(false);
-  const [isHoveredProfile, setIsHoveredProfile] = useState(false);
+  const [isHoveredConstructor, setIsHoveredConstructor] =
+    useState<boolean>(false);
+  const [isHoveredOrderList, setIsHoveredOrderList] = useState<boolean>(false);
+  const [isHoveredProfile, setIsHoveredProfile] = useState<boolean>(false);
   const user = useSelector(selectUser);
 
   return (
