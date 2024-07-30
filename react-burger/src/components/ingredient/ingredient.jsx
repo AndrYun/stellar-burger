@@ -6,8 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
-import { ingredientType } from '../utils/types';
 import { useSelector } from 'react-redux';
+import { ingredientType } from '../utils/types';
 import { selectIngredient } from '../../services/slices/burger-constructor-slice';
 
 // сборщик рефов

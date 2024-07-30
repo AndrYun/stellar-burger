@@ -1,16 +1,21 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
   Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { selectUser } from '../../services/slices/user-auth-slice';
 import styles from './app-header.module.css';
-import { useState } from 'react';
 
 const AppHeader = () => {
+  // состояния для ховер
   const [isHoveredConstructor, setIsHoveredConstructor] = useState(false);
   const [isHoveredOrderList, setIsHoveredOrderList] = useState(false);
   const [isHoveredProfile, setIsHoveredProfile] = useState(false);
+  const user = useSelector(selectUser);
 
   return (
     <header className={styles.header_wrapp}>
@@ -19,63 +24,59 @@ const AppHeader = () => {
           <li
             onMouseEnter={() => setIsHoveredConstructor(true)}
             onMouseLeave={() => setIsHoveredConstructor(false)}
-            className={styles.constructor_of}
           >
-            <a href="">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? styles.constructor_of
+                  : `${styles.constructor_of} ${styles.inactive}`
+              }
+              to="/"
+            >
               <BurgerIcon
                 type={!isHoveredConstructor ? 'secondary' : 'primary'}
               />
-            </a>
-            <p
-              className={
-                !isHoveredConstructor
-                  ? 'text text_type_main-default text_color_inactive'
-                  : 'text text_type_main-default'
-              }
-            >
-              Конструктор
-            </p>
+              <p>Конструктор</p>
+            </NavLink>
           </li>
           <li
             onMouseEnter={() => setIsHoveredOrderList(true)}
             onMouseLeave={() => setIsHoveredOrderList(false)}
-            className={styles.order_list}
           >
-            <a href="">
-              <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
-            </a>
-            <p
-              className={
-                !isHoveredOrderList
-                  ? 'text text_type_main-default text_color_inactive'
-                  : 'text text_type_main-default'
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? styles.order_list
+                  : `${styles.order_list} ${styles.inactive}`
               }
+              to="/order-list"
             >
-              Лента заказов
-            </p>
+              <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
+              <p>Лента заказов</p>
+            </NavLink>
           </li>
         </ul>
       </nav>
       <div className={styles.header__logo_wrapp}>
-        <Logo />
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
       </div>
       <div
         onMouseEnter={() => setIsHoveredProfile(true)}
         onMouseLeave={() => setIsHoveredProfile(false)}
-        className={styles.header__profile_wrapp}
       >
-        <a href="">
-          <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
-        </a>
-        <p
-          className={
-            !isHoveredProfile
-              ? 'text text_type_main-default text_color_inactive'
-              : 'text text_type_main-default'
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? styles.header__profile_wrapp
+              : `${styles.header__profile_wrapp} ${styles.inactive}`
           }
+          to="/profile"
         >
-          Личный кабинет
-        </p>
+          <ProfileIcon type={!isHoveredProfile ? 'secondary' : 'primary'} />
+          <p>{user ? user.name : 'Личный кабинет'}</p>
+        </NavLink>
       </div>
     </header>
   );
