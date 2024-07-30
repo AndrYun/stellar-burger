@@ -25,9 +25,9 @@ const ProfilePage = () => {
       navigate('/login');
       dispatch(fetchUserData());
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setPassword(user.password);
+      setName(user.name || '');
+      setEmail(user.email || '');
+      setPassword('');
     }
   }, [user, dispatch, navigate]);
 

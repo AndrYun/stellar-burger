@@ -103,8 +103,11 @@ export const forgotPassword = createAsyncThunk(
 // reset-password
 export const resetPassword = createAsyncThunk(
   'user/resetPassword',
-  async (password, token) => {
+  async ({ password, token }) => {
     const res = await resetPasswordHandler(password, token);
+    if (!res.success) {
+      throw new Error('Failed to reset password');
+    }
     return res;
   }
 );

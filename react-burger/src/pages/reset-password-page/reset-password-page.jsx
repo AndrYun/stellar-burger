@@ -20,16 +20,18 @@ const ResetPasswordPage = () => {
     if (!isEmailSent) {
       navigate('/forgot-password');
     }
-  });
+  }, [isEmailSent, navigate]);
 
   // submit form
   const requestSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(resetPassword(newPassword, codeFromEmail)).unwrap();
+      await dispatch(
+        resetPassword({ password: newPassword, token: codeFromEmail })
+      ).unwrap();
       navigate('/login');
     } catch (error) {
-      console.log(error.message);
+      console.log('Reset password failed: ', error.message);
     }
   };
 
