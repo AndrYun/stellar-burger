@@ -102,20 +102,31 @@ const App: FC = () => {
               />
               <Route
                 path="/profile"
-                element={<OnlyAuth component={<LayoutSideLinks />} />}
+                element={
+                  <OnlyAuth
+                    onlyUnAuth={false}
+                    component={<LayoutSideLinks />}
+                  />
+                }
               >
                 <Route
                   index
-                  element={<OnlyAuth component={<ProfilePage />} />}
+                  element={
+                    <OnlyAuth onlyUnAuth={false} component={<ProfilePage />} />
+                  }
                 />
                 <Route
                   path="orders"
-                  element={<OnlyAuth component={<OrderHistory />} />}
+                  element={
+                    <OnlyAuth onlyUnAuth={false} component={<OrderHistory />} />
+                  }
                 />
               </Route>
               <Route
                 path="/order-list"
-                element={<OnlyAuth component={<OrderList />} />}
+                element={
+                  <OnlyAuth onlyUnAuth={false} component={<OrderList />} />
+                }
               />
               <Route
                 path="/ingredient/:ingredientId"
