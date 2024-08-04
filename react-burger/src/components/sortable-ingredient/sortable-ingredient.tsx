@@ -1,16 +1,37 @@
-import { useRef, forwardRef } from 'react';
+import { useRef, forwardRef, FC, RefObject } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import styles from './sortable-ingredient.module.css';
-import { ingredientType } from '../utils/types';
 
-const SortableIngredient = forwardRef(
+interface IIngredient {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  __v: number;
+}
+
+interface ISortableIngredient {
+  ingredient: IIngredient;
+  index: number;
+  id: number;
+  moveIngredient: (dragIndex: number, hoverIndex: number) => void;
+  handleClose: () => void;
+}
+
+const SortableIngredient: FC<ISortableIngredient> = forwardRef(
   ({ ingredient, index, id, moveIngredient, handleClose }, ref) => {
-    const elementRef = useRef(null);
+    const elementRef = useRef<HTMLDivElement | null>(null);
 
     const [{ handlerId }, drop] = useDrop({
       accept: 'sortIngredient',
@@ -19,7 +40,7 @@ const SortableIngredient = forwardRef(
           handlerId: monitor.getHandlerId(),
         };
       },
-      hover(item, monitor) {
+      hover(item: any, monitor) {
         if (!elementRef.current) {
           return;
         }
@@ -34,6 +55,7 @@ const SortableIngredient = forwardRef(
         const hoverMiddleY =
           (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
+        if (!clientOffset) return;
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
         if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -63,7 +85,7 @@ const SortableIngredient = forwardRef(
 
     return (
       <div
-        ref={ref || elementRef}
+        ref={(ref as RefObject<HTMLDivElement>) || elementRef}
         style={{ opacity: isDragging ? 0 : 1 }}
         className={styles.sortable_ingredient}
         data-handler-id={handlerId}
@@ -79,13 +101,5 @@ const SortableIngredient = forwardRef(
     );
   }
 );
-
-SortableIngredient.propTypes = {
-  ingredient: ingredientType.isRequired,
-  index: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  moveIngredient: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
-};
 
 export default SortableIngredient;

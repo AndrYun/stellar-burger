@@ -1,17 +1,23 @@
-import { useEffect, useState } from 'react';
+import { FC, ReactNode, ReactPortal, useEffect, useState } from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import PropTypes from 'prop-types';
 import styles from './modal.module.css';
 
-const modalElement = document.getElementById('modal');
+const modalElement = document.getElementById('modal') as HTMLElement;
 
-const Modal = ({ onClose, children, size }) => {
-  const [isHoveredModalCross, setIsHoveredMadalCross] = useState(false);
+interface IModal {
+  onClose: () => void;
+  size: any;
+  children: ReactNode;
+}
+
+const Modal: FC<IModal> = ({ onClose, children, size }): ReactPortal => {
+  const [isHoveredModalCross, setIsHoveredMadalCross] =
+    useState<boolean>(false);
 
   useEffect(() => {
-    const handleEscape = (event) => {
+    const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
@@ -42,12 +48,6 @@ const Modal = ({ onClose, children, size }) => {
     </ModalOverlay>,
     modalElement
   );
-};
-
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-  size: PropTypes.oneOf(['ingredient', 'order']).isRequired,
 };
 
 export default Modal;

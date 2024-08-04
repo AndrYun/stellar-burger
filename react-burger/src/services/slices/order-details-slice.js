@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { request } from '../../components/utils/request';
+// import { request } from '../../components/utils/request';
+import { createOrderRequest } from '../../components/utils/createOrderRequest.ts';
 
 const initialState = {
   data: null,
@@ -9,18 +10,10 @@ const initialState = {
 
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
-  async (ingredients, thunkAPI) => {
-    try {
-      return request('/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ingredients }),
-      }).then((res) => res.json());
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+  // createOrderRequest
+  async (payload) => {
+    const res = await createOrderRequest(payload);
+    return res.json();
   }
 );
 

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -53,14 +53,14 @@ const App: FC = () => {
   // подписка на состояния из modalSlice
   const modalIsOpen = useSelector(selectIsOpen);
   const modalContentId = useSelector(selectModalContentId);
-  const modalContentType = useSelector(selectModalContentType);
+  const modalContentType: any = useSelector(selectModalContentType);
 
-  const closeModalHandler = () => {
+  const closeModalHandler = (): void => {
     dispatch(closeModal());
     navigate(background?.pathname || '/', { replace: true });
   };
 
-  const renderModalContent: any = () => {
+  const renderModalContent = (): ReactNode | null => {
     if (modalContentType === 'ingredient') {
       const ingredient = ingredients.find(
         (item: any) => item._id === modalContentId

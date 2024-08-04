@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, ReactNode, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
@@ -7,11 +7,15 @@ import Ingredient from '../ingredient/ingredient';
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 
+// interface IBurgerIngredientsProps {
+//   openModal: (ingredient: any) => void;
+// }
+
 const BurgerIngredients = ({ openModal }) => {
-  const [current, setCurrent] = useState('one');
+  const [current, setCurrent] = useState('one'); // <string>
 
   // tabs refs
-  const pBunsRef = useRef(null);
+  const pBunsRef = useRef(null); // <HTMLHeadElement | null>
   const pSauceRef = useRef(null);
   const pIngredientsRef = useRef(null);
 
@@ -23,6 +27,7 @@ const BurgerIngredients = ({ openModal }) => {
 
   const tabSwitch = useCallback(
     (viewBuns, viewSauce, viewIngredients) => {
+      // :boolean
       if (viewBuns && current !== 'one') {
         setCurrent('one');
       } else if (viewSauce && current !== 'two') {
@@ -127,8 +132,8 @@ const BurgerIngredients = ({ openModal }) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  openModal: PropTypes.func.isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   openModal: PropTypes.func.isRequired,
+// };
 
 export default BurgerIngredients;
