@@ -1,23 +1,23 @@
-import { useCallback, useEffect, useRef, useState, ReactNode, FC } from 'react';
+import { useCallback, useEffect, useRef, useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
-import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
+import { IIngredient } from '../utils/types';
 
-// interface IBurgerIngredientsProps {
-//   openModal: (ingredient: any) => void;
-// }
+interface IBurgerIngredientsProps {
+  openModal: (ingredient: IIngredient) => void;
+}
 
-const BurgerIngredients = ({ openModal }) => {
-  const [current, setCurrent] = useState('one'); // <string>
+const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
+  const [current, setCurrent] = useState<string>('one');
 
   // tabs refs
-  const pBunsRef = useRef(null); // <HTMLHeadElement | null>
-  const pSauceRef = useRef(null);
-  const pIngredientsRef = useRef(null);
+  const pBunsRef = useRef<HTMLHeadingElement | null>(null);
+  const pSauceRef = useRef<HTMLHeadingElement | null>(null);
+  const pIngredientsRef = useRef<HTMLHeadingElement | null>(null);
 
   const { ref: bunsRef, inView: inViewBuns } = useInView({ threshold: 0.5 });
   const { ref: sauceRef, inView: inViewSauce } = useInView({ threshold: 0.5 });
@@ -26,8 +26,7 @@ const BurgerIngredients = ({ openModal }) => {
   });
 
   const tabSwitch = useCallback(
-    (viewBuns, viewSauce, viewIngredients) => {
-      // :boolean
+    (viewBuns: boolean, viewSauce: boolean, viewIngredients: boolean) => {
       if (viewBuns && current !== 'one') {
         setCurrent('one');
       } else if (viewSauce && current !== 'two') {
@@ -85,8 +84,8 @@ const BurgerIngredients = ({ openModal }) => {
           </h2>
           <br />
           {ingredients
-            .filter((ingredient) => ingredient.type === 'bun')
-            .map((ingredient) => (
+            .filter((ingredient: IIngredient) => ingredient.type === 'bun')
+            .map((ingredient: IIngredient) => (
               <Ingredient
                 key={ingredient._id}
                 ref={bunsRef}
@@ -101,8 +100,8 @@ const BurgerIngredients = ({ openModal }) => {
           </h2>
           <br />
           {ingredients
-            .filter((ingredient) => ingredient.type === 'sauce')
-            .map((ingredient) => (
+            .filter((ingredient: IIngredient) => ingredient.type === 'sauce')
+            .map((ingredient: IIngredient) => (
               <Ingredient
                 key={ingredient._id}
                 ref={sauceRef}
@@ -117,8 +116,8 @@ const BurgerIngredients = ({ openModal }) => {
           </h2>
           <br />
           {ingredients
-            .filter((ingredient) => ingredient.type === 'main')
-            .map((ingredient) => (
+            .filter((ingredient: IIngredient) => ingredient.type === 'main')
+            .map((ingredient: IIngredient) => (
               <Ingredient
                 key={ingredient._id}
                 ref={ingredientsRef}
@@ -131,9 +130,5 @@ const BurgerIngredients = ({ openModal }) => {
     </div>
   );
 };
-
-// BurgerIngredients.propTypes = {
-//   openModal: PropTypes.func.isRequired,
-// };
 
 export default BurgerIngredients;

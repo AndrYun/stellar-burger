@@ -20,25 +20,10 @@ import { selectUser } from '../../services/slices/user-auth-slice';
 import { sendOrder } from '../../services/slices/order-details-slice';
 import SortableIngredient from '../sortable-ingredient/sortable-ingredient';
 import styles from './burger-constructor.module.css';
+import { IIngredient } from '../utils/types';
 
 interface IBurgerConstructor {
   openModal: () => void;
-}
-
-interface IIngredient {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-  id?: number;
 }
 
 const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {

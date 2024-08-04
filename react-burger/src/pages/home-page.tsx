@@ -2,19 +2,19 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { FC, ReactNode, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openModal } from '../services/slices/modal-slice';
+import { IIngredient } from '../components/utils/types';
 
-const HomePage = () => {
+const HomePage: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const openModalHandler = useCallback(
-    (contentId, contentType) => {
-      //(contentId: string | null, contentType: string | null)
+    (contentId: string | null, contentType: string | null) => {
       dispatch(openModal({ contentId, contentType }));
       navigate(`/ingredient/${contentId}`, {
         state: { background: location },
@@ -23,9 +23,8 @@ const HomePage = () => {
     [dispatch, location, navigate]
   );
 
-  const openModalWithContent = (
-    ingredient // (ingredient: any): void
-  ) => openModalHandler(ingredient._id, 'ingredient');
+  const openModalWithContent = (ingredient: IIngredient) =>
+    openModalHandler(ingredient._id, 'ingredient');
 
   return (
     <DndProvider backend={HTML5Backend}>
