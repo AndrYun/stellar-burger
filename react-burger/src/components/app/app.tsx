@@ -33,6 +33,7 @@ import {
   OnlyUnAuth,
 } from '../protected-route-element/protected-route-element';
 import { authUserChecking } from '../../services/slices/user-auth-slice';
+import { IIngredient } from '../utils/types';
 
 const App: FC = () => {
   const dispatch: any = useDispatch();
@@ -63,7 +64,7 @@ const App: FC = () => {
   const renderModalContent = (): ReactNode | null => {
     if (modalContentType === 'ingredient') {
       const ingredient = ingredients.find(
-        (item: any) => item._id === modalContentId
+        (item: IIngredient) => item._id === modalContentId
       );
       return <IngredientDetails ingredient={ingredient} />;
     } else if (modalContentType === 'order') {

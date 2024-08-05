@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import {
   Input,
   Button,
@@ -8,18 +8,19 @@ import { Link } from 'react-router-dom';
 import { login } from '../../services/slices/user-auth-slice';
 import { useDispatch } from 'react-redux';
 
-const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+const LoginPage: FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const dispatch: any = useDispatch();
 
   // submit request на авторизацию
-  const requestSubmit = async (e) => {
+  const requestSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      // @ts-ignore
       await dispatch(login({ email, password })).unwrap();
-    } catch (error) {
-      console.log(error.message);
+    } catch (error: unknown) {
+      console.log(error);
     }
   };
 

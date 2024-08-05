@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   Input,
   Button,
@@ -12,13 +12,13 @@ import styles from './profile-page.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const ProfilePage = () => {
+const ProfilePage: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const user = useSelector(selectUser);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
     if (!user) {
@@ -32,8 +32,9 @@ const ProfilePage = () => {
   }, [user, dispatch, navigate]);
 
   // сохранение измененных данных
-  const handleSave = async (e) => {
+  const handleSave = async (e: any) => {
     e.preventDefault();
+    // @ts-ignore
     await dispatch(updateUserData({ name, email, password })).unwrap();
   };
 

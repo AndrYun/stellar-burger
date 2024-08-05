@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Input,
@@ -8,19 +8,20 @@ import styles from './forgot-password-page.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../../services/slices/user-auth-slice';
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+const ForgotPassword: FC = () => {
+  const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   // submit form
-  const requestSubmit = async (e) => {
+  const requestSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      // @ts-ignore
       await dispatch(forgotPassword(email)).unwrap();
       navigate('/reset-password');
-    } catch (error) {
-      console.log(error.message);
+    } catch (error: unknown) {
+      console.log(error);
     }
   };
 
@@ -35,7 +36,7 @@ const ForgotPassword = () => {
           type={'email'}
           placeholder={'Укажите e-mail'}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: any) => setEmail(e.target.value)}
           required
         />
         <Button

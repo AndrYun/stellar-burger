@@ -2,12 +2,27 @@
 // импортируем их в нужные месте
 import { request } from './request';
 
-const checkReponse = (res) => {
+const checkReponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
+type TServerResponse<T> = {
+  success: boolean;
+} & T;
+
+interface IUserResponseData {
+  name: string;
+  email: string;
+  password: number;
+  token: string;
+}
+
 // fetch на регистрацию
-export const userRegisterHandler = async (name, email, password) => {
+export const userRegisterHandler = async (
+  name: string,
+  email: string,
+  password: string
+): Promise<IUserResponseData> => {
   const response = await request('/auth/register', {
     method: 'POST',
     headers: {
@@ -23,7 +38,10 @@ export const userRegisterHandler = async (name, email, password) => {
 };
 
 // fetch на авторизацию
-export const authUserHandler = async (email, password) => {
+export const authUserHandler = async (
+  email: string,
+  password: string
+): Promise<IUserResponseData> => {
   const response = await request('/auth/login', {
     method: 'POST',
     headers: {
@@ -40,7 +58,7 @@ export const authUserHandler = async (email, password) => {
 };
 
 // запрос на забыл пароль
-export const forgotPasswordRequest = async (email) => {
+export const forgotPasswordRequest = async (email: string): Promise<any> => {
   try {
     const response = await request('/password-reset', {
       method: 'POST',
@@ -56,12 +74,15 @@ export const forgotPasswordRequest = async (email) => {
       throw new Error('Не удалось сбросить пароль :(');
     }
   } catch (error) {
-    console.log(error.message);
+    console.log((error as Error).message);
   }
 };
 
 // запрос на сброс пароля /reset-password/reset
-export const resetPasswordHandler = async (password, token) => {
+export const resetPasswordHandler = async (
+  password: string,
+  token: string
+): Promise<any> => {
   try {
     const response = await request('/password-reset/reset', {
       method: 'POST',
@@ -77,7 +98,7 @@ export const resetPasswordHandler = async (password, token) => {
       throw new Error('Не удалось восстановить пароль :(');
     }
   } catch (error) {
-    console.log(error.message);
+    console.log((error as Error).message);
   }
 };
 
@@ -92,6 +113,11 @@ export const getUserData = () => {
   });
 };
 
+type TRegreshTokenResponse = TServerResponse<{
+  refreshToken: string;
+  accessToken: string;
+}>;
+
 // обновление токена
 export const refreshToken = () => {
   return (
@@ -104,7 +130,7 @@ export const refreshToken = () => {
         token: localStorage.getItem('refreshToken'),
       }),
     })
-      .then(checkReponse)
+      .then((res) => checkReponse<TRegreshTokenResponse>(res))
       // !! Важно для обновления токена в мидлваре, чтобы запись
       // была тут, а не в fetchWithRefresh
       .then((refreshData) => {
@@ -118,16 +144,16 @@ export const refreshToken = () => {
   );
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async <T>(url: RequestInfo, options: any) => {
   try {
     const res = await fetch(url, options);
-    return await checkReponse(res);
+    return await checkReponse<T>(res);
   } catch (err) {
-    if (err.message === 'jwt expired') {
+    if ((err as { message: string }).message === 'jwt expired') {
       const refreshData = await refreshToken(); //обновляем токен
       options.headers.Authorization = `Bearer ${refreshData.accessToken}`;
       const res = await fetch(url, options); //повторяем запрос
-      return await checkReponse(res);
+      return await checkReponse<T>(res);
     } else {
       return Promise.reject(err);
     }

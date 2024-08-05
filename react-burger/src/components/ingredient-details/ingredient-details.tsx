@@ -6,7 +6,7 @@ import { selectIngredients } from '../../services/slices/burger-ingredients-slic
 import { IIngredient } from '../utils/types';
 
 interface IIngredientDetailsProps {
-  ingredient: IIngredient;
+  ingredient?: IIngredient;
 }
 
 const IngredientDetails: FC<IIngredientDetailsProps> = ({ ingredient }) => {
