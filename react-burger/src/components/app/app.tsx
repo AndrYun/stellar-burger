@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -33,9 +33,10 @@ import {
   OnlyUnAuth,
 } from '../protected-route-element/protected-route-element';
 import { authUserChecking } from '../../services/slices/user-auth-slice';
+import { IIngredient } from '../utils/types';
 
-function App() {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -53,17 +54,17 @@ function App() {
   // подписка на состояния из modalSlice
   const modalIsOpen = useSelector(selectIsOpen);
   const modalContentId = useSelector(selectModalContentId);
-  const modalContentType = useSelector(selectModalContentType);
+  const modalContentType: any = useSelector(selectModalContentType);
 
-  const closeModalHandler = () => {
+  const closeModalHandler = (): void => {
     dispatch(closeModal());
     navigate(background?.pathname || '/', { replace: true });
   };
 
-  const renderModalContent = () => {
+  const renderModalContent = (): ReactNode | null => {
     if (modalContentType === 'ingredient') {
       const ingredient = ingredients.find(
-        (item) => item._id === modalContentId
+        (item: IIngredient) => item._id === modalContentId
       );
       return <IngredientDetails ingredient={ingredient} />;
     } else if (modalContentType === 'order') {
@@ -145,6 +146,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import {
   Input,
   Button,
@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectEmailSubmited } from '../../services/slices/user-auth-slice';
 import { resetPassword } from '../../services/slices/user-auth-slice';
 
-const ResetPasswordPage = () => {
-  const [newPassword, setNewPassword] = useState('');
-  const [codeFromEmail, setCodeFromEmail] = useState('');
+const ResetPasswordPage: FC = () => {
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [codeFromEmail, setCodeFromEmail] = useState<string>('');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const isEmailSent = useSelector(selectEmailSubmited);
 
   useEffect(() => {
@@ -23,15 +23,16 @@ const ResetPasswordPage = () => {
   }, [isEmailSent, navigate]);
 
   // submit form
-  const requestSubmit = async (e) => {
+  const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await dispatch(
+        // @ts-ignore
         resetPassword({ password: newPassword, token: codeFromEmail })
       ).unwrap();
       navigate('/login');
-    } catch (error) {
-      console.log('Reset password failed: ', error.message);
+    } catch (error: unknown) {
+      console.log('Reset password failed: ', error);
     }
   };
 
@@ -45,13 +46,17 @@ const ResetPasswordPage = () => {
             placeholder={'Введите новый пароль'}
             icon={'ShowIcon'}
             value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setNewPassword(e.target.value)
+            }
           />
           <Input
             type={'text'}
             placeholder={'Введите код из письма'}
             value={codeFromEmail}
-            onChange={(e) => setCodeFromEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setCodeFromEmail(e.target.value)
+            }
           />
           <Button
             type="primary"

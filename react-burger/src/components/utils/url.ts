@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://norma.nomoreparties.space/api';
+export const BASE_URL: string = 'https://norma.nomoreparties.space/api';
 
 // эндпоинты для запросов
 // POST https://norma.nomoreparties.space/api/auth/login - эндпоинт для авторизации.
