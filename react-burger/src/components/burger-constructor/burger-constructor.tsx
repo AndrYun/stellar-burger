@@ -148,7 +148,9 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               id={ingredient.id}
               ingredient={ingredient}
               moveIngredient={moveIngredientHandler}
-              handleClose={() => dispatch(removeIngredient(ingredient.id))}
+              handleClose={(): void =>
+                dispatch(removeIngredient(ingredient.id))
+              }
             />
           ))}
         </div>

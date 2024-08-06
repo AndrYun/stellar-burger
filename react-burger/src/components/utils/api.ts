@@ -103,7 +103,7 @@ export const resetPasswordHandler = async (
 };
 
 // функция будет обновлять токены если они уже устарели
-export const getUserData = () => {
+export const getUserData = (): void => {
   new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({

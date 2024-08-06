@@ -10,7 +10,7 @@ const LayoutSideLinks: FC = () => {
   const navigate = useNavigate();
 
   // logout
-  const handleLogout = async () => {
+  const handleLogout = async (): Promise<void> => {
     // @ts-ignore
     await dispatch(logout(localStorage.getItem('refreshToken'))).unwrap();
     navigate('/login');

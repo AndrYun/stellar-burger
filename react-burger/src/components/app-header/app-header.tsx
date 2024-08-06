@@ -23,8 +23,8 @@ const AppHeader: FC = () => {
       <nav>
         <ul className={styles.header__leftside_wrapp}>
           <li
-            onMouseEnter={() => setIsHoveredConstructor(true)}
-            onMouseLeave={() => setIsHoveredConstructor(false)}
+            onMouseEnter={(): void => setIsHoveredConstructor(true)}
+            onMouseLeave={(): void => setIsHoveredConstructor(false)}
           >
             <NavLink
               className={({ isActive }) =>
@@ -41,8 +41,8 @@ const AppHeader: FC = () => {
             </NavLink>
           </li>
           <li
-            onMouseEnter={() => setIsHoveredOrderList(true)}
-            onMouseLeave={() => setIsHoveredOrderList(false)}
+            onMouseEnter={(): void => setIsHoveredOrderList(true)}
+            onMouseLeave={(): void => setIsHoveredOrderList(false)}
           >
             <NavLink
               className={({ isActive }) =>
@@ -64,8 +64,8 @@ const AppHeader: FC = () => {
         </NavLink>
       </div>
       <div
-        onMouseEnter={() => setIsHoveredProfile(true)}
-        onMouseLeave={() => setIsHoveredProfile(false)}
+        onMouseEnter={(): void => setIsHoveredProfile(true)}
+        onMouseLeave={(): void => setIsHoveredProfile(false)}
       >
         <NavLink
           className={({ isActive }) =>

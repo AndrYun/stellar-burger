@@ -14,7 +14,7 @@ const HomePage: FC = () => {
   const location = useLocation();
 
   const openModalHandler = useCallback(
-    (contentId: string | null, contentType: string | null) => {
+    (contentId: string | null, contentType: string | null): void => {
       dispatch(openModal({ contentId, contentType }));
       navigate(`/ingredient/${contentId}`, {
         state: { background: location },
@@ -23,8 +23,9 @@ const HomePage: FC = () => {
     [dispatch, location, navigate]
   );
 
-  const openModalWithContent = (ingredient: IIngredient) =>
+  const openModalWithContent = (ingredient: IIngredient): void => {
     openModalHandler(ingredient._id, 'ingredient');
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>

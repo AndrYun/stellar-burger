@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import {
   Input,
   Button,
@@ -23,7 +23,7 @@ const ResetPasswordPage: FC = () => {
   }, [isEmailSent, navigate]);
 
   // submit form
-  const requestSubmit = async (e: any) => {
+  const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await dispatch(
@@ -46,13 +46,17 @@ const ResetPasswordPage: FC = () => {
             placeholder={'Введите новый пароль'}
             icon={'ShowIcon'}
             value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setNewPassword(e.target.value)
+            }
           />
           <Input
             type={'text'}
             placeholder={'Введите код из письма'}
             value={codeFromEmail}
-            onChange={(e) => setCodeFromEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setCodeFromEmail(e.target.value)
+            }
           />
           <Button
             type="primary"

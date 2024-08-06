@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import {
   Input,
   Button,
@@ -14,7 +14,7 @@ const LoginPage: FC = () => {
   const dispatch: any = useDispatch();
 
   // submit request на авторизацию
-  const requestSubmit = async (e: any) => {
+  const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       // @ts-ignore
@@ -33,14 +33,18 @@ const LoginPage: FC = () => {
             type={'email'}
             placeholder={'E-mail'}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
           <Input
             type={'password'}
             placeholder={'Пароль'}
             icon={'ShowIcon'}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
           />
           <Button
             type="primary"

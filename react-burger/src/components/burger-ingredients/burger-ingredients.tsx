@@ -26,7 +26,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
   });
 
   const tabSwitch = useCallback(
-    (viewBuns: boolean, viewSauce: boolean, viewIngredients: boolean) => {
+    (viewBuns: boolean, viewSauce: boolean, viewIngredients: boolean): void => {
       if (viewBuns && current !== 'one') {
         setCurrent('one');
       } else if (viewSauce && current !== 'two') {
@@ -52,7 +52,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
         <Tab
           value="one"
           active={current === 'one'}
-          onClick={() =>
+          onClick={(): void =>
             pBunsRef.current?.scrollIntoView({ behavior: 'smooth' })
           }
         >
@@ -61,7 +61,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
         <Tab
           value="two"
           active={current === 'two'}
-          onClick={() =>
+          onClick={(): void =>
             pSauceRef.current?.scrollIntoView({ behavior: 'smooth' })
           }
         >
@@ -70,7 +70,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
         <Tab
           value="three"
           active={current === 'three'}
-          onClick={() =>
+          onClick={(): void =>
             pIngredientsRef.current?.scrollIntoView({ behavior: 'smooth' })
           }
         >
@@ -90,7 +90,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
                 key={ingredient._id}
                 ref={bunsRef}
                 ingredient={ingredient}
-                onClick={() => openModal(ingredient)}
+                onClick={(): void => openModal(ingredient)}
               />
             ))}
         </article>
@@ -106,7 +106,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
                 key={ingredient._id}
                 ref={sauceRef}
                 ingredient={ingredient}
-                onClick={() => openModal(ingredient)}
+                onClick={(): void => openModal(ingredient)}
               />
             ))}
         </article>
@@ -122,7 +122,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
                 key={ingredient._id}
                 ref={ingredientsRef}
                 ingredient={ingredient}
-                onClick={() => openModal(ingredient)}
+                onClick={(): void => openModal(ingredient)}
               />
             ))}
         </article>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import {
   Input,
   Button,
@@ -32,14 +32,14 @@ const ProfilePage: FC = () => {
   }, [user, dispatch, navigate]);
 
   // сохранение измененных данных
-  const handleSave = async (e: any) => {
+  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // @ts-ignore
     await dispatch(updateUserData({ name, email, password })).unwrap();
   };
 
   // отмена изменений
-  const cancelChanges = () => {
+  const cancelChanges = (): void => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
@@ -56,21 +56,27 @@ const ProfilePage: FC = () => {
           placeholder={'Имя'}
           icon={'EditIcon'}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setName(e.target.value)
+          }
         />
         <Input
           type={'email'}
           placeholder={'Логин'}
           icon={'EditIcon'}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
         />
         <Input
           type={'password'}
           placeholder={'Пароль'}
           icon={'EditIcon'}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
         />
         {email !== user.email || name !== user.name ? (
           <div className={styles.profilepage__bts}>

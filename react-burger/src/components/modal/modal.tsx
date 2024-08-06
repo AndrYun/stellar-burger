@@ -1,4 +1,11 @@
-import { FC, ReactNode, ReactPortal, useEffect, useState } from 'react';
+import {
+  FC,
+  MouseEvent,
+  ReactNode,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
@@ -33,11 +40,11 @@ const Modal: FC<IModal> = ({ onClose, children, size }): ReactPortal => {
     <ModalOverlay onClose={onClose}>
       <section
         className={`${styles.modal} ${styles[size]}`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: MouseEvent<HTMLElement>) => e.stopPropagation()}
       >
         <button
-          onMouseEnter={() => setIsHoveredMadalCross(true)}
-          onMouseLeave={() => setIsHoveredMadalCross(false)}
+          onMouseEnter={(): void => setIsHoveredMadalCross(true)}
+          onMouseLeave={(): void => setIsHoveredMadalCross(false)}
           className={styles.modal_close}
           onClick={onClose}
         >

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, FormEvent, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Input,
@@ -14,7 +14,7 @@ const ForgotPassword: FC = () => {
   const dispatch: any = useDispatch();
 
   // submit form
-  const requestSubmit = async (e: any) => {
+  const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       // @ts-ignore
@@ -36,7 +36,9 @@ const ForgotPassword: FC = () => {
           type={'email'}
           placeholder={'Укажите e-mail'}
           value={email}
-          onChange={(e: any) => setEmail(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
           required
         />
         <Button

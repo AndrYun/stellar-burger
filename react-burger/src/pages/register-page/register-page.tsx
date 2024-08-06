@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../services/slices/user-auth-slice';
 import {
@@ -16,7 +16,7 @@ const RegisterPage: FC = () => {
   const navigate = useNavigate();
 
   // submit form register
-  const requestSubmit = async (e: any) => {
+  const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       // @ts-ignore
@@ -36,20 +36,26 @@ const RegisterPage: FC = () => {
             type={'text'}
             placeholder={'Имя'}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
           />
           <Input
             type={'email'}
             placeholder={'E-mail'}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
           <Input
             type={'password'}
             placeholder={'Пароль'}
             icon={'ShowIcon'}
             value={password}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setNewPassword(e.target.value)
+            }
           />
           <Button
             type="primary"
