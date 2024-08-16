@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../services/slices/user-auth-slice';
 import {
@@ -8,21 +8,22 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './register-page.module.css';
 
-const RegisterPage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setNewPassword] = useState('');
-  const dispatch = useDispatch();
+const RegisterPage: FC = () => {
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setNewPassword] = useState<string>('');
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
 
   // submit form register
-  const requestSubmit = async (e) => {
+  const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      // @ts-ignore
       await dispatch(registerUser({ name, email, password })).unwrap();
       navigate('/login');
-    } catch (error) {
-      console.log(error.message);
+    } catch (error: unknown) {
+      console.log(error);
     }
   };
 
@@ -35,20 +36,26 @@ const RegisterPage = () => {
             type={'text'}
             placeholder={'Имя'}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
           />
           <Input
             type={'email'}
             placeholder={'E-mail'}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
           <Input
             type={'password'}
             placeholder={'Пароль'}
             icon={'ShowIcon'}
             value={password}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setNewPassword(e.target.value)
+            }
           />
           <Button
             type="primary"

@@ -1,13 +1,20 @@
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.css';
-import { ingredientType } from '../utils/types';
 import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
+import { IIngredient } from '../utils/types';
 
-const IngredientDetails = ({ ingredient }) => {
+interface IIngredientDetailsProps {
+  ingredient?: IIngredient;
+}
+
+const IngredientDetails: FC<IIngredientDetailsProps> = ({ ingredient }) => {
   const { ingredientId } = useParams();
   const ingredients = useSelector(selectIngredients);
-  const data = ingredient || ingredients.find((el) => el._id === ingredientId);
+  const data =
+    ingredient ||
+    ingredients.find((el: IIngredient) => el._id === ingredientId);
 
   if (!data) {
     return <p>Ingredient not found</p>;
@@ -42,10 +49,6 @@ const IngredientDetails = ({ ingredient }) => {
       </ul>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientType, // not required потому бывает undefined
 };
 
 export default IngredientDetails;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import {
   Input,
   Button,
@@ -12,13 +12,13 @@ import styles from './profile-page.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const ProfilePage = () => {
+const ProfilePage: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const user = useSelector(selectUser);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
     if (!user) {
@@ -32,13 +32,14 @@ const ProfilePage = () => {
   }, [user, dispatch, navigate]);
 
   // сохранение измененных данных
-  const handleSave = async (e) => {
+  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // @ts-ignore
     await dispatch(updateUserData({ name, email, password })).unwrap();
   };
 
   // отмена изменений
-  const cancelChanges = () => {
+  const cancelChanges = (): void => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
@@ -55,21 +56,27 @@ const ProfilePage = () => {
           placeholder={'Имя'}
           icon={'EditIcon'}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setName(e.target.value)
+          }
         />
         <Input
           type={'email'}
           placeholder={'Логин'}
           icon={'EditIcon'}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
         />
         <Input
           type={'password'}
           placeholder={'Пароль'}
           icon={'EditIcon'}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
         />
         {email !== user.email || name !== user.name ? (
           <div className={styles.profilepage__bts}>

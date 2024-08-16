@@ -5,8 +5,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { useNavigate } from 'react-router-dom';
-import { useMemo } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useMemo, FC } from 'react';
 import {
   addBun,
   addIngredient,
@@ -18,16 +18,20 @@ import {
 } from '../../services/slices/burger-constructor-slice';
 import { selectUser } from '../../services/slices/user-auth-slice';
 import { sendOrder } from '../../services/slices/order-details-slice';
-import PropTypes from 'prop-types';
 import SortableIngredient from '../sortable-ingredient/sortable-ingredient';
 import styles from './burger-constructor.module.css';
+import { IIngredient } from '../utils/types';
 
-const BurgerConstructor = ({ openModal }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+interface IBurgerConstructor {
+  openModal: () => void;
+}
+
+const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
+  const dispatch: any = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
   // подписка на состояния из burger-constructor-slice
-  const bun = useSelector(selectBun);
-  const ingredients = useSelector(selectIngredient);
+  const bun: IIngredient | null = useSelector(selectBun);
+  const ingredients: IIngredient[] = useSelector(selectIngredient);
 
   // подписка на состояния в authUserSlice
   const user = useSelector(selectUser);
@@ -35,7 +39,7 @@ const BurgerConstructor = ({ openModal }) => {
   // drop для верхней булки
   const [{ isHoverTopBun }, dropTopBun] = useDrop({
     accept: 'bun',
-    drop(item) {
+    drop(item: IIngredient) {
       dispatch(addBun(item));
     },
     collect: (monitor) => ({
@@ -46,7 +50,7 @@ const BurgerConstructor = ({ openModal }) => {
   // drop для нижней булки
   const [{ isHoverBottomBun }, dropBottomBun] = useDrop({
     accept: 'bun',
-    drop(item) {
+    drop(item: IIngredient) {
       dispatch(addBun(item));
     },
     collect: (monitor) => ({
@@ -57,7 +61,7 @@ const BurgerConstructor = ({ openModal }) => {
   // drop для Ингредиентов
   const [{ isHoverIngredients }, dropIngredient] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: IIngredient) {
       dispatch(addIngredient(item));
     },
     collect: (monitor) => ({
@@ -66,12 +70,15 @@ const BurgerConstructor = ({ openModal }) => {
   });
 
   // sorting for ingredients inside the constructor
-  const moveIngredientHandler = (dragIndex, hoverIndex) => {
+  const moveIngredientHandler = (
+    dragIndex: number,
+    hoverIndex: number
+  ): void => {
     dispatch(moveIngredient({ dragIndex, hoverIndex }));
   };
 
   // подсчет общей стоимости вместе в 2-мя булками
-  const getSum = useMemo(() => {
+  const getSum: number = useMemo(() => {
     let sum = 0;
     if (bun) {
       sum += bun.price * 2;
@@ -83,14 +90,18 @@ const BurgerConstructor = ({ openModal }) => {
   }, [bun, ingredients]);
 
   // функция для отправки запроса на заказ
-  const handleOrderClick = () => {
+  const handleOrderClick = (): void => {
     if (user) {
-      const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+      const ingredientIds: string[] = ingredients.map(
+        (ingredient) => ingredient._id
+      );
       if (bun) {
         ingredientIds.push(bun._id, bun._id);
       }
-      dispatch(sendOrder(ingredientIds)).then((result) => {
+      // @ts-ignore
+      dispatch(sendOrder(ingredientIds)).then((result: string[]) => {
         if (sendOrder.fulfilled.match(result)) {
+          // @ts-ignore
           dispatch(resetConstructor());
           openModal();
         }
@@ -130,14 +141,16 @@ const BurgerConstructor = ({ openModal }) => {
               : `${styles.middleIngredientPlace} custom-scroll`
           }
         >
-          {ingredients.map((ingredient, index) => (
+          {ingredients.map((ingredient: any, index: number) => (
             <SortableIngredient
               key={ingredient.id}
               index={index}
               id={ingredient.id}
               ingredient={ingredient}
               moveIngredient={moveIngredientHandler}
-              handleClose={() => dispatch(removeIngredient(ingredient.id))}
+              handleClose={(): void =>
+                dispatch(removeIngredient(ingredient.id))
+              }
             />
           ))}
         </div>
@@ -178,10 +191,6 @@ const BurgerConstructor = ({ openModal }) => {
       </article>
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  openModal: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

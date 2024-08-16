@@ -5,7 +5,19 @@ import {
   selectUser,
 } from '../../services/slices/user-auth-slice';
 
-const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
+interface IProtectedRouteElementProps {
+  onlyUnAuth: boolean;
+  component: JSX.Element;
+}
+
+interface IComponent {
+  component: JSX.Element;
+}
+
+const ProtectedRouteElement = ({
+  onlyUnAuth,
+  component,
+}: IProtectedRouteElementProps): JSX.Element | null => {
   const authHasChecked = useSelector(selectAuthChecked);
   const user = useSelector(selectUser);
   const location = useLocation();
@@ -31,16 +43,10 @@ const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
   return component;
 };
 
-export const OnlyAuth = ProtectedRouteElement; // для роутов которые требуют авторизации
+export const OnlyAuth = ({ component }: IComponent): JSX.Element | null => (
+  <ProtectedRouteElement onlyUnAuth={false} component={component} />
+); // для роутов которые требуют авторизации
 
-export const OnlyUnAuth = ({ component }) => (
+export const OnlyUnAuth = ({ component }: IComponent): JSX.Element | null => (
   <ProtectedRouteElement onlyUnAuth={true} component={component} />
-);
-
-export const OnlyAfterEmail = ({ component }) => (
-  <ProtectedRouteElement
-    onlyUnAuth={true}
-    onlyAfterEmail={true}
-    component={component}
-  />
 );
