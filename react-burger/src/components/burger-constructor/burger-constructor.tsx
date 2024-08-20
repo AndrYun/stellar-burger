@@ -98,10 +98,9 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
       if (bun) {
         ingredientIds.push(bun._id, bun._id);
       }
-      // @ts-ignore
+
       dispatch(sendOrder(ingredientIds)).then((result: string[]) => {
         if (sendOrder.fulfilled.match(result)) {
-          // @ts-ignore
           dispatch(resetConstructor());
           openModal();
         }

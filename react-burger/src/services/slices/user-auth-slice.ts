@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../components/utils/url';
 import {
   authUserHandler,
@@ -8,8 +8,34 @@ import {
   forgotPasswordRequest,
   resetPasswordHandler,
 } from '../../components/utils/api';
+import { AppDispatch, RootState } from '../store';
 
-const initialState = {
+interface IUserData {
+  name?: string;
+  email?: string;
+}
+
+interface IAuthState {
+  user: IUserData | null;
+  authHasChecked: boolean;
+  emailSubmitedForResetPass: boolean;
+}
+
+interface IAuthCredentials {
+  email: string;
+  password: string;
+}
+
+interface IRegisterCredentials extends IAuthCredentials {
+  name: string;
+}
+
+interface IResetPasswordPayload {
+  password: string;
+  token: string;
+}
+
+const initialState: IAuthState = {
   user: null,
   authHasChecked: false,
   emailSubmitedForResetPass: false,
@@ -18,7 +44,7 @@ const initialState = {
 // register
 export const registerUser = createAsyncThunk(
   'user/register',
-  async ({ name, email, password }) => {
+  async ({ name, email, password }: IRegisterCredentials) => {
     const res = await userRegisterHandler(name, email, password);
     return res.user;
   }
@@ -27,33 +53,33 @@ export const registerUser = createAsyncThunk(
 // авторизация login
 export const login = createAsyncThunk(
   'user/login',
-  async ({ email, password }) => {
+  async ({ email, password }: IAuthCredentials) => {
     const res = await authUserHandler(email, password);
-    localStorage.setItem('accessToken', res.accessToken);
-    localStorage.setItem('refreshToken', res.refreshToken);
+    localStorage.setItem('accessToken', res.user.accessToken || '');
+    localStorage.setItem('refreshToken', res.user.refreshToken || '');
     return res.user;
   }
 );
 
 // запрос данных
-export const fetchUserData = createAsyncThunk(
+export const fetchUserData = createAsyncThunk<IUserData>(
   'user/fetchUserData',
   async (_, thunkAPI) => {
-    const res = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
+    const res = await fetchWithRefresh<IUserData>(`${BASE_URL}/auth/user`, {
       method: 'GET',
       headers: {
         Authorization: `${localStorage.getItem('accessToken')}`,
       },
     });
-    return res.user;
+    return res;
   }
 );
 
 // изменение данных
-export const updateUserData = createAsyncThunk(
+export const updateUserData = createAsyncThunk<IUserData, IRegisterCredentials>(
   'user/updateUserData',
   async ({ name, email, password }, thunkAPI) => {
-    const res = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
+    const res = await fetchWithRefresh<IUserData>(`${BASE_URL}/auth/user`, {
       method: 'PATCH',
       headers: {
         Authorization: `${localStorage.getItem('accessToken')}`,
@@ -61,40 +87,41 @@ export const updateUserData = createAsyncThunk(
       },
       body: JSON.stringify({ name, email, password }),
     });
-    return res.user;
+    return res;
   }
 );
 
 export const getUser = () => {
-  return (dispatch) => {
-    return getUserData.then((res) => {
-      dispatch(setUser(res.user));
+  return (dispatch: AppDispatch) => {
+    return getUserData().then((res) => {
+      dispatch(setUser(res));
     });
   };
 };
 
 // проверка авторизации
-export const authUserChecking = createAsyncThunk(
-  'user/checking',
-  async (_, thunkAPI) => {
-    try {
-      const res = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
-        method: 'GET',
-        headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
-        },
-      });
-      return res.user;
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Authentication check failed');
-    }
+export const authUserChecking = createAsyncThunk<
+  IUserData,
+  void,
+  { rejectValue: string }
+>('user/checking', async (_, thunkAPI) => {
+  try {
+    const res = await fetchWithRefresh<IUserData>(`${BASE_URL}/auth/user`, {
+      method: 'GET',
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Authentication check failed');
   }
-);
+});
 
 // запрос на forgot-password
 export const forgotPassword = createAsyncThunk(
   'user/forgotPassword',
-  async (email) => {
+  async (email: string) => {
     const res = await forgotPasswordRequest(email);
     return res;
   }
@@ -103,7 +130,7 @@ export const forgotPassword = createAsyncThunk(
 // reset-password
 export const resetPassword = createAsyncThunk(
   'user/resetPassword',
-  async ({ password, token }) => {
+  async ({ password, token }: IResetPasswordPayload) => {
     const res = await resetPasswordHandler(password, token);
     if (!res.success) {
       throw new Error('Failed to reset password');
@@ -133,45 +160,55 @@ export const authUserSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setAuthChecked: (state, action) => {
+    setAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.authHasChecked = action.payload;
     },
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<IUserData | null>) => {
       state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         // нет изменений в хранилище после регистрации
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<IUserData>) => {
         state.user = action.payload;
         state.authHasChecked = true;
       })
-      .addCase(authUserChecking.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.authHasChecked = true;
-      })
+      .addCase(
+        authUserChecking.fulfilled,
+        (state, action: PayloadAction<IUserData>) => {
+          state.user = action.payload;
+          state.authHasChecked = true;
+        }
+      )
       .addCase(authUserChecking.rejected, (state) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         state.authHasChecked = true;
       })
-      .addCase(fetchUserData.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.authHasChecked = true;
-      })
-      .addCase(updateUserData.fulfilled, (state, action) => {
-        state.user = action.payload;
-      })
+      .addCase(
+        fetchUserData.fulfilled,
+        (state, action: PayloadAction<IUserData>) => {
+          state.user = action.payload;
+          state.authHasChecked = true;
+        }
+      )
+      .addCase(
+        updateUserData.fulfilled,
+        (state, action: PayloadAction<IUserData>) => {
+          state.user = action.payload;
+        }
+      )
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.authHasChecked = false;
       })
       .addCase(forgotPassword.fulfilled, (state) => {
         state.emailSubmitedForResetPass = true;
       })
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetPassword.fulfilled, () => {
         // нет изменений в хранилище
       });
   },
@@ -179,9 +216,10 @@ export const authUserSlice = createSlice({
 
 export const { setAuthChecked, setUser } = authUserSlice.actions;
 
-export const selectUser = (state) => state.user.user;
-export const selectAuthChecked = (state) => state.user.authHasChecked;
-export const selectEmailSubmited = (state) =>
+export const selectUser = (state: RootState) => state.user.user;
+export const selectAuthChecked = (state: RootState) =>
+  state.user.authHasChecked;
+export const selectEmailSubmited = (state: RootState) =>
   state.user.emailSubmitedForResetPass;
 
 export default authUserSlice.reducer;

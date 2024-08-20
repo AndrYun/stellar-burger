@@ -34,15 +34,14 @@ const ProfilePage: FC = () => {
   // сохранение измененных данных
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     await dispatch(updateUserData({ name, email, password })).unwrap();
   };
 
   // отмена изменений
   const cancelChanges = (): void => {
     if (user) {
-      setName(user.name);
-      setEmail(user.email);
+      setName(user.name || '');
+      setEmail(user.email || '');
       setPassword('');
     }
   };
@@ -78,7 +77,7 @@ const ProfilePage: FC = () => {
             setPassword(e.target.value)
           }
         />
-        {email !== user.email || name !== user.name ? (
+        {email !== user?.email || name !== user?.name ? (
           <div className={styles.profilepage__bts}>
             <Button
               type="primary"
