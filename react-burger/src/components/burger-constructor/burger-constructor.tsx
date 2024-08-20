@@ -6,7 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { useMemo, FC } from 'react';
+import { useMemo, FC, LegacyRef } from 'react';
 import {
   addBun,
   addIngredient,
@@ -37,7 +37,11 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
   const user = useSelector(selectUser);
 
   // drop для верхней булки
-  const [{ isHoverTopBun }, dropTopBun] = useDrop({
+  const [{ isHoverTopBun }, dropTopBun] = useDrop<
+    IIngredient,
+    void,
+    { isHoverTopBun: boolean }
+  >({
     accept: 'bun',
     drop(item: IIngredient) {
       dispatch(addBun(item));
@@ -98,10 +102,8 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
       if (bun) {
         ingredientIds.push(bun._id, bun._id);
       }
-      // @ts-ignore
       dispatch(sendOrder(ingredientIds)).then((result: string[]) => {
         if (sendOrder.fulfilled.match(result)) {
-          // @ts-ignore
           dispatch(resetConstructor());
           openModal();
         }

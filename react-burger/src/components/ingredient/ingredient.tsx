@@ -1,23 +1,29 @@
-import React, { useMemo, forwardRef, Ref, MutableRefObject } from 'react';
+import React, {
+  useMemo,
+  forwardRef,
+  Ref,
+  MutableRefObject,
+  RefObject,
+} from 'react';
 import styles from './ingredient.module.css';
 import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDrag } from 'react-dnd';
+import { ConnectDragSource, useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import { selectIngredient } from '../../services/slices/burger-constructor-slice';
 import { IIngredient } from '../utils/types';
 
 // сборщик рефов
 const combineRefs =
-  (...refs: Array<Ref<HTMLDivElement>>) =>
-  (node: HTMLDivElement | null) => {
+  (...refs: Array<Ref<ConnectDragSource>>) =>
+  (node: ConnectDragSource | null) => {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
         ref(node);
       } else if (ref != null) {
-        (ref as MutableRefObject<HTMLDivElement | null>).current = node;
+        (ref as MutableRefObject<ConnectDragSource | null>).current = node;
       }
     });
   };

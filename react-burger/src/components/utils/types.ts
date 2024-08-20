@@ -11,5 +11,5 @@ export interface IIngredient {
   readonly image_mobile: string;
   readonly image_large: string;
   readonly __v: number;
-  readonly id?: number;
+  readonly id?: string;
 }
