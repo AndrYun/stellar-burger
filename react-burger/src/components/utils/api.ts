@@ -24,6 +24,8 @@ interface IUserResponseData {
     accessToken?: string;
     refreshToken?: string;
   };
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 // fetch на регистрацию

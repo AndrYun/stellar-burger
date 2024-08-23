@@ -55,8 +55,8 @@ export const login = createAsyncThunk(
   'user/login',
   async ({ email, password }: IAuthCredentials) => {
     const res = await authUserHandler(email, password);
-    localStorage.setItem('accessToken', res.user.accessToken || '');
-    localStorage.setItem('refreshToken', res.user.refreshToken || '');
+    localStorage.setItem('accessToken', res.accessToken || '');
+    localStorage.setItem('refreshToken', res.refreshToken || '');
     return res.user;
   }
 );
@@ -140,21 +140,22 @@ export const resetPassword = createAsyncThunk(
 );
 
 // logout
-export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
-  await fetchWithRefresh(`${BASE_URL}/auth/logout`, {
-    method: 'POST',
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem('refreshToken'),
-    }),
-  });
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  return {};
-});
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (token: string | null, thunkAPI) => {
+    await fetchWithRefresh(`${BASE_URL}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    return {};
+  }
+);
 
 export const authUserSlice = createSlice({
   name: 'user',
@@ -203,7 +204,6 @@ export const authUserSlice = createSlice({
       )
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
-        state.authHasChecked = false;
       })
       .addCase(forgotPassword.fulfilled, (state) => {
         state.emailSubmitedForResetPass = true;

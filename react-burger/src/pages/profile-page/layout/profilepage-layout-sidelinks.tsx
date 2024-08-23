@@ -11,8 +11,8 @@ const LayoutSideLinks: FC = () => {
 
   // logout
   const handleLogout = async (): Promise<void> => {
-    // @ts-ignore
-    await dispatch(logout(localStorage.getItem('refreshToken'))).unwrap();
+    const refreshToken = localStorage.getItem('refreshToken');
+    await dispatch(logout(refreshToken)).unwrap();
     navigate('/login');
   };
 
