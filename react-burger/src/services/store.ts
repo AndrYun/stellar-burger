@@ -5,7 +5,10 @@ import constructorReducer from './slices/burger-constructor-slice';
 import orderReducer from './slices/order-details-slice';
 import authUserReducer from './slices/user-auth-slice';
 import { socketMiddleware } from './web-socket/socket-middleware';
-import { feedActions } from './web-socket/actions';
+import { feedActions } from './web-socket/actions/feed';
+import { orderFeedReducer } from './web-socket/reducers/feed';
+import { orderHistoryActions } from './web-socket/actions/order-history';
+import { orderHistoryReducer } from './web-socket/reducers/order-history';
 
 // const store = configureStore({
 //   reducer: {
@@ -25,12 +28,17 @@ const rootReducer = combineReducers({
   burgerConstructor: constructorReducer,
   order: orderReducer,
   user: authUserReducer,
+  feedSocket: orderFeedReducer,
+  historySocket: orderHistoryReducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(socketMiddleware(feedActions)),
+    getDefaultMiddleware().concat(
+      socketMiddleware(feedActions),
+      socketMiddleware(orderHistoryActions)
+    ),
 });
 
 // export type RootState = ReturnType<typeof store.getState>;

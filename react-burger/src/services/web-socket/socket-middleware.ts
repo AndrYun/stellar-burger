@@ -1,4 +1,4 @@
-import type { Middleware, MiddlewareAPI } from 'redux';
+import type { Middleware } from 'redux';
 import { IWSActions } from '../../components/utils/types';
 import { RootState } from '../store';
 

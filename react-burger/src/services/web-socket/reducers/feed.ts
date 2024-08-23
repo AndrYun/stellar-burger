@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { IFeed, IWSActions } from '../../components/utils/types';
+import { IFeed, IWSActions } from '../../../components/utils/types';
 import {
   FEED_CLOSE,
   FEED_DISCONNECT,
   FEED_MESSAGE,
   IFeedActions,
-} from './actions';
-import { FEED_ERROR, FEED_SUCCESS } from './actions';
+} from '../actions/feed';
+import { FEED_ERROR, FEED_SUCCESS } from '../actions/feed';
 
 interface IWSState {
   wsConnected: boolean;
@@ -62,7 +62,7 @@ export const orderFeedReducer = (
       return {
         ...state,
         error: undefined,
-        wsConnected: false,
+        orderFeed: action.payload,
       };
     default:
       return state;

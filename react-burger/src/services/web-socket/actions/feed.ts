@@ -1,5 +1,5 @@
 // import { createAction } from '@reduxjs/toolkit';
-import { IFeed, IWSActions } from '../../components/utils/types';
+import { IFeed, IWSActions } from '../../../components/utils/types';
 
 export const FEED_CONNECT: 'FEED_CONNECT' = 'FEED_CONNECT';
 export const FEED_DISCONNECT: 'FEED_DISCONNECT' = 'FEED_DISCONNECT';

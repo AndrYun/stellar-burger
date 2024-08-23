@@ -1,0 +1,35 @@
+.status {
+  display: flex;
+  height: 32vh;
+}
+
+.ready {
+  display: flex;
+  flex-direction: column;
+}
+
+.ready_nubmers {
+  display: flex;
+  width: 272px;
+  flex-direction: column;
+  color: #00cccc;
+  max-height: 350px;
+  flex-wrap: wrap;
+  margin: 0 36px 0 0;
+  overflow: hidden;
+}
+
+.in_work {
+  display: flex;
+  flex-direction: column;
+}
+
+.in_work_nubmers {
+  display: flex;
+  width: 272px;
+  flex-direction: column;
+  max-height: 350px;
+  flex-wrap: wrap;
+  margin: 0;
+  overflow: hidden;
+}

@@ -1,4 +1,5 @@
 export const BASE_URL: string = 'https://norma.nomoreparties.space/api';
+export const wsURL: string = 'wss://norma.nomoreparties.space/orders';
 
 // эндпоинты для запросов
 // POST https://norma.nomoreparties.space/api/auth/login - эндпоинт для авторизации.

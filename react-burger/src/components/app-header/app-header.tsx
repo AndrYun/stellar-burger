@@ -50,7 +50,7 @@ const AppHeader: FC = () => {
                   ? styles.order_list
                   : `${styles.order_list} ${styles.inactive}`
               }
-              to="/order-list"
+              to="/feed"
             >
               <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
               <p>Лента заказов</p>

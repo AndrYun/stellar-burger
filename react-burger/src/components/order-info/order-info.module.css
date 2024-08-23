@@ -1,0 +1,56 @@
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  max-height: 312px;
+  overflow-y: scroll;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  margin: 16px 24px 0 0;
+}
+
+.ingredient:first-child {
+  margin-top: 0;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.info {
+  width: 640px;
+}
+
+.price {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.picture {
+  display: flex;
+  align-items: center;
+}
+
+.footer {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.number {
+  text-align: center;
+}
+
+.done {
+  color: #00cccc;
+}

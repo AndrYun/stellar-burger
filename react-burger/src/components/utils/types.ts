@@ -10,7 +10,7 @@ export interface IIngredient {
   readonly image: string;
   readonly image_mobile: string;
   readonly image_large: string;
-  readonly __v: number;
+  __v: number;
   readonly id?: number;
 }
 
