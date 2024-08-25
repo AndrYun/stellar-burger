@@ -41,16 +41,15 @@ export const OrderInfo: FC = () => {
       };
     }
     if (!orderHistory && orderId) {
-      dispatch(
-        orderHistoryStart(
-          `${wsURL}?token=${localStorage.getItem('refreshToken')}`
-        )
-      );
+      const token = localStorage.getItem('accessToken')?.replace('Bearer ', '');
+      if (token) {
+        dispatch(orderHistoryStart(`${wsURL}?token=${token}`));
+      }
       return () => {
         dispatch(orderHistoryClose('closed by user'));
       };
     }
-  }, []);
+  }, [dispatch]);
 
   if (orderFeed && orderFeed.orders.length) {
     orderFeed.orders.forEach((order, index) => {
@@ -80,7 +79,6 @@ export const OrderInfo: FC = () => {
             orderIngredients = [...orderIngredients, element];
           } else {
             totalPrice = totalPrice + element.price;
-            element.__v = dataReduce[key];
             orderIngredients = [...orderIngredients, element];
           }
         }

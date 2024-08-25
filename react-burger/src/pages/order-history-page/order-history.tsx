@@ -13,38 +13,36 @@ import { Order } from '../../components/order-list/order/order';
 const OrderHistory: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { orderHistory } = useTypedSelector((state) => state.historySocket);
+  const orderHistory = useTypedSelector(
+    (state) => state.historySocket.orderHistory
+  );
 
   useEffect(() => {
-    dispatch(
-      orderHistoryStart(
-        `${wsURL}?token=${localStorage.getItem('refreshToken')}`
-      )
-    );
+    const token = localStorage.getItem('accessToken')?.replace('Bearer ', '');
+    if (token) {
+      dispatch(orderHistoryStart(`${wsURL}?token=${token}`));
+    }
     return () => {
       dispatch(orderHistoryClose('closed by user'));
     };
-  }, []);
+  }, [dispatch]);
 
-  return orderHistory && orderHistory.orders ? (
+  return orderHistory ? (
     <ul className={styles.list}>
-      {orderHistory.orders
-        .slice()
-        .reverse()
-        .map((order) => {
-          return (
-            <Link
-              to={`/profile/orders/${order._id}`}
-              state={{ background: location, orderNumber: order.number }}
-              className={styles.link}
-              key={order._id}
-            >
-              <li className={styles.item}>
-                <Order order={order} status={true} />
-              </li>
-            </Link>
-          );
-        })}
+      {orderHistory.orders.reverse().map((order) => {
+        return (
+          <Link
+            to={`/profile/orders/${order._id}`}
+            state={{ background: location, orderNumber: order.number }}
+            className={styles.link}
+            key={order._id}
+          >
+            <li className={styles.item}>
+              <Order order={order} status={true} />
+            </li>
+          </Link>
+        );
+      })}
     </ul>
   ) : (
     <></>
