@@ -51,7 +51,7 @@ export const orderFeedReducer = (
       return {
         ...state,
         error: undefined,
-        orderFeed: { ...action.payload },
+        orderFeed: action.payload,
       };
     default:
       return state;

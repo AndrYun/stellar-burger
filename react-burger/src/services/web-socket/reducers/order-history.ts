@@ -53,7 +53,7 @@ export const orderHistoryReducer = (
       return {
         ...state,
         error: undefined,
-        orderHistory: { ...action.payload },
+        orderHistory: action.payload,
       };
     default:
       return state;
