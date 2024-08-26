@@ -13,9 +13,7 @@ import { Order } from '../../components/order-list/order/order';
 const OrderHistory: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const orderHistory = useTypedSelector(
-    (state) => state.historySocket.orderHistory
-  );
+  const { orderHistory } = useTypedSelector((state) => state.historySocket);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')?.replace('Bearer ', '');

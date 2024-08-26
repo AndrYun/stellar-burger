@@ -1,5 +1,4 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { IFeed, IWSActions } from '../../../components/utils/types';
+import { IFeed } from '../../../components/utils/types';
 import {
   FEED_CLOSE,
   FEED_DISCONNECT,
@@ -18,16 +17,6 @@ export const initialState: IWSState = {
   wsConnected: false,
   orderFeed: null,
 };
-
-// export const orderFeedReducer = createReducer(initialState, (builder) => {
-//   builder.addCase(FEED_SUCCESS, (state) => {
-//     state.wsConnected = true;
-//     state.error = undefined;
-//   });
-//   builder.addCase(FEED_ERROR, (state, action) => {
-//     state.error = action.payload;
-//   });
-// });
 
 export const orderFeedReducer = (
   state: IWSState = initialState,
@@ -62,7 +51,7 @@ export const orderFeedReducer = (
       return {
         ...state,
         error: undefined,
-        orderFeed: action.payload,
+        orderFeed: { ...action.payload },
       };
     default:
       return state;

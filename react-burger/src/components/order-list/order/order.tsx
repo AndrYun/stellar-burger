@@ -25,10 +25,10 @@ export const Order: FC<{ status?: boolean; order: IOrderFeedOptions }> = ({
         if (element._id === ingredient) {
           if (element.type === 'bun') {
             totalPrice = totalPrice + element.price * 2;
-            orderIngredients = [...orderIngredients, element];
+            orderIngredients = [...orderIngredients, { ...element }];
           } else {
             totalPrice = totalPrice + element.price;
-            orderIngredients = [...orderIngredients, element];
+            orderIngredients = [...orderIngredients, { ...element }];
           }
         }
       });

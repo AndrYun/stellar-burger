@@ -30,7 +30,7 @@ export const socketMiddleware = (
         socket.onmessage = (event: MessageEvent) => {
           const { data } = event;
           const parseData = JSON.parse(event.data);
-          dispatch({ type: wsActions.message, payload: parseData });
+          dispatch({ type: wsActions.message, payload: { ...parseData } });
         };
         socket.onclose = (event) => {
           dispatch({

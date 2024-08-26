@@ -40,6 +40,7 @@ export const sendOrder = createAsyncThunk<
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('accessToken')}`,
       },
       body: JSON.stringify({ ingredients }),
     }).then((res) => res.json());

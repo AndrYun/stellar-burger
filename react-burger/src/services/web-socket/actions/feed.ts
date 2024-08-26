@@ -8,13 +8,6 @@ export const FEED_CLOSE: 'FEED_CLOSE' = 'FEED_CLOSE';
 export const FEED_MESSAGE: 'FEED_MESSAGE' = 'FEED_MESSAGE';
 export const FEED_ERROR: 'FEED_ERROR' = 'FEED_ERROR';
 
-// export const connect = createAction<string>(FEED_CONNECT);
-// export const Connecting = createAction<string>(FEED_SUCCESS);
-// export const close = createAction<string>(FEED_CLOSE);
-// export const closed = createAction<string>(FEED_DISCONNECT);
-// export const message = createAction<string>(FEED_MESSAGE);
-// export const error = createAction<string, typeof FEED_ERROR>(FEED_ERROR);
-
 // interfaces
 export interface IFeedConnect {
   readonly type: typeof FEED_CONNECT;

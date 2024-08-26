@@ -10,18 +10,6 @@ import { orderFeedReducer } from './web-socket/reducers/feed';
 import { orderHistoryActions } from './web-socket/actions/order-history';
 import { orderHistoryReducer } from './web-socket/reducers/order-history';
 
-// const store = configureStore({
-//   reducer: {
-//     ingredients: ingredientsReducer,
-//     modal: modalReducer,
-//     burgerConstructor: constructorReducer,
-//     order: orderReducer,
-//     user: authUserReducer,
-//   },
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware().concat(socketMiddleware(feedActions)),
-// });
-
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   modal: modalReducer,
