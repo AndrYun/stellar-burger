@@ -1,8 +1,10 @@
 import { FC, useEffect } from 'react';
 import styles from './order-history.module.css';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../components/utils/hooks';
+import {
+  useTypedDispatch,
+  useTypedSelector,
+} from '../../components/utils/hooks';
 import {
   orderHistoryClose,
   orderHistoryStart,
@@ -12,8 +14,7 @@ import { Order } from '../../components/order-list/order/order';
 
 const OrderHistory: FC = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const params = useParams();
+  const dispatch = useTypedDispatch();
   const { orderHistory } = useTypedSelector((state) => state.historySocket);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const OrderHistory: FC = () => {
         .map((order) => {
           return (
             <Link
-              to={`/profile/orders/${order._id}`}
+              to={`/profile/orders/${order.number}`}
               state={{ background: location, orderNumber: order.number }}
               className={styles.link}
               key={order._id}

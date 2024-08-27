@@ -13,7 +13,7 @@ const OrderList: FC = () => {
         return (
           <Link
             key={order._id}
-            to={`/feed/${order._id}`}
+            to={`/feed/${order.number}`}
             state={{ background: location, orderNumber: order.number }}
             className={styles.link}
           >

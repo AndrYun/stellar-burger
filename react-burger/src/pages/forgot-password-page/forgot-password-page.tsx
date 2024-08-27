@@ -1,5 +1,5 @@
 import { FC, useState, FormEvent, ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../components/utils/hooks';
 import {
   Input,
   Button,
@@ -11,7 +11,7 @@ import { forgotPassword } from '../../services/slices/user-auth-slice';
 const ForgotPassword: FC = () => {
   const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useTypedDispatch();
 
   // submit form
   const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {

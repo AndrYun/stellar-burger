@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../components/utils/hooks';
 import { registerUser } from '../../services/slices/user-auth-slice';
 import {
   Input,
@@ -12,7 +12,7 @@ const RegisterPage: FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setNewPassword] = useState<string>('');
-  const dispatch: any = useDispatch();
+  const dispatch = useTypedDispatch();
   const navigate = useNavigate();
 
   // submit form register

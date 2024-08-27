@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IOrderFeedOptions } from '../../utils/types';
 import { IIngredient } from '../../utils/types';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../utils/hooks';
 import { ImageIngredient } from '../../image-ingredient/image-ingredient';
 import { selectIngredients } from '../../../services/slices/burger-ingredients-slice';
 
@@ -15,7 +15,7 @@ export const Order: FC<{ status?: boolean; order: IOrderFeedOptions }> = ({
   order,
 }) => {
   const orderDate = new Date(order.createdAt);
-  const ingredients = useSelector(selectIngredients);
+  const ingredients = useTypedSelector(selectIngredients);
   let totalPrice: number = 0;
   let orderIngredients: IIngredient[] = [];
 

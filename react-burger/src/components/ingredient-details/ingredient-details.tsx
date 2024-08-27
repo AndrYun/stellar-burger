@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../utils/hooks';
 import styles from './ingredient-details.module.css';
 import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
 import { IIngredient } from '../utils/types';
@@ -11,7 +11,7 @@ interface IIngredientDetailsProps {
 
 const IngredientDetails: FC<IIngredientDetailsProps> = ({ ingredient }) => {
   const { ingredientId } = useParams();
-  const ingredients = useSelector(selectIngredients);
+  const ingredients = useTypedSelector(selectIngredients);
   const data =
     ingredient ||
     ingredients.find((el: IIngredient) => el._id === ingredientId);

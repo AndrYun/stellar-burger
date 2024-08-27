@@ -9,13 +9,16 @@ import {
   updateUserData,
 } from '../../services/slices/user-auth-slice';
 import styles from './profile-page.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {
+  useTypedDispatch,
+  useTypedSelector,
+} from '../../components/utils/hooks';
 
 const ProfilePage: FC = () => {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
-  const user = useSelector(selectUser);
+  const dispatch = useTypedDispatch();
+  const user = useTypedSelector(selectUser);
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');

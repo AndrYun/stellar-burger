@@ -1,7 +1,9 @@
 import { FC, useEffect } from 'react';
 import styles from './feed-page.module.css';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../components/utils/hooks';
+import {
+  useTypedDispatch,
+  useTypedSelector,
+} from '../../components/utils/hooks';
 import {
   feedConnect,
   feedDisconnect,
@@ -11,7 +13,7 @@ import OrderList from '../../components/order-list/order-list';
 import { OrderSummary } from '../../components/order-list/order-summary/order-summary';
 
 export const Feed: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const { orderFeed } = useTypedSelector((state) => state.feedSocket);
 
   useEffect(() => {

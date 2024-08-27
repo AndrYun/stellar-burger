@@ -5,7 +5,7 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../utils/hooks';
 import { selectIngredient } from '../../services/slices/burger-constructor-slice';
 import { IIngredient } from '../utils/types';
 
@@ -31,7 +31,7 @@ interface IIngredientProps {
 const Ingredient = forwardRef<HTMLDivElement, IIngredientProps>(
   ({ ingredient, onClick }, ref) => {
     // подписка на ингредиенты из burger-constructor-slice
-    const ingredientsDragged = useSelector(selectIngredient);
+    const ingredientsDragged = useTypedSelector(selectIngredient);
 
     // подсчет кол-ва ингредиентов у компонента Counter
     const ingredientCounter: number = useMemo(() => {

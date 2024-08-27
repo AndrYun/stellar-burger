@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../utils/hooks';
 import styles from './order-details.module.css';
 import doneOrderImage from '../images/done.png';
 import { selectOrder } from '../../services/slices/order-details-slice';
 import { FC } from 'react';
 
 const OrderDetails: FC = () => {
-  const { data } = useSelector(selectOrder);
+  const { data } = useTypedSelector(selectOrder);
   return (
     <section className={styles.orderdetails__wrapp}>
       <p className="text text_type_digits-large">{data?.order?.number}</p>

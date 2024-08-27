@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../utils/hooks';
 import { useLocation, Navigate } from 'react-router-dom';
 import {
   selectAuthChecked,
@@ -18,8 +18,8 @@ const ProtectedRouteElement = ({
   onlyUnAuth,
   component,
 }: IProtectedRouteElementProps): JSX.Element | null => {
-  const authHasChecked = useSelector(selectAuthChecked);
-  const user = useSelector(selectUser);
+  const authHasChecked = useTypedSelector(selectAuthChecked);
+  const user = useTypedSelector(selectUser);
   const location = useLocation();
 
   // первая проверка

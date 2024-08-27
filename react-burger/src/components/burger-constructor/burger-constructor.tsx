@@ -3,7 +3,7 @@ import {
   Button,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useTypedDispatch, useTypedSelector } from '../utils/hooks';
 import { useDrop } from 'react-dnd';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useMemo, FC } from 'react';
@@ -27,14 +27,14 @@ interface IBurgerConstructor {
 }
 
 const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
-  const dispatch: any = useDispatch();
+  const dispatch: any = useTypedDispatch();
   const navigate: NavigateFunction = useNavigate();
   // подписка на состояния из burger-constructor-slice
-  const bun: IIngredient | null = useSelector(selectBun);
-  const ingredients: IIngredient[] = useSelector(selectIngredient);
+  const bun: IIngredient | null = useTypedSelector(selectBun);
+  const ingredients: IIngredient[] = useTypedSelector(selectIngredient);
 
   // подписка на состояния в authUserSlice
-  const user = useSelector(selectUser);
+  const user = useTypedSelector(selectUser);
 
   // drop для верхней булки
   const [{ isHoverTopBun }, dropTopBun] = useDrop({
