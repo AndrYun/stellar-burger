@@ -93,9 +93,13 @@ export const updateUserData = createAsyncThunk<IUserData, IRegisterCredentials>(
 
 export const getUser = () => {
   return (dispatch: AppDispatch) => {
-    return getUserData().then((res) => {
-      dispatch(setUser(res));
-    });
+    return getUserData()
+      .then((res) => {
+        dispatch(setUser(res));
+      })
+      .catch((err) => {
+        console.log('Failed to fetch user data:', err);
+      });
   };
 };
 
@@ -105,17 +109,13 @@ export const authUserChecking = createAsyncThunk<
   void,
   { rejectValue: string }
 >('user/checking', async (_, thunkAPI) => {
-  try {
-    const res = await fetchWithRefresh<IUserData>(`${BASE_URL}/auth/user`, {
-      method: 'GET',
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`,
-      },
-    });
-    return res;
-  } catch (error) {
-    return thunkAPI.rejectWithValue('Authentication check failed');
-  }
+  const res = await fetchWithRefresh<IUserData>(`${BASE_URL}/auth/user`, {
+    method: 'GET',
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  });
+  return res;
 });
 
 // запрос на forgot-password
@@ -173,9 +173,15 @@ export const authUserSlice = createSlice({
       .addCase(registerUser.fulfilled, (state) => {
         // нет изменений в хранилище после регистрации
       })
+      .addCase(registerUser.rejected, (state, action) => {
+        console.error('Registation failed: ', action.error?.message);
+      })
       .addCase(login.fulfilled, (state, action: PayloadAction<IUserData>) => {
         state.user = action.payload;
         state.authHasChecked = true;
+      })
+      .addCase(login.rejected, (state, action) => {
+        console.error('Login failed:', action.error?.message);
       })
       .addCase(
         authUserChecking.fulfilled,
@@ -196,20 +202,35 @@ export const authUserSlice = createSlice({
           state.authHasChecked = true;
         }
       )
+      .addCase(fetchUserData.rejected, (state, action) => {
+        console.error('Fetch user data failed:', action.error?.message);
+      })
       .addCase(
         updateUserData.fulfilled,
         (state, action: PayloadAction<IUserData>) => {
           state.user = action.payload;
         }
       )
+      .addCase(updateUserData.rejected, (state, action) => {
+        console.error('Update user data failed:', action.error.message);
+      })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        console.error('Logout failed:', action.error.message);
       })
       .addCase(forgotPassword.fulfilled, (state) => {
         state.emailSubmitedForResetPass = true;
       })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        console.error('Forgot password request failed:', action.error.message);
+      })
       .addCase(resetPassword.fulfilled, () => {
         // нет изменений в хранилище
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        console.error('Reset password failed:', action.error.message);
       });
   },
 });

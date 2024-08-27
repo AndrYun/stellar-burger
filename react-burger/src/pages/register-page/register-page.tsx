@@ -19,7 +19,6 @@ const RegisterPage: FC = () => {
   const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // @ts-ignore
       await dispatch(registerUser({ name, email, password })).unwrap();
       navigate('/login');
     } catch (error: unknown) {

@@ -30,7 +30,6 @@ const ResetPasswordPage: FC = () => {
     e.preventDefault();
     try {
       await dispatch(
-        // @ts-ignore
         resetPassword({ password: newPassword, token: codeFromEmail })
       ).unwrap();
       navigate('/login');

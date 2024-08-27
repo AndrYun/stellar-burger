@@ -17,7 +17,6 @@ const LoginPage: FC = () => {
   const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // @ts-ignore
       await dispatch(login({ email, password })).unwrap();
     } catch (error: unknown) {
       console.log(error);

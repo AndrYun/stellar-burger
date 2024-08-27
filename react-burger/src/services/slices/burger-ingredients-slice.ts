@@ -20,20 +20,14 @@ export const fetchIngredients = createAsyncThunk<
   void,
   { rejectValue: string }
 >('ingredients/fetchIngredients', async (_, thunkAPI) => {
-  try {
-    const res = await request('/ingredients', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await res.json();
-    return data.data as IIngredient[];
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(
-      error.message || 'Failed to fetch ingredients'
-    );
-  }
+  const res = await request('/ingredients', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await res.json();
+  return data.data as IIngredient[];
 });
 
 export const ingredientsSlice = createSlice({

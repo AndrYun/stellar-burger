@@ -17,7 +17,6 @@ const ForgotPassword: FC = () => {
   const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // @ts-ignore
       await dispatch(forgotPassword(email)).unwrap();
       navigate('/reset-password');
     } catch (error: unknown) {

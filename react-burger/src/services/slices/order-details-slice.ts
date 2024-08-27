@@ -35,18 +35,19 @@ export const sendOrder = createAsyncThunk<
   string[],
   { rejectValue: string }
 >('order/sendOrder', async (ingredients, thunkAPI) => {
-  try {
-    return request('/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${localStorage.getItem('accessToken')}`,
-      },
-      body: JSON.stringify({ ingredients }),
-    }).then((res) => res.json());
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+  const res = await request('/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+    body: JSON.stringify({ ingredients }),
+  });
+  if (!res.ok) {
+    return thunkAPI.rejectWithValue('Failed to send order');
   }
+
+  return res.json();
 });
 
 export const orderSlice = createSlice({
@@ -76,5 +77,6 @@ export const orderSlice = createSlice({
 });
 
 export const selectOrder = (state: RootState) => state.order;
+export const selectOrderLoading = (state: RootState) => state.order.isLoading;
 
 export default orderSlice.reducer;
