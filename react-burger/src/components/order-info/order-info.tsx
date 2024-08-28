@@ -4,20 +4,10 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useTypedSelector, useTypedDispatch } from '../utils/hooks';
+import { useTypedSelector } from '../utils/hooks';
 import { ImageIngredient } from '../image-ingredient/image-ingredient';
-import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { IIngredient, IOrderFeedOptions } from '../utils/types';
-import { wsURL } from '../utils/url';
-import {
-  feedConnect,
-  feedDisconnect,
-} from '../../services/web-socket/actions/feed';
-import {
-  orderHistoryClose,
-  orderHistoryStart,
-} from '../../services/web-socket/actions/order-history';
 
 export const OrderInfo: FC = () => {
   const { ingredients } = useTypedSelector((state) => state.ingredients);
