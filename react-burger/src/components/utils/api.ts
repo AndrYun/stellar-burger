@@ -2,6 +2,11 @@
 // импортируем их в нужные месте
 import { request } from './request';
 
+interface IUserData {
+  name: string;
+  email: string;
+}
+
 const checkReponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
@@ -11,10 +16,16 @@ type TServerResponse<T> = {
 } & T;
 
 interface IUserResponseData {
-  name: string;
-  email: string;
-  password: number;
-  token: string;
+  user: {
+    name?: string;
+    email?: string;
+    password?: number;
+    token?: string;
+    accessToken?: string;
+    refreshToken?: string;
+  };
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 // fetch на регистрацию
@@ -103,11 +114,12 @@ export const resetPasswordHandler = async (
 };
 
 // функция будет обновлять токены если они уже устарели
-export const getUserData = (): void => {
-  new Promise((resolve, reject) => {
+export const getUserData = async (): Promise<IUserData> => {
+  return new Promise<IUserData>((resolve) => {
     setTimeout(() => {
       resolve({
-        user: {},
+        name: '',
+        email: '',
       });
     }, 1000);
   });

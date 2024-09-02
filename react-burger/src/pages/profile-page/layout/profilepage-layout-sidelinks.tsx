@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../../components/utils/hooks';
 import { useNavigate } from 'react-router-dom';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FC } from 'react';
@@ -6,13 +6,13 @@ import { logout } from '../../../services/slices/user-auth-slice';
 import styles from '../profile-page.module.css';
 
 const LayoutSideLinks: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useTypedDispatch();
   const navigate = useNavigate();
 
   // logout
   const handleLogout = async (): Promise<void> => {
-    // @ts-ignore
-    await dispatch(logout(localStorage.getItem('refreshToken'))).unwrap();
+    const refreshToken = localStorage.getItem('refreshToken');
+    await dispatch(logout(refreshToken)).unwrap();
     navigate('/login');
   };
 

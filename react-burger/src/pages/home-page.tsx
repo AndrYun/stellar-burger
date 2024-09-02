@@ -3,13 +3,13 @@ import BurgerConstructor from '../components/burger-constructor/burger-construct
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FC, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../components/utils/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openModal } from '../services/slices/modal-slice';
 import { IIngredient } from '../components/utils/types';
 
 const HomePage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 

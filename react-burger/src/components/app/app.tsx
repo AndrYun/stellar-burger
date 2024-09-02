@@ -5,7 +5,6 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import HomePage from '../../pages/home-page';
 import styles from './app.module.css';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchIngredients,
   selectIsLoadingByApi,
@@ -34,9 +33,13 @@ import {
 } from '../protected-route-element/protected-route-element';
 import { authUserChecking } from '../../services/slices/user-auth-slice';
 import { IIngredient } from '../utils/types';
+import { Feed } from '../../pages/feed-page/feed-page';
+import { IngredientInfo } from '../../pages/feed-page/ingredient-info/ingredient-info';
+import { OrderInfo } from '../order-info/order-info';
+import { useTypedSelector, useTypedDispatch } from '../utils/hooks';
 
 const App: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useTypedDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -47,14 +50,14 @@ const App: FC = () => {
   }, [dispatch]);
 
   // подписка на состояния из ingredientsSlice
-  const ingredients = useSelector(selectIngredients);
-  const isLoadingByApi = useSelector(selectIsLoadingByApi);
-  const error = useSelector(selectError);
+  const ingredients = useTypedSelector(selectIngredients);
+  const isLoadingByApi = useTypedSelector(selectIsLoadingByApi);
+  const error = useTypedSelector(selectError);
 
   // подписка на состояния из modalSlice
-  const modalIsOpen = useSelector(selectIsOpen);
-  const modalContentId = useSelector(selectModalContentId);
-  const modalContentType: any = useSelector(selectModalContentType);
+  const modalIsOpen = useTypedSelector(selectIsOpen);
+  const modalContentId = useTypedSelector(selectModalContentId);
+  const modalContentType = useTypedSelector(selectModalContentType);
 
   const closeModalHandler = (): void => {
     dispatch(closeModal());
@@ -113,10 +116,23 @@ const App: FC = () => {
                   path="orders"
                   element={<OnlyAuth component={<OrderHistory />} />}
                 />
+                <Route
+                  path="orders/:orderId"
+                  element={
+                    <IngredientInfo>
+                      <OrderInfo />
+                    </IngredientInfo>
+                  }
+                />
               </Route>
+              <Route path="/feed" element={<Feed />} />
               <Route
-                path="/order-list"
-                element={<OnlyAuth component={<OrderList />} />}
+                path="/feed/:feedId"
+                element={
+                  <IngredientInfo>
+                    <OrderInfo />
+                  </IngredientInfo>
+                }
               />
               <Route
                 path="/ingredient/:ingredientId"
@@ -125,7 +141,7 @@ const App: FC = () => {
               <Route path="*" element={<HomePage />} />
             </Routes>
             {background && (
-              <Routes>
+              <Routes location={location}>
                 <Route
                   path="/ingredient/:ingredientId"
                   element={
@@ -137,6 +153,29 @@ const App: FC = () => {
                         {renderModalContent()}
                       </Modal>
                     )
+                  }
+                />
+                <Route
+                  path="/profile/orders/:orderId"
+                  element={
+                    <OnlyAuth
+                      component={
+                        <Modal
+                          onClose={closeModalHandler}
+                          size={modalContentType}
+                        >
+                          <OrderInfo />
+                        </Modal>
+                      }
+                    />
+                  }
+                />
+                <Route
+                  path="/feed/:feedId"
+                  element={
+                    <Modal onClose={closeModalHandler} size={modalContentType}>
+                      <OrderInfo />
+                    </Modal>
                   }
                 />
               </Routes>

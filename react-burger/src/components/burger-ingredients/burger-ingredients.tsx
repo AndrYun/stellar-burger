@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../utils/hooks';
 import { useInView } from 'react-intersection-observer';
 import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -43,7 +43,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
   }, [inViewBuns, inViewSauce, inViewIngredients, tabSwitch]);
 
   // подписка на состояния из ingredientsSlice
-  const ingredients = useSelector(selectIngredients);
+  const ingredients = useTypedSelector(selectIngredients);
 
   return (
     <div className={styles.burgeringredients__wrapp}>

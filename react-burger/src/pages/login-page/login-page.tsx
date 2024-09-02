@@ -6,18 +6,17 @@ import {
 import styles from './login-page.module.css';
 import { Link } from 'react-router-dom';
 import { login } from '../../services/slices/user-auth-slice';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../components/utils/hooks';
 
 const LoginPage: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const dispatch: any = useDispatch();
+  const dispatch = useTypedDispatch();
 
   // submit request на авторизацию
   const requestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // @ts-ignore
       await dispatch(login({ email, password })).unwrap();
     } catch (error: unknown) {
       console.log(error);

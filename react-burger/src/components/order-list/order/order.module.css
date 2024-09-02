@@ -1,0 +1,39 @@
+.order__wrapp {
+  display: flex;
+  flex-direction: column;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  padding: 0 24px;
+}
+
+.order__top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.order__done {
+  color: #00cccc;
+}
+
+.order__info {
+  margin: 24px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.order__info_compound {
+  display: grid;
+  grid-template-columns: 64px repeat(5, 48px);
+}
+
+.order__info_ingredient {
+  justify-self: flex-end;
+}
+
+.order__info_price {
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

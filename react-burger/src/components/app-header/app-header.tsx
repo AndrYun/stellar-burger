@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../utils/hooks';
 import { NavLink } from 'react-router-dom';
 import {
   BurgerIcon,
@@ -16,7 +16,7 @@ const AppHeader: FC = () => {
     useState<boolean>(false);
   const [isHoveredOrderList, setIsHoveredOrderList] = useState<boolean>(false);
   const [isHoveredProfile, setIsHoveredProfile] = useState<boolean>(false);
-  const user = useSelector(selectUser);
+  const user = useTypedSelector(selectUser);
 
   return (
     <header className={styles.header_wrapp}>
@@ -50,7 +50,7 @@ const AppHeader: FC = () => {
                   ? styles.order_list
                   : `${styles.order_list} ${styles.inactive}`
               }
-              to="/order-list"
+              to="/feed"
             >
               <ListIcon type={!isHoveredOrderList ? 'secondary' : 'primary'} />
               <p>Лента заказов</p>

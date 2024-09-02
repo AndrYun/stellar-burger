@@ -5,7 +5,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './reset-password-page.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useTypedDispatch,
+  useTypedSelector,
+} from '../../components/utils/hooks';
 import { selectEmailSubmited } from '../../services/slices/user-auth-slice';
 import { resetPassword } from '../../services/slices/user-auth-slice';
 
@@ -13,8 +16,8 @@ const ResetPasswordPage: FC = () => {
   const [newPassword, setNewPassword] = useState<string>('');
   const [codeFromEmail, setCodeFromEmail] = useState<string>('');
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
-  const isEmailSent = useSelector(selectEmailSubmited);
+  const dispatch = useTypedDispatch();
+  const isEmailSent = useTypedSelector(selectEmailSubmited);
 
   useEffect(() => {
     if (!isEmailSent) {
@@ -27,7 +30,6 @@ const ResetPasswordPage: FC = () => {
     e.preventDefault();
     try {
       await dispatch(
-        // @ts-ignore
         resetPassword({ password: newPassword, token: codeFromEmail })
       ).unwrap();
       navigate('/login');
