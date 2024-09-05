@@ -19,6 +19,8 @@ interface IAuthState {
   user: IUserData | null;
   authHasChecked: boolean;
   emailSubmitedForResetPass: boolean;
+  registerError?: string;
+  loginError?: string;
 }
 
 interface IAuthCredentials {
@@ -174,14 +176,16 @@ export const authUserSlice = createSlice({
         // нет изменений в хранилище после регистрации
       })
       .addCase(registerUser.rejected, (state, action) => {
-        console.error('Registation failed: ', action.error?.message);
+        // console.error('Registation failed: ', action.error?.message);
+        state.registerError = 'Register failed';
       })
       .addCase(login.fulfilled, (state, action: PayloadAction<IUserData>) => {
         state.user = action.payload;
         state.authHasChecked = true;
       })
       .addCase(login.rejected, (state, action) => {
-        console.error('Login failed:', action.error?.message);
+        // console.error('Login failed:', action.error?.message);
+        state.loginError = 'Authorization has failed';
       })
       .addCase(
         authUserChecking.fulfilled,
