@@ -10,13 +10,13 @@ import {
   selectIsLoadingByApi,
   selectIngredients,
   selectError,
-} from '../../services/slices/burger-ingredients-slice';
+} from '../../services/slices/burger-ingredients/burger-ingredients-slice';
 import {
   closeModal,
   selectModalContentId,
   selectModalContentType,
   selectIsOpen,
-} from '../../services/slices/modal-slice';
+} from '../../services/slices/modal/modal-slice';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import LoginPage from '../../pages/login-page/login-page';
 import RegisterPage from '../../pages/register-page/register-page';
@@ -31,7 +31,7 @@ import {
   OnlyAuth,
   OnlyUnAuth,
 } from '../protected-route-element/protected-route-element';
-import { authUserChecking } from '../../services/slices/user-auth-slice';
+import { authUserChecking } from '../../services/slices/user-auth/user-auth-slice';
 import { IIngredient } from '../utils/types';
 import { Feed } from '../../pages/feed-page/feed-page';
 import { IngredientInfo } from '../../pages/feed-page/ingredient-info/ingredient-info';

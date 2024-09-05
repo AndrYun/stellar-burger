@@ -8,7 +8,7 @@ import { IOrderFeedOptions } from '../../utils/types';
 import { IIngredient } from '../../utils/types';
 import { useTypedSelector } from '../../utils/hooks';
 import { ImageIngredient } from '../../image-ingredient/image-ingredient';
-import { selectIngredients } from '../../../services/slices/burger-ingredients-slice';
+import { selectIngredients } from '../../../services/slices/burger-ingredients/burger-ingredients-slice';
 
 export const Order: FC<{ status?: boolean; order: IOrderFeedOptions }> = ({
   status,

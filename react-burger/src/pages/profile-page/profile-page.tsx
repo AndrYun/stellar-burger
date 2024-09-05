@@ -7,7 +7,7 @@ import {
   fetchUserData,
   selectUser,
   updateUserData,
-} from '../../services/slices/user-auth-slice';
+} from '../../services/slices/user-auth/user-auth-slice';
 import styles from './profile-page.module.css';
 import { useNavigate } from 'react-router-dom';
 import {

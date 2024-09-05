@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useTypedSelector } from '../utils/hooks';
-import { selectIngredient } from '../../services/slices/burger-constructor-slice';
+import { selectIngredient } from '../../services/slices/burger-constructor/burger-constructor-slice';
 import { IIngredient } from '../utils/types';
 
 // сборщик рефов

@@ -5,7 +5,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FC, useCallback } from 'react';
 import { useTypedDispatch } from '../components/utils/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { openModal } from '../services/slices/modal-slice';
+import { openModal } from '../services/slices/modal/modal-slice';
 import { IIngredient } from '../components/utils/types';
 
 const HomePage: FC = () => {

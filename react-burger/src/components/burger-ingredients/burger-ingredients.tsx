@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, FC } from 'react';
 import { useTypedSelector } from '../utils/hooks';
 import { useInView } from 'react-intersection-observer';
-import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
+import { selectIngredients } from '../../services/slices/burger-ingredients/burger-ingredients-slice';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import styles from './burger-ingredients.module.css';

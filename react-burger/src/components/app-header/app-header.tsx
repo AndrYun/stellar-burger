@@ -7,7 +7,7 @@ import {
   ProfileIcon,
   Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { selectUser } from '../../services/slices/user-auth-slice';
+import { selectUser } from '../../services/slices/user-auth/user-auth-slice';
 import styles from './app-header.module.css';
 
 const AppHeader: FC = () => {

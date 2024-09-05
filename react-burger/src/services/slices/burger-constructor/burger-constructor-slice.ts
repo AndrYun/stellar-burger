@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { IIngredient } from '../../components/utils/types';
-import { RootState } from '../store';
+import { IIngredient } from '../../../components/utils/types';
+import { RootState } from '../../store';
 
 interface IBurgerConstructor {
   bun: IIngredient | null;

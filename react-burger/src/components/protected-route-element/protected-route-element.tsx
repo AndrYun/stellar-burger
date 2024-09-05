@@ -3,7 +3,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 import {
   selectAuthChecked,
   selectUser,
-} from '../../services/slices/user-auth-slice';
+} from '../../services/slices/user-auth/user-auth-slice';
 
 interface IProtectedRouteElementProps {
   onlyUnAuth: boolean;

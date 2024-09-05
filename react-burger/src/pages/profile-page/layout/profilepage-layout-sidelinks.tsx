@@ -2,7 +2,7 @@ import { useTypedDispatch } from '../../../components/utils/hooks';
 import { useNavigate } from 'react-router-dom';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FC } from 'react';
-import { logout } from '../../../services/slices/user-auth-slice';
+import { logout } from '../../../services/slices/user-auth/user-auth-slice';
 import styles from '../profile-page.module.css';
 
 const LayoutSideLinks: FC = () => {

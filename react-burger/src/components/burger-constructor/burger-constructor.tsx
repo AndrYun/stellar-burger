@@ -15,12 +15,12 @@ import {
   removeIngredient,
   moveIngredient,
   resetConstructor,
-} from '../../services/slices/burger-constructor-slice';
-import { selectUser } from '../../services/slices/user-auth-slice';
+} from '../../services/slices/burger-constructor/burger-constructor-slice';
+import { selectUser } from '../../services/slices/user-auth/user-auth-slice';
 import {
   selectOrderLoading,
   sendOrder,
-} from '../../services/slices/order-details-slice';
+} from '../../services/slices/order-details/order-details-slice';
 import SortableIngredient from '../sortable-ingredient/sortable-ingredient';
 import styles from './burger-constructor.module.css';
 import { IIngredient } from '../utils/types';

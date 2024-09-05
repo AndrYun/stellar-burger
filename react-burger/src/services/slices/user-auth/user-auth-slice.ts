@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { BASE_URL } from '../../components/utils/url';
+import { BASE_URL } from '../../../components/utils/url';
 import {
   authUserHandler,
   fetchWithRefresh,
@@ -7,8 +7,8 @@ import {
   getUserData,
   forgotPasswordRequest,
   resetPasswordHandler,
-} from '../../components/utils/api';
-import { AppDispatch, RootState } from '../store';
+} from '../../../components/utils/api';
+import { AppDispatch, RootState } from '../../store';
 
 interface IUserData {
   name?: string;

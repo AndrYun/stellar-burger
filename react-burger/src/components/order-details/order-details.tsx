@@ -1,7 +1,7 @@
 import { useTypedSelector } from '../utils/hooks';
 import styles from './order-details.module.css';
 import doneOrderImage from '../images/done.png';
-import { selectOrder } from '../../services/slices/order-details-slice';
+import { selectOrder } from '../../services/slices/order-details/order-details-slice';
 import { FC } from 'react';
 
 const OrderDetails: FC = () => {
