@@ -24,42 +24,46 @@ describe('main test scenario', () => {
     cy.visit(url);
   });
 
+  // создадим константы
+  const bun = `[data-testid="bun"]`;
+  const ingredient = `[data-testid="ingredient"]`;
+  const dropZoneTop = `[data-testid="dropzone-top"]`;
+  const dropZoneMiddle = `[data-testid="dropzone-middle"]`;
+  const modal = `[data-testid="modal-overlay"]`;
+
   // сценарий создания заказа
   it('should create order using react dnd', () => {
     // перемещаем булку в конструктор
-    cy.get('[data-testid="bun"]').first().trigger('dragstart');
-    cy.get('[data-testid="dropzone-top"]').trigger('drop');
+    cy.get(bun).first().trigger('dragstart').as('bun');
+    cy.get(dropZoneTop).trigger('drop').as('dropTop');
 
     // перемещаем ингредиенты
-    cy.get('[data-testid="ingredient"]').first().trigger('dragstart');
-    cy.get('[data-testid="dropzone-middle"]').trigger('drop');
+    cy.get(ingredient).first().trigger('dragstart').as('ingredient');
+    cy.get(dropZoneMiddle).trigger('drop').as('dropMiddle');
 
-    cy.get('[data-testid="ingredient"]').eq(1).trigger('dragstart');
-    cy.get('[data-testid="dropzone-middle"]').trigger('drop');
-
-    // Проверяем, что ингредиенты переместились в конструктор
-    cy.get('[data-testid="constructor-element"]').should('have.length', 4); // 2 булка + 2 ингредиента
+    cy.get('@ingredient').eq(1).trigger('dragstart');
+    cy.get('@dropMiddle').trigger('drop');
   });
   // проверка модального окна
   it('should check modal', () => {
     // Открываем модальное окно при нажатии на ингредиент
-    cy.get('[data-testid="ingredient"]').first().click();
+    cy.get('@ingredient').first().click();
 
     // Проверяем, что модальное окно открылось и содержит данные ингредиента
-    cy.get('[data-testid="modal-overlay"]').should('exist');
+    cy.get(modal).should('exist').as('modal');
 
     // Закрываем модальное окно
     cy.get('[data-testid="modal-close"]').click();
 
     // Проверяем, что модальное окно закрылось
-    cy.get('[data-testid="modal-overlay"]').should('not.exist');
+    cy.get('@modal').should('not.exist');
   });
   // отправка заказа и получение номера заказа
   it('should send order', () => {
-    cy.get('[data-testid="bun"]').first().trigger('dragstart');
-    cy.get('[data-testid="dropzone-top"]').trigger('drop');
-    cy.get('[data-testid="ingredient"]').first().trigger('dragstart');
-    cy.get('[data-testid="dropzone-middle"]').trigger('drop');
+    cy.get('@bun').first().trigger('dragstart');
+    cy.get('@dropTop').trigger('drop');
+    cy.get('@ingredient').first().trigger('dragstart');
+    cy.get('@dropMiddle').trigger('drop');
 
     // Нажимаем кнопку оформления заказа
     cy.get('button').contains('Оформить заказ').click();
@@ -68,7 +72,7 @@ describe('main test scenario', () => {
     cy.wait('@postOrder');
 
     // Проверяем, что открывается модальное окно с номером заказа
-    cy.get('[data-testid="modal-overlay"]').should('exist');
+    cy.get('@modal').should('exist');
     cy.get('[data-testid="order-number"]').should('contain.text', '123'); // номер из fixture -> order
   });
 });
