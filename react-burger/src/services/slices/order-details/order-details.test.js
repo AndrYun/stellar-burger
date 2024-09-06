@@ -13,6 +13,9 @@ describe('check order request', () => {
     isLoading: false,
     error: null,
   };
+  it('should return the initial state', () => {
+    expect(orderReducer(undefined, {})).toEqual(initialState);
+  });
   it('should send order pending', () => {
     const state = orderReducer(initialState, sendOrder.pending('pending'));
 

@@ -10,6 +10,9 @@ describe('ingredients reducer', () => {
       isLoadingByApi: false,
       error: null,
     };
+    it('should return the initial state', () => {
+      expect(ingredientsReducer(undefined, {})).toEqual(initialState);
+    });
     it('should be pending request', () => {
       const state = ingredientsReducer(
         initialState,

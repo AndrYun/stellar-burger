@@ -1,5 +1,12 @@
 const url = 'http://localhost:3000';
 
+// создадим константы
+const bun = '[data-testid="bun"]';
+const ingredient = '[data-testid="ingredient"]';
+const dropZoneTop = '[data-testid="dropzone-top"]';
+const dropZoneMiddle = '[data-testid="dropzone-middle"]';
+const modal = '[data-testid="modal-overlay"]';
+
 describe('main test scenario', () => {
   // сначала пишим мокки
   beforeEach(() => {
@@ -8,10 +15,6 @@ describe('main test scenario', () => {
     cy.intercept('POST', '/api/orders', { fixture: 'order.json' }).as(
       'postOrder'
     );
-    cy.intercept('GET', '/api/ingridients', { fixture: 'ingredients.json' }).as(
-      'getIngredients'
-    );
-    cy.wait('@getIngredients');
 
     // мокаем токены
     window.localStorage.setItem(
@@ -26,13 +29,6 @@ describe('main test scenario', () => {
     // заходим на первоначальныую страницу
     cy.visit(url);
   });
-
-  // создадим константы
-  const bun = '[data-testid="bun"]';
-  const ingredient = '[data-testid="ingredient"]';
-  const dropZoneTop = '[data-testid="dropzone-top"]';
-  const dropZoneMiddle = '[data-testid="dropzone-middle"]';
-  const modal = '[data-testid="modal-overlay"]';
 
   // сценарий создания заказа
   it('should create order using react dnd', () => {

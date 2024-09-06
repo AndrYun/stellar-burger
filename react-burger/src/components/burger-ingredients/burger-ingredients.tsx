@@ -86,13 +86,14 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
           {ingredients
             .filter((ingredient: IIngredient) => ingredient.type === 'bun')
             .map((ingredient: IIngredient) => (
-              <Ingredient
-                key={ingredient._id}
-                ref={bunsRef}
-                ingredient={ingredient}
-                onClick={(): void => openModal(ingredient)}
-                data-testid={`bun-${ingredient._id}`}
-              />
+              <div className="" data-testid="bun">
+                <Ingredient
+                  key={ingredient._id}
+                  ref={bunsRef}
+                  ingredient={ingredient}
+                  onClick={(): void => openModal(ingredient)}
+                />
+              </div>
             ))}
         </article>
         <article className={styles.cards__container}>
@@ -103,13 +104,14 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
           {ingredients
             .filter((ingredient: IIngredient) => ingredient.type === 'sauce')
             .map((ingredient: IIngredient) => (
-              <Ingredient
-                key={ingredient._id}
-                ref={sauceRef}
-                ingredient={ingredient}
-                onClick={(): void => openModal(ingredient)}
-                data-testid={`ingredient-${ingredient._id}`}
-              />
+              <div className="" data-testid="ingredient">
+                <Ingredient
+                  key={ingredient._id}
+                  ref={sauceRef}
+                  ingredient={ingredient}
+                  onClick={(): void => openModal(ingredient)}
+                />
+              </div>
             ))}
         </article>
         <article className={styles.cards__container}>
@@ -120,13 +122,14 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
           {ingredients
             .filter((ingredient: IIngredient) => ingredient.type === 'main')
             .map((ingredient: IIngredient) => (
-              <Ingredient
-                key={ingredient._id}
-                ref={ingredientsRef}
-                ingredient={ingredient}
-                onClick={(): void => openModal(ingredient)}
-                data-testid={`ingredient-${ingredient._id}`}
-              />
+              <div className="" data-testid="ingredient">
+                <Ingredient
+                  key={ingredient._id}
+                  ref={ingredientsRef}
+                  ingredient={ingredient}
+                  onClick={(): void => openModal(ingredient)}
+                />
+              </div>
             ))}
         </article>
       </section>

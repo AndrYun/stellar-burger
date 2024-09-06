@@ -19,6 +19,9 @@ describe('check user reducer', () => {
   };
   // register
   describe('check async register', () => {
+    it('should return the initial state', () => {
+      expect(userReducer(undefined, {})).toEqual(initialState);
+    });
     it('should register pending', () => {
       const state = userReducer(
         initialState,
