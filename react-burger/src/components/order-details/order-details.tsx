@@ -8,7 +8,9 @@ const OrderDetails: FC = () => {
   const { data } = useTypedSelector(selectOrder);
   return (
     <section className={styles.orderdetails__wrapp}>
-      <p className="text text_type_digits-large">{data?.order?.number}</p>
+      <p data-testid="order-number" className="text text_type_digits-large">
+        {data?.order?.number}
+      </p>
       <p className={styles.orderdetails__identify}>идентификатор заказа</p>
       <img src={doneOrderImage} alt="done" />
       <p className={styles.orderdetails__comment_1}>

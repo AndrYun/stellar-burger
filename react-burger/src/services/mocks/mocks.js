@@ -82,8 +82,8 @@ export const mockOrder = {
     ],
     _id: '66d99627119d45001b504652',
     owner: {
-      name: 'Андрей',
-      email: 'race-95@mail.ru',
+      name: 'vasiliy',
+      email: 'vasiliybaptist@yopmail.com',
       createdAt: '2024-07-18T12:40:42.659Z',
       updatedAt: '2024-08-20T16:29:41.792Z',
     },

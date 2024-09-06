@@ -122,6 +122,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
       <div className={styles.burgerconstructor__dropzone}>
         <div
           ref={dropTopBun}
+          data-testid="dropzone-top"
           className={
             isHoverTopBun
               ? `${styles.upperBunPlace} ${styles.isHoverTopBun}`
@@ -136,11 +137,13 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               text={bun.name}
               price={bun.price}
               thumbnail={bun.image_mobile}
+              data-testid="bun"
             />
           )}
         </div>
         <div
           ref={dropIngredient}
+          data-testid="dropzone-middle"
           className={
             isHoverIngredients
               ? `${styles.middleIngredientPlace} ${styles.isHoverIngredients}`
@@ -154,6 +157,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               id={ingredient.id}
               ingredient={ingredient}
               moveIngredient={moveIngredientHandler}
+              data-testid="ingredient"
               handleClose={(): void =>
                 dispatch(removeIngredient(ingredient.id))
               }
@@ -162,6 +166,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
         </div>
         <div
           ref={dropBottomBun}
+          data-testid="dropzone-bottom"
           className={
             isHoverBottomBun
               ? `${styles.downBunPlace} ${styles.isHoverBottomBun}`
@@ -175,6 +180,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               isLocked={true}
               text={bun.name}
               price={bun.price}
+              data-testid="bun"
               thumbnail={bun.image_mobile}
             />
           )}

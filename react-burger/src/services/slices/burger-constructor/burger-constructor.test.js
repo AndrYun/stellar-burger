@@ -6,7 +6,6 @@ import constructorReducer, {
   moveIngredient,
   resetConstructor,
 } from './burger-constructor-slice';
-import { v4 as uuidv4 } from 'uuid';
 
 jest.mock('uuid', () => ({
   v4: jest.fn().mockReturnValue('unique-id'),
@@ -31,7 +30,6 @@ describe('constructor reducer', () => {
     image_mobile: 'https://code.s3.yandex.net/react/code/bun-01.png',
     image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png',
     __v: 0,
-    id: 'unique-id',
   };
 
   const mockIngredient = {
@@ -47,7 +45,6 @@ describe('constructor reducer', () => {
     image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
     __v: 0,
-    id: 'unique-id',
   };
 
   it('should return the initial state', () => {
@@ -58,9 +55,8 @@ describe('constructor reducer', () => {
 
   it('should handle addBun', () => {
     const action = addBun(mockBun);
-    console.log(action);
     const expectedState = {
-      bun: { ...mockBun, id: 'unique-id' },
+      bun: mockBun,
       ingredients: [],
     };
     expect(constructorReducer(initialState, action)).toEqual(expectedState);
@@ -68,7 +64,7 @@ describe('constructor reducer', () => {
 
   it('should handle removeBun', () => {
     const stateBeforeRemoveBun = {
-      bun: { ...mockBun, id: 'unique-id' },
+      bun: mockBun,
       ingredients: [],
     };
     const expectedState = {
@@ -84,7 +80,7 @@ describe('constructor reducer', () => {
     const action = addIngredient(mockIngredient);
     const expectedState = {
       bun: null,
-      ingredients: [{ ...mockIngredient, id: 'unique-id' }],
+      ingredients: [mockIngredient],
     };
     expect(constructorReducer(initialState, action)).toEqual(expectedState);
   });
@@ -92,7 +88,7 @@ describe('constructor reducer', () => {
   it('should handle removeIngredient', () => {
     const stateBeforeRemoveIngredient = {
       bun: null,
-      ingredients: [{ ...mockIngredient, id: 'unique-id' }],
+      ingredients: [],
     };
     const action = removeIngredient('unique-id');
     const expectedState = {
@@ -125,8 +121,8 @@ describe('constructor reducer', () => {
 
   it('should handle resetConstructor', () => {
     const stateBeforeReset = {
-      bun: { ...mockBun, id: 'unique-id' },
-      ingredients: [{ ...mockIngredient, id: 'unique-id' }],
+      bun: mockBun,
+      ingredients: mockIngredient,
     };
     const expectedState = {
       bun: null,
