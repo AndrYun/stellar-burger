@@ -137,7 +137,6 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               text={bun.name}
               price={bun.price}
               thumbnail={bun.image_mobile}
-              data-testid="bun"
             />
           )}
         </div>
@@ -157,7 +156,6 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               id={ingredient.id}
               ingredient={ingredient}
               moveIngredient={moveIngredientHandler}
-              data-testid="ingredient"
               handleClose={(): void =>
                 dispatch(removeIngredient(ingredient.id))
               }
@@ -180,7 +178,6 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
               isLocked={true}
               text={bun.name}
               price={bun.price}
-              data-testid="bun"
               thumbnail={bun.image_mobile}
             />
           )}

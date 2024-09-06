@@ -4,11 +4,14 @@ describe('main test scenario', () => {
   // сначала пишим мокки
   beforeEach(() => {
     // мокакаем авторизвацию и заказ
-    cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
-    cy.intercept('POST', 'api/orders', { fixture: 'order.json' }).as(
+    cy.intercept('GET', '/api/auth/user', { fixture: 'user.json' });
+    cy.intercept('POST', '/api/orders', { fixture: 'order.json' }).as(
       'postOrder'
     );
-    cy.intercept('GET', 'api/ingridients', { fixture: 'ingredients.json' });
+    cy.intercept('GET', '/api/ingridients', { fixture: 'ingredients.json' }).as(
+      'getIngredients'
+    );
+    cy.wait('@getIngredients');
 
     // мокаем токены
     window.localStorage.setItem(

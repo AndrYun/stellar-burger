@@ -91,6 +91,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
                 ref={bunsRef}
                 ingredient={ingredient}
                 onClick={(): void => openModal(ingredient)}
+                data-testid={`bun-${ingredient._id}`}
               />
             ))}
         </article>
@@ -107,6 +108,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
                 ref={sauceRef}
                 ingredient={ingredient}
                 onClick={(): void => openModal(ingredient)}
+                data-testid={`ingredient-${ingredient._id}`}
               />
             ))}
         </article>
@@ -123,6 +125,7 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
                 ref={ingredientsRef}
                 ingredient={ingredient}
                 onClick={(): void => openModal(ingredient)}
+                data-testid={`ingredient-${ingredient._id}`}
               />
             ))}
         </article>
