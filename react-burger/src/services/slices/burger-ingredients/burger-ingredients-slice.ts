@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { request } from '../../components/utils/request';
-import { RootState } from '../store';
-import { IIngredient } from '../../components/utils/types';
+import { request } from '../../../components/utils/request';
+import { RootState } from '../../store';
+import { IIngredient } from '../../../components/utils/types';
 
 interface IBurgerIngredients {
   ingredients: IIngredient[];

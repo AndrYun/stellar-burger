@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { request } from '../../components/utils/request';
-import { RootState } from '../store';
+import { request } from '../../../components/utils/request';
+import { RootState } from '../../store';
 
 interface IOrderNumber {
   number: string | undefined;

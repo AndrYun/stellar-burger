@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useTypedDispatch } from '../../components/utils/hooks';
-import { registerUser } from '../../services/slices/user-auth-slice';
+import { registerUser } from '../../services/slices/user-auth/user-auth-slice';
 import {
   Input,
   Button,

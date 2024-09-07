@@ -37,7 +37,7 @@ const Modal: FC<IModal> = ({ onClose, children, size }): ReactPortal => {
   }, [onClose]);
 
   return ReactDOM.createPortal(
-    <ModalOverlay onClose={onClose}>
+    <ModalOverlay data-testid="modal-overlay" onClose={onClose}>
       <section
         className={`${styles.modal} ${styles[size]}`}
         onClick={(e: MouseEvent<HTMLElement>) => e.stopPropagation()}
@@ -47,6 +47,7 @@ const Modal: FC<IModal> = ({ onClose, children, size }): ReactPortal => {
           onMouseLeave={(): void => setIsHoveredMadalCross(false)}
           className={styles.modal_close}
           onClick={onClose}
+          data-testid="modal-close"
         >
           <CloseIcon type={isHoveredModalCross ? 'primary' : 'secondary'} />
         </button>

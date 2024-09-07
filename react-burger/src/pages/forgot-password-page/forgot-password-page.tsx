@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './forgot-password-page.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { forgotPassword } from '../../services/slices/user-auth-slice';
+import { forgotPassword } from '../../services/slices/user-auth/user-auth-slice';
 
 const ForgotPassword: FC = () => {
   const [email, setEmail] = useState<string>('');

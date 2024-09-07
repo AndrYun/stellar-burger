@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '../utils/hooks';
 import styles from './ingredient-details.module.css';
-import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
+import { selectIngredients } from '../../services/slices/burger-ingredients/burger-ingredients-slice';
 import { IIngredient } from '../utils/types';
 
 interface IIngredientDetailsProps {

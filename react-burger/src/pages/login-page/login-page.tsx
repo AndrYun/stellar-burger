@@ -5,7 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login-page.module.css';
 import { Link } from 'react-router-dom';
-import { login } from '../../services/slices/user-auth-slice';
+import { login } from '../../services/slices/user-auth/user-auth-slice';
 import { useTypedDispatch } from '../../components/utils/hooks';
 
 const LoginPage: FC = () => {

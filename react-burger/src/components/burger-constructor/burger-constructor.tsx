@@ -15,12 +15,12 @@ import {
   removeIngredient,
   moveIngredient,
   resetConstructor,
-} from '../../services/slices/burger-constructor-slice';
-import { selectUser } from '../../services/slices/user-auth-slice';
+} from '../../services/slices/burger-constructor/burger-constructor-slice';
+import { selectUser } from '../../services/slices/user-auth/user-auth-slice';
 import {
   selectOrderLoading,
   sendOrder,
-} from '../../services/slices/order-details-slice';
+} from '../../services/slices/order-details/order-details-slice';
 import SortableIngredient from '../sortable-ingredient/sortable-ingredient';
 import styles from './burger-constructor.module.css';
 import { IIngredient } from '../utils/types';
@@ -122,6 +122,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
       <div className={styles.burgerconstructor__dropzone}>
         <div
           ref={dropTopBun}
+          data-testid="dropzone-top"
           className={
             isHoverTopBun
               ? `${styles.upperBunPlace} ${styles.isHoverTopBun}`
@@ -141,6 +142,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
         </div>
         <div
           ref={dropIngredient}
+          data-testid="dropzone-middle"
           className={
             isHoverIngredients
               ? `${styles.middleIngredientPlace} ${styles.isHoverIngredients}`
@@ -162,6 +164,7 @@ const BurgerConstructor: FC<IBurgerConstructor> = ({ openModal }) => {
         </div>
         <div
           ref={dropBottomBun}
+          data-testid="dropzone-bottom"
           className={
             isHoverBottomBun
               ? `${styles.downBunPlace} ${styles.isHoverBottomBun}`

@@ -1,9 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import ingredientsReducer from './slices/burger-ingredients-slice';
-import modalReducer from './slices/modal-slice';
-import constructorReducer from './slices/burger-constructor-slice';
-import orderReducer from './slices/order-details-slice';
-import authUserReducer from './slices/user-auth-slice';
+import ingredientsReducer from './slices/burger-ingredients/burger-ingredients-slice';
+import modalReducer from './slices/modal/modal-slice';
+import constructorReducer from './slices/burger-constructor/burger-constructor-slice';
+import orderReducer from './slices/order-details/order-details-slice';
+import authUserReducer from './slices/user-auth/user-auth-slice';
 import { socketMiddleware } from './web-socket/socket-middleware';
 import { feedActions } from './web-socket/actions/feed';
 import { orderFeedReducer } from './web-socket/reducers/feed';

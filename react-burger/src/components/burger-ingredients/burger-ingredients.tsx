@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, FC } from 'react';
 import { useTypedSelector } from '../utils/hooks';
 import { useInView } from 'react-intersection-observer';
-import { selectIngredients } from '../../services/slices/burger-ingredients-slice';
+import { selectIngredients } from '../../services/slices/burger-ingredients/burger-ingredients-slice';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import styles from './burger-ingredients.module.css';
@@ -86,12 +86,14 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
           {ingredients
             .filter((ingredient: IIngredient) => ingredient.type === 'bun')
             .map((ingredient: IIngredient) => (
-              <Ingredient
-                key={ingredient._id}
-                ref={bunsRef}
-                ingredient={ingredient}
-                onClick={(): void => openModal(ingredient)}
-              />
+              <div className="" data-testid="bun">
+                <Ingredient
+                  key={ingredient._id}
+                  ref={bunsRef}
+                  ingredient={ingredient}
+                  onClick={(): void => openModal(ingredient)}
+                />
+              </div>
             ))}
         </article>
         <article className={styles.cards__container}>
@@ -102,12 +104,14 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
           {ingredients
             .filter((ingredient: IIngredient) => ingredient.type === 'sauce')
             .map((ingredient: IIngredient) => (
-              <Ingredient
-                key={ingredient._id}
-                ref={sauceRef}
-                ingredient={ingredient}
-                onClick={(): void => openModal(ingredient)}
-              />
+              <div className="" data-testid="ingredient">
+                <Ingredient
+                  key={ingredient._id}
+                  ref={sauceRef}
+                  ingredient={ingredient}
+                  onClick={(): void => openModal(ingredient)}
+                />
+              </div>
             ))}
         </article>
         <article className={styles.cards__container}>
@@ -118,12 +122,14 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({ openModal }) => {
           {ingredients
             .filter((ingredient: IIngredient) => ingredient.type === 'main')
             .map((ingredient: IIngredient) => (
-              <Ingredient
-                key={ingredient._id}
-                ref={ingredientsRef}
-                ingredient={ingredient}
-                onClick={(): void => openModal(ingredient)}
-              />
+              <div className="" data-testid="ingredient">
+                <Ingredient
+                  key={ingredient._id}
+                  ref={ingredientsRef}
+                  ingredient={ingredient}
+                  onClick={(): void => openModal(ingredient)}
+                />
+              </div>
             ))}
         </article>
       </section>

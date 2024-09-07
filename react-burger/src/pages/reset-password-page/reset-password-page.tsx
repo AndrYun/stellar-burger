@@ -9,8 +9,8 @@ import {
   useTypedDispatch,
   useTypedSelector,
 } from '../../components/utils/hooks';
-import { selectEmailSubmited } from '../../services/slices/user-auth-slice';
-import { resetPassword } from '../../services/slices/user-auth-slice';
+import { selectEmailSubmited } from '../../services/slices/user-auth/user-auth-slice';
+import { resetPassword } from '../../services/slices/user-auth/user-auth-slice';
 
 const ResetPasswordPage: FC = () => {
   const [newPassword, setNewPassword] = useState<string>('');
